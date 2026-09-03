@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { Metadata } from "next";
 import CTASection from "@/components/CTASection";
 import { services } from "@/lib/data";
@@ -13,22 +14,16 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <>
-      <section className="brand-gradient relative overflow-hidden">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-40"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 85% 15%, rgba(143,220,245,0.25), transparent 45%)",
-          }}
-        />
-        <div className="relative mx-auto max-w-4xl px-5 py-20 text-center sm:px-8">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-cyan-300">
+      <section className="border-b border-line bg-ink-900">
+        <div className="relative mx-auto max-w-4xl px-5 py-16 text-center sm:px-8 sm:py-20">
+          <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-500">
+            <span className="h-2.5 w-[3px] bg-signal-500" />
             Core Services
           </span>
-          <h1 className="font-heading mt-6 text-4xl font-bold text-white sm:text-5xl">
+          <h1 className="font-display mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
             Innovative, sustainable, cost-effective water management
           </h1>
-          <p className="mt-5 text-base leading-relaxed text-white/75 sm:text-lg">
+          <p className="mt-5 text-base leading-relaxed text-paper-50/70 sm:text-lg">
             Integrated engineering, operations, technical consultancy, and
             water supply services for water utilities, government agencies,
             and private sector clients.
@@ -36,7 +31,23 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <div className="divide-y divide-black/5">
+      {/* Index */}
+      <nav aria-label="Service index" className="border-b border-line bg-paper-100">
+        <div className="mx-auto flex max-w-7xl flex-wrap gap-x-8 gap-y-3 px-5 py-5 sm:px-8">
+          {services.map((service, i) => (
+            <Link
+              key={service.slug}
+              href={`#${service.slug}`}
+              className="font-mono text-xs font-medium uppercase tracking-[0.05em] text-steel-600 hover:text-signal-600"
+            >
+              <span className="text-signal-600">§{String(i + 1).padStart(2, "0")}</span>{" "}
+              {service.title}
+            </Link>
+          ))}
+        </div>
+      </nav>
+
+      <div className="divide-y divide-line">
         {services.map((service, i) => {
           const reversed = i % 2 === 1;
           return (
@@ -51,33 +62,30 @@ export default function ServicesPage() {
                     reversed ? "lg:[&>*:first-child]:order-2" : ""
                   }`}
                 >
-                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden border border-line">
                     <Image
                       src={assetPath(service.image)}
                       alt={service.title}
                       fill
                       sizes="(min-width: 1024px) 560px, 90vw"
-                      className="object-cover"
+                      className="object-cover grayscale-[10%]"
                     />
                   </div>
                   <div>
-                    <span className="font-heading text-sm font-bold text-cyan-400">
-                      {String(i + 1).padStart(2, "0")}
+                    <span className="font-mono text-sm font-medium text-signal-600">
+                      §{String(i + 1).padStart(2, "0")}
                     </span>
-                    <h2 className="font-heading mt-2 text-2xl font-bold text-navy-950 sm:text-3xl">
+                    <h2 className="font-display mt-2 text-2xl font-semibold text-ink-900 sm:text-3xl">
                       {service.title}
                     </h2>
-                    <p className="mt-4 text-base leading-relaxed text-slate-600">
+                    <p className="mt-4 text-base leading-relaxed text-steel-600">
                       {service.description}
                     </p>
                     {service.subItems && (
-                      <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
+                      <ul className="mt-5 grid gap-x-6 gap-y-2.5 border-t border-line pt-5 sm:grid-cols-2">
                         {service.subItems.map((item) => (
-                          <li
-                            key={item}
-                            className="flex gap-2.5 rounded-lg bg-tint-50 p-3 text-sm text-navy-950/80"
-                          >
-                            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-600" />
+                          <li key={item} className="flex gap-2.5 text-sm text-ink-900/80">
+                            <span className="mt-2 h-[3px] w-2 shrink-0 bg-signal-500" />
                             <span>{item}</span>
                           </li>
                         ))}

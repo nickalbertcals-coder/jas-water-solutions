@@ -8,44 +8,16 @@ const CONTACT_DETAILS = [
     label: "Email",
     value: contact.email,
     href: `mailto:${contact.email}`,
-    icon: (
-      <path
-        d="M3 6h18v12H3V6Zm0 0 9 7 9-7"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    ),
   },
   {
     label: "Phone",
     value: contact.phone,
     href: `tel:${contact.phone.replace(/[^\d+]/g, "")}`,
-    icon: (
-      <path
-        d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2C9.5 21 3 14.5 3 6a2 2 0 0 1 1-2Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    ),
   },
   {
     label: "Location",
     value: contact.location,
     href: undefined,
-    icon: (
-      <>
-        <path
-          d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z"
-          stroke="currentColor"
-          strokeWidth="1.6"
-        />
-        <circle cx="12" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.6" />
-      </>
-    ),
   },
 ];
 
@@ -65,22 +37,16 @@ export default function ContactPageClient() {
 
   return (
     <>
-      <section className="brand-gradient relative overflow-hidden">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-40"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 85% 15%, rgba(143,220,245,0.25), transparent 45%)",
-          }}
-        />
-        <div className="relative mx-auto max-w-4xl px-5 py-20 text-center sm:px-8">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-cyan-300">
+      <section className="border-b border-line bg-ink-900">
+        <div className="relative mx-auto max-w-4xl px-5 py-16 text-center sm:px-8 sm:py-20">
+          <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-500">
+            <span className="h-2.5 w-[3px] bg-signal-500" />
             Contact
           </span>
-          <h1 className="font-heading mt-6 text-4xl font-bold text-white sm:text-5xl">
+          <h1 className="font-display mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
             Let&apos;s talk about your water utility
           </h1>
-          <p className="mt-5 text-base leading-relaxed text-white/75 sm:text-lg">
+          <p className="mt-5 text-base leading-relaxed text-paper-50/70 sm:text-lg">
             Reach out for O&amp;M partnerships, bulk water supply, technical
             consultancy, or general inquiries.
           </p>
@@ -90,42 +56,39 @@ export default function ContactPageClient() {
       <section className="section-pad">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <h2 className="font-heading text-2xl font-bold text-navy-950">
+            <h2 className="font-display text-2xl font-semibold text-ink-900">
               Contact details
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-slate-600">
+            <p className="mt-3 text-sm leading-relaxed text-steel-600">
               Prefer to reach us directly? Use any of the channels below.
             </p>
-            <ul className="mt-8 space-y-5">
+            <dl className="mt-8 divide-y divide-line border-y border-line">
               {CONTACT_DETAILS.map((detail) => (
-                <li key={detail.label} className="flex items-start gap-4">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-600/10 text-blue-700">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                      {detail.icon}
-                    </svg>
-                  </span>
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                      {detail.label}
-                    </p>
+                <div key={detail.label} className="flex items-baseline justify-between gap-4 py-4">
+                  <dt className="font-mono text-xs font-medium uppercase tracking-[0.08em] text-steel-500">
+                    {detail.label}
+                  </dt>
+                  <dd>
                     {detail.href ? (
                       <a
                         href={detail.href}
-                        className="text-base font-medium text-navy-950 hover:text-blue-700"
+                        className="text-base font-medium text-ink-900 hover:text-signal-600"
                       >
                         {detail.value}
                       </a>
                     ) : (
-                      <p className="text-base font-medium text-navy-950">{detail.value}</p>
+                      <p className="text-base font-medium text-ink-900">{detail.value}</p>
                     )}
-                  </div>
-                </li>
+                  </dd>
+                </div>
               ))}
-            </ul>
+            </dl>
 
-            <div className="mt-10 rounded-2xl border border-black/5 bg-tint-50 p-6">
-              <p className="text-sm font-semibold text-navy-950">Service areas</p>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">
+            <div className="mt-8 border border-line bg-paper-100 p-6">
+              <p className="font-mono text-xs font-medium uppercase tracking-[0.08em] text-signal-600">
+                Service areas
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-steel-600">
                 Water Districts, Local Government Units (LGUs), industrial
                 clients, and communities seeking Level III water distribution
                 O&amp;M, bulk water supply, and digital water solutions.
@@ -133,11 +96,11 @@ export default function ContactPageClient() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">
+          <div className="border border-line bg-white p-6 sm:p-8">
             {status === "submitted" ? (
               <div className="flex h-full flex-col items-center justify-center gap-3 py-16 text-center">
-                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-cyan-400/15 text-blue-700">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <span className="flex h-12 w-12 items-center justify-center border border-signal-500 text-signal-600">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                     <path
                       d="M4 12.5 9.5 18 20 6"
                       stroke="currentColor"
@@ -147,17 +110,17 @@ export default function ContactPageClient() {
                     />
                   </svg>
                 </span>
-                <h3 className="font-heading text-lg font-semibold text-navy-950">
+                <h3 className="font-display text-lg font-semibold text-ink-900">
                   Your email app should now be open
                 </h3>
-                <p className="max-w-sm text-sm leading-relaxed text-slate-600">
+                <p className="max-w-sm text-sm leading-relaxed text-steel-600">
                   Complete sending your message from your email client. We
                   typically respond within one to two business days.
                 </p>
                 <button
                   type="button"
                   onClick={() => setStatus("idle")}
-                  className="mt-2 text-sm font-semibold text-blue-600 hover:text-blue-700"
+                  className="mt-2 font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900 hover:text-signal-600"
                 >
                   Send another message
                 </button>
@@ -166,7 +129,7 @@ export default function ContactPageClient() {
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="name" className="text-sm font-medium text-navy-950">
+                    <label htmlFor="name" className="font-mono text-xs font-medium uppercase tracking-[0.05em] text-steel-600">
                       Full name
                     </label>
                     <input
@@ -174,12 +137,12 @@ export default function ContactPageClient() {
                       required
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="mt-2 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                      className="mt-2 w-full rounded border border-line-strong bg-white px-4 py-2.5 text-sm text-ink-900 outline-none focus:border-ink-900"
                       placeholder="Juan Dela Cruz"
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="text-sm font-medium text-navy-950">
+                    <label htmlFor="email" className="font-mono text-xs font-medium uppercase tracking-[0.05em] text-steel-600">
                       Email address
                     </label>
                     <input
@@ -188,25 +151,25 @@ export default function ContactPageClient() {
                       required
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="mt-2 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                      className="mt-2 w-full rounded border border-line-strong bg-white px-4 py-2.5 text-sm text-ink-900 outline-none focus:border-ink-900"
                       placeholder="you@company.com"
                     />
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="company" className="text-sm font-medium text-navy-950">
+                  <label htmlFor="company" className="font-mono text-xs font-medium uppercase tracking-[0.05em] text-steel-600">
                     Company / Organization
                   </label>
                   <input
                     id="company"
                     value={form.company}
                     onChange={(e) => setForm({ ...form, company: e.target.value })}
-                    className="mt-2 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                    className="mt-2 w-full rounded border border-line-strong bg-white px-4 py-2.5 text-sm text-ink-900 outline-none focus:border-ink-900"
                     placeholder="Water District / LGU / Company name"
                   />
                 </div>
                 <div>
-                  <label htmlFor="message" className="text-sm font-medium text-navy-950">
+                  <label htmlFor="message" className="font-mono text-xs font-medium uppercase tracking-[0.05em] text-steel-600">
                     Message
                   </label>
                   <textarea
@@ -215,13 +178,13 @@ export default function ContactPageClient() {
                     rows={5}
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    className="mt-2 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                    className="mt-2 w-full rounded border border-line-strong bg-white px-4 py-2.5 text-sm text-ink-900 outline-none focus:border-ink-900"
                     placeholder="Tell us about your water utility needs..."
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full rounded-full bg-navy-900 px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 sm:w-auto"
+                  className="w-full rounded border border-ink-900 bg-ink-900 px-7 py-3 font-mono text-xs font-medium uppercase tracking-[0.06em] text-paper-50 transition-colors hover:bg-ink-700 sm:w-auto"
                 >
                   Send Message
                 </button>

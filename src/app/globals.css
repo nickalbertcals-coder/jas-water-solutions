@@ -1,74 +1,107 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #0b1730;
+  --background: #f6f7f6;
+  --foreground: #14202b;
 
-  --brand-navy-950: #061230;
-  --brand-navy-900: #0a1c47;
-  --brand-navy-800: #0d2a63;
-  --brand-blue-700: #145fa8;
-  --brand-blue-600: #1a7fce;
-  --brand-blue-500: #2b9be0;
-  --brand-cyan-400: #4fc3ec;
-  --brand-cyan-300: #8fdcf5;
-  --brand-tint-50: #f2f9fd;
-  --brand-tint-100: #e6f4fb;
-  --brand-slate-600: #4a5877;
-  --brand-slate-500: #667191;
+  /* Blueprint ink */
+  --ink-900: #0e1b29;
+  --ink-800: #16283a;
+  --ink-700: #1c3348;
+  --steel-600: #4c5c6b;
+  --steel-500: #5f7080;
+  --steel-300: #a9b6bf;
+
+  /* Paper */
+  --paper-50: #f6f7f6;
+  --paper-100: #eceeed;
+  --line: #d9dfdf;
+  --line-strong: #c3cbca;
+
+  /* Signal accent — sourced from PPE / safety-rail colors in field photography */
+  --signal-500: #d6791f;
+  --signal-600: #b8641a;
+  --signal-tint: #f7e6d1;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
-  --font-heading: var(--font-sora);
+  --font-sans: var(--font-plex-sans);
+  --font-display: var(--font-grotesk);
+  --font-mono: var(--font-plex-mono);
 
-  --color-navy-950: var(--brand-navy-950);
-  --color-navy-900: var(--brand-navy-900);
-  --color-navy-800: var(--brand-navy-800);
-  --color-blue-700: var(--brand-blue-700);
-  --color-blue-600: var(--brand-blue-600);
-  --color-blue-500: var(--brand-blue-500);
-  --color-cyan-400: var(--brand-cyan-400);
-  --color-cyan-300: var(--brand-cyan-300);
-  --color-tint-50: var(--brand-tint-50);
-  --color-tint-100: var(--brand-tint-100);
-  --color-slate-600: var(--brand-slate-600);
-  --color-slate-500: var(--brand-slate-500);
+  --color-ink-900: var(--ink-900);
+  --color-ink-800: var(--ink-800);
+  --color-ink-700: var(--ink-700);
+  --color-steel-600: var(--steel-600);
+  --color-steel-500: var(--steel-500);
+  --color-steel-300: var(--steel-300);
+
+  --color-paper-50: var(--paper-50);
+  --color-paper-100: var(--paper-100);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-signal-500: var(--signal-500);
+  --color-signal-600: var(--signal-600);
+  --color-signal-tint: var(--signal-tint);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  font-family: var(--font-plex-sans), Arial, Helvetica, sans-serif;
 }
 
-.font-heading {
-  font-family: var(--font-sora), var(--font-inter), Arial, sans-serif;
+.font-display {
+  font-family: var(--font-grotesk), var(--font-plex-sans), Arial, sans-serif;
 }
 
-.brand-gradient {
-  background-image: linear-gradient(
-    135deg,
-    var(--brand-navy-900) 0%,
-    var(--brand-blue-700) 55%,
-    var(--brand-blue-500) 100%
-  );
-}
-
-.brand-gradient-text {
-  background-image: linear-gradient(
-    100deg,
-    var(--brand-blue-600) 0%,
-    var(--brand-cyan-400) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.font-mono {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
 }
 
 .section-pad {
   padding-top: clamp(3.5rem, 6vw, 6rem);
   padding-bottom: clamp(3.5rem, 6vw, 6rem);
+}
+
+.hairline {
+  border-color: var(--line);
+}
+
+/* Schematic line-draw animation for the signature hydraulic diagram */
+.schematic-path {
+  stroke-dasharray: var(--path-len, 1000);
+  stroke-dashoffset: var(--path-len, 1000);
+  animation: draw 1.8s ease-out forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.schematic-node {
+  opacity: 0;
+  animation: node-in 0.4s ease-out forwards;
+}
+
+@keyframes node-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .schematic-path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .schematic-node {
+    animation: none;
+    opacity: 1;
+  }
 }
