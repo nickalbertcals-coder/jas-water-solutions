@@ -3,7 +3,7 @@ import SectionHeading from "@/components/SectionHeading";
 import ServiceCard from "@/components/ServiceCard";
 import TeamCard from "@/components/TeamCard";
 import CTASection from "@/components/CTASection";
-import HydraulicSchematic from "@/components/HydraulicSchematic";
+import HeroVideo from "@/components/HeroVideo";
 import RotatingCube from "@/components/RotatingCube";
 import ScrollReveal from "@/components/motion/ScrollReveal";
 import ScrambleText from "@/components/motion/ScrambleText";
@@ -58,21 +58,21 @@ export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-line">
+      <section className="relative overflow-hidden bg-black">
         <div className="mx-auto grid max-w-7xl gap-10 px-5 pb-14 pt-14 sm:px-8 sm:pb-20 sm:pt-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <ScrollReveal selector=":scope > *" y={16} stagger={0.1} once>
-            <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-600">
-              <span className="h-2.5 w-[3px] bg-signal-600" />
+            <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-500">
+              <span className="h-2.5 w-[3px] bg-signal-500" />
               Water Utility Operations &amp; Maintenance
             </span>
-            <h1 className="font-display text-balance mt-5 text-4xl font-semibold leading-[1.1] tracking-tight text-ink-900 sm:text-5xl lg:text-[3.1rem]">
+            <h1 className="font-display text-balance mt-5 text-4xl font-semibold leading-[1.1] tracking-tight text-paper-50 sm:text-5xl lg:text-[3.1rem]">
               Digitized water systems.
               <br />
               Managed with precision.
               <br />
               Built for sustainability.
             </h1>
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-steel-600 sm:text-lg">
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-paper-50/70 sm:text-lg">
               JAS Water Solutions Inc. delivers end-to-end Operation &amp;
               Maintenance of Level III water distribution systems — from
               network operations and preventive maintenance to computerized
@@ -81,26 +81,26 @@ export default function Home() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/contact"
-                className="rounded border border-ink-900 bg-ink-900 px-7 py-3 text-center font-mono text-xs font-medium uppercase tracking-[0.06em] text-paper-50 transition-colors hover:bg-ink-700"
+                className="rounded border border-paper-50 bg-paper-50 px-7 py-3 text-center font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900 transition-colors hover:bg-paper-50/90"
               >
                 Get in Touch
               </Link>
               <Link
                 href="/services"
-                className="rounded border border-ink-900/25 px-7 py-3 text-center font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900 transition-colors hover:border-ink-900"
+                className="rounded border border-white/25 px-7 py-3 text-center font-mono text-xs font-medium uppercase tracking-[0.06em] text-paper-50 transition-colors hover:border-white/60"
               >
                 Our Core Services
               </Link>
             </div>
 
-            <dl className="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-line pt-6">
+            <dl className="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-white/15 pt-6">
               {HERO_STATS.map((stat) => (
                 <div key={stat.label}>
                   <dt className="sr-only">{stat.label}</dt>
-                  <dd className="font-mono text-xl font-medium text-ink-900">
+                  <dd className="font-mono text-xl font-medium text-paper-50">
                     <ScrambleText text={stat.value} />
                   </dd>
-                  <p className="mt-1 text-xs leading-snug text-steel-600">
+                  <p className="mt-1 text-xs leading-snug text-paper-50/60">
                     {stat.label}
                   </p>
                 </div>
@@ -108,12 +108,7 @@ export default function Home() {
             </dl>
           </ScrollReveal>
 
-          <div className="relative hidden aspect-[6/5] w-full lg:block">
-            <HydraulicSchematic tone="ink" interactive className="h-full w-full" />
-            <p className="absolute bottom-0 right-1 font-mono text-[10px] uppercase tracking-[0.06em] text-steel-500">
-              Hover the network to explore
-            </p>
-          </div>
+          <HeroVideo className="hidden aspect-[4/5] w-full lg:block" />
         </div>
       </section>
 
