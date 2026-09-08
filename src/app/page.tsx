@@ -1,10 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceCard from "@/components/ServiceCard";
 import TeamCard from "@/components/TeamCard";
 import CTASection from "@/components/CTASection";
 import HydraulicSchematic from "@/components/HydraulicSchematic";
+import RotatingCube from "@/components/RotatingCube";
 import ScrollReveal from "@/components/motion/ScrollReveal";
 import ScrambleText from "@/components/motion/ScrambleText";
 import { about, differentiators, services, team, vision, mission } from "@/lib/data";
@@ -121,15 +121,7 @@ export default function Home() {
       <section className="section-pad">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:items-start">
           <ScrollReveal y={28}>
-            <div className="relative aspect-[4/3] w-full overflow-hidden border border-line">
-              <Image
-                src="/images/photos/hand_water.jpg"
-                alt="Clean potable water delivered by JAS Water Solutions"
-                fill
-                sizes="(min-width: 1024px) 560px, 90vw"
-                className="object-cover grayscale-[10%]"
-              />
-            </div>
+            <RotatingCube />
             <div className="mt-6 grid grid-cols-2 gap-px border border-line bg-line">
               <div className="bg-white p-5">
                 <p className="font-mono text-xs font-medium uppercase tracking-[0.08em] text-signal-600">
