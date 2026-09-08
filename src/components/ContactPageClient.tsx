@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { contact } from "@/lib/data";
+import ScrollReveal from "@/components/motion/ScrollReveal";
 
 const CONTACT_DETAILS = [
   {
@@ -38,7 +39,13 @@ export default function ContactPageClient() {
   return (
     <>
       <section className="border-b border-line bg-ink-900">
-        <div className="relative mx-auto max-w-4xl px-5 py-16 text-center sm:px-8 sm:py-20">
+        <ScrollReveal
+          as="div"
+          selector=":scope > *"
+          y={16}
+          stagger={0.1}
+          className="relative mx-auto max-w-4xl px-5 py-16 text-center sm:px-8 sm:py-20"
+        >
           <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-500">
             <span className="h-2.5 w-[3px] bg-signal-500" />
             Contact
@@ -50,12 +57,12 @@ export default function ContactPageClient() {
             Reach out for O&amp;M partnerships, bulk water supply, technical
             consultancy, or general inquiries.
           </p>
-        </div>
+        </ScrollReveal>
       </section>
 
       <section className="section-pad">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">
-          <div>
+          <ScrollReveal as="div" y={28}>
             <h2 className="font-display text-2xl font-semibold text-ink-900">
               Contact details
             </h2>
@@ -94,9 +101,9 @@ export default function ContactPageClient() {
                 O&amp;M, bulk water supply, and digital water solutions.
               </p>
             </div>
-          </div>
+          </ScrollReveal>
 
-          <div className="border border-line bg-white p-6 sm:p-8">
+          <ScrollReveal as="div" y={28} delay={0.1} className="border border-line bg-white p-6 sm:p-8">
             {status === "submitted" ? (
               <div className="flex h-full flex-col items-center justify-center gap-3 py-16 text-center">
                 <span className="flex h-12 w-12 items-center justify-center border border-signal-500 text-signal-600">
@@ -190,7 +197,7 @@ export default function ContactPageClient() {
                 </button>
               </form>
             )}
-          </div>
+          </ScrollReveal>
         </div>
       </section>
     </>

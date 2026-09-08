@@ -71,37 +71,24 @@ body {
   border-color: var(--line);
 }
 
-/* Schematic line-draw animation for the signature hydraulic diagram */
-.schematic-path {
-  stroke-dasharray: var(--path-len, 1000);
-  stroke-dashoffset: var(--path-len, 1000);
-  animation: draw 1.8s ease-out forwards;
+:focus-visible {
+  outline: 2px solid var(--signal-500);
+  outline-offset: 2px;
 }
 
-@keyframes draw {
-  to {
-    stroke-dashoffset: 0;
-  }
+/* Header elevation once the page has scrolled past the hero */
+header[data-scrolled="true"] {
+  box-shadow: 0 1px 0 0 var(--line-strong);
+  background-color: rgb(246 247 246 / 0.98);
 }
 
-.schematic-node {
-  opacity: 0;
-  animation: node-in 0.4s ease-out forwards;
+/* Draws a hairline left-to-right; driven by GSAP scaleX on scroll */
+.rule-draw {
+  transform-origin: left center;
 }
 
-@keyframes node-in {
-  to {
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .schematic-path {
-    animation: none;
-    stroke-dashoffset: 0;
-  }
-  .schematic-node {
-    animation: none;
-    opacity: 1;
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }

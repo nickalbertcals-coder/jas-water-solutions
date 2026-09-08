@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import TeamCard from "@/components/TeamCard";
 import CTASection from "@/components/CTASection";
+import ScrollReveal from "@/components/motion/ScrollReveal";
 import { team } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -17,7 +18,13 @@ export default function TeamPage() {
   return (
     <>
       <section className="border-b border-line bg-ink-900">
-        <div className="relative mx-auto max-w-4xl px-5 py-16 text-center sm:px-8 sm:py-20">
+        <ScrollReveal
+          as="div"
+          selector=":scope > *"
+          y={16}
+          stagger={0.1}
+          className="relative mx-auto max-w-4xl px-5 py-16 text-center sm:px-8 sm:py-20"
+        >
           <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-500">
             <span className="h-2.5 w-[3px] bg-signal-500" />
             Our Leadership &amp; Team Structure
@@ -29,26 +36,35 @@ export default function TeamPage() {
             Engineers, system operators, finance professionals, and legal
             specialists with deep utility management expertise.
           </p>
-        </div>
+        </ScrollReveal>
       </section>
 
       <section className="section-pad">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <SectionHeading eyebrow="Chairman" title="Executive Leadership" />
-          <div className="mt-10 max-w-md border border-line">
+          <ScrollReveal>
+            <SectionHeading eyebrow="Chairman" title="Executive Leadership" />
+          </ScrollReveal>
+          <ScrollReveal as="div" y={28} delay={0.1} className="mt-10 max-w-md border border-line">
             <TeamCard member={chairman} />
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
       <section className="section-pad border-t border-line bg-paper-100">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <SectionHeading eyebrow="Management Team" title="Officers & Vice Presidents" />
-          <div className="mt-10 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+          <ScrollReveal>
+            <SectionHeading eyebrow="Management Team" title="Officers & Vice Presidents" />
+          </ScrollReveal>
+          <ScrollReveal
+            as="div"
+            selector=":scope > div"
+            stagger={0.08}
+            className="mt-10 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3"
+          >
             {rest.map((member) => (
               <TeamCard member={member} key={member.slug} />
             ))}
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 

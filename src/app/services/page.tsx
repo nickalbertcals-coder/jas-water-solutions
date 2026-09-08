@@ -1,7 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { Metadata } from "next";
 import CTASection from "@/components/CTASection";
+import ScrollReveal from "@/components/motion/ScrollReveal";
+import ServiceIndexNav from "@/components/motion/ServiceIndexNav";
 import { services } from "@/lib/data";
 import { assetPath } from "@/lib/basePath";
 
@@ -15,7 +16,13 @@ export default function ServicesPage() {
   return (
     <>
       <section className="border-b border-line bg-ink-900">
-        <div className="relative mx-auto max-w-4xl px-5 py-16 text-center sm:px-8 sm:py-20">
+        <ScrollReveal
+          as="div"
+          selector=":scope > *"
+          y={16}
+          stagger={0.1}
+          className="relative mx-auto max-w-4xl px-5 py-16 text-center sm:px-8 sm:py-20"
+        >
           <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-500">
             <span className="h-2.5 w-[3px] bg-signal-500" />
             Core Services
@@ -28,24 +35,12 @@ export default function ServicesPage() {
             water supply services for water utilities, government agencies,
             and private sector clients.
           </p>
-        </div>
+        </ScrollReveal>
       </section>
 
-      {/* Index */}
-      <nav aria-label="Service index" className="border-b border-line bg-paper-100">
-        <div className="mx-auto flex max-w-7xl flex-wrap gap-x-8 gap-y-3 px-5 py-5 sm:px-8">
-          {services.map((service, i) => (
-            <Link
-              key={service.slug}
-              href={`#${service.slug}`}
-              className="font-mono text-xs font-medium uppercase tracking-[0.05em] text-steel-600 hover:text-signal-600"
-            >
-              <span className="text-signal-600">§{String(i + 1).padStart(2, "0")}</span>{" "}
-              {service.title}
-            </Link>
-          ))}
-        </div>
-      </nav>
+      <ServiceIndexNav
+        items={services.map((s, i) => ({ slug: s.slug, title: s.title, index: i }))}
+      />
 
       <div className="divide-y divide-line">
         {services.map((service, i) => {
@@ -62,16 +57,18 @@ export default function ServicesPage() {
                     reversed ? "lg:[&>*:first-child]:order-2" : ""
                   }`}
                 >
-                  <div className="relative aspect-[4/3] w-full overflow-hidden border border-line">
-                    <Image
-                      src={assetPath(service.image)}
-                      alt={service.title}
-                      fill
-                      sizes="(min-width: 1024px) 560px, 90vw"
-                      className="object-cover grayscale-[10%]"
-                    />
-                  </div>
-                  <div>
+                  <ScrollReveal as="div" y={28}>
+                    <div className="relative aspect-[4/3] w-full overflow-hidden border border-line">
+                      <Image
+                        src={assetPath(service.image)}
+                        alt={service.title}
+                        fill
+                        sizes="(min-width: 1024px) 560px, 90vw"
+                        className="object-cover grayscale-[10%]"
+                      />
+                    </div>
+                  </ScrollReveal>
+                  <ScrollReveal as="div" y={28} delay={0.1}>
                     <span className="font-mono text-sm font-medium text-signal-600">
                       §{String(i + 1).padStart(2, "0")}
                     </span>
@@ -91,7 +88,7 @@ export default function ServicesPage() {
                         ))}
                       </ul>
                     )}
-                  </div>
+                  </ScrollReveal>
                 </div>
               </div>
             </section>

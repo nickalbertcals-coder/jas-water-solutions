@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import CTASection from "@/components/CTASection";
+import ScrollReveal from "@/components/motion/ScrollReveal";
 import { about, mission, vision } from "@/lib/data";
 import { assetPath } from "@/lib/basePath";
 
@@ -38,7 +39,13 @@ export default function AboutPage() {
   return (
     <>
       <section className="border-b border-line bg-ink-900">
-        <div className="relative mx-auto max-w-4xl px-5 py-16 text-center sm:px-8 sm:py-20">
+        <ScrollReveal
+          as="div"
+          selector=":scope > *"
+          y={16}
+          stagger={0.1}
+          className="relative mx-auto max-w-4xl px-5 py-16 text-center sm:px-8 sm:py-20"
+        >
           <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-500">
             <span className="h-2.5 w-[3px] bg-signal-500" />
             About Us
@@ -46,12 +53,12 @@ export default function AboutPage() {
           <h1 className="font-display mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
             Professionally managed water utilities, built on discipline
           </h1>
-        </div>
+        </ScrollReveal>
       </section>
 
       <section className="section-pad">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <div className="lg:sticky lg:top-24">
+          <ScrollReveal as="div" className="lg:sticky lg:top-24" y={28}>
             <div className="relative aspect-[4/5] w-full overflow-hidden border border-line">
               <Image
                 src={assetPath("/images/photos/workers_orange.jpg")}
@@ -61,20 +68,31 @@ export default function AboutPage() {
                 className="object-cover grayscale-[10%]"
               />
             </div>
-          </div>
-          <div className="space-y-5">
+          </ScrollReveal>
+          <ScrollReveal
+            as="div"
+            selector=":scope > p"
+            stagger={0.12}
+            y={16}
+            className="space-y-5"
+          >
             {about.paragraphs.map((p, i) => (
               <p key={i} className="text-base leading-relaxed text-steel-600">
                 {p}
               </p>
             ))}
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
       <section className="section-pad border-y border-line bg-paper-100">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2">
+          <ScrollReveal
+            as="div"
+            selector=":scope > div"
+            stagger={0.12}
+            className="grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2"
+          >
             <div className="bg-white p-8">
               <p className="font-mono text-xs font-medium uppercase tracking-[0.1em] text-signal-600">
                 Vision
@@ -93,18 +111,25 @@ export default function AboutPage() {
               </h2>
               <p className="mt-3 text-base leading-relaxed text-steel-600">{mission}</p>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
       <section className="section-pad">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <SectionHeading
-            eyebrow="How We Operate"
-            title="What guides every engagement"
-            align="center"
-          />
-          <div className="mt-12 grid divide-y divide-line border-y border-line sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">
+          <ScrollReveal>
+            <SectionHeading
+              eyebrow="How We Operate"
+              title="What guides every engagement"
+              align="center"
+            />
+          </ScrollReveal>
+          <ScrollReveal
+            as="div"
+            selector=":scope > div"
+            stagger={0.08}
+            className="mt-12 grid divide-y divide-line border-y border-line sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4"
+          >
             {VALUES.map((v) => (
               <div key={v.title} className="p-6">
                 <h3 className="font-display text-base font-semibold text-ink-900">
@@ -115,7 +140,7 @@ export default function AboutPage() {
                 </p>
               </div>
             ))}
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 

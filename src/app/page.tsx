@@ -5,6 +5,8 @@ import ServiceCard from "@/components/ServiceCard";
 import TeamCard from "@/components/TeamCard";
 import CTASection from "@/components/CTASection";
 import HydraulicSchematic from "@/components/HydraulicSchematic";
+import ScrollReveal from "@/components/motion/ScrollReveal";
+import ScrambleText from "@/components/motion/ScrambleText";
 import { about, differentiators, services, team, vision, mission } from "@/lib/data";
 import { assetPath } from "@/lib/basePath";
 
@@ -59,7 +61,7 @@ export default function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-line">
         <div className="mx-auto grid max-w-7xl gap-10 px-5 pb-14 pt-14 sm:px-8 sm:pb-20 sm:pt-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div>
+          <ScrollReveal selector=":scope > *" y={16} stagger={0.1} once>
             <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-600">
               <span className="h-2.5 w-[3px] bg-signal-600" />
               Water Utility Operations &amp; Maintenance
@@ -97,7 +99,7 @@ export default function Home() {
                 <div key={stat.label}>
                   <dt className="sr-only">{stat.label}</dt>
                   <dd className="font-mono text-xl font-medium text-ink-900">
-                    {stat.value}
+                    <ScrambleText text={stat.value} />
                   </dd>
                   <p className="mt-1 text-xs leading-snug text-steel-600">
                     {stat.label}
@@ -105,7 +107,7 @@ export default function Home() {
                 </div>
               ))}
             </dl>
-          </div>
+          </ScrollReveal>
 
           <div className="relative hidden aspect-[6/5] w-full lg:block">
             <HydraulicSchematic tone="ink" className="h-full w-full" />
@@ -116,7 +118,7 @@ export default function Home() {
       {/* About snapshot */}
       <section className="section-pad">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:items-start">
-          <div>
+          <ScrollReveal y={28}>
             <div className="relative aspect-[4/3] w-full overflow-hidden border border-line">
               <Image
                 src={assetPath("/images/photos/hand_water.jpg")}
@@ -140,9 +142,9 @@ export default function Home() {
                 <p className="mt-2 text-sm leading-relaxed text-steel-600">{mission}</p>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
 
-          <div>
+          <ScrollReveal y={28} delay={0.1}>
             <SectionHeading eyebrow="About Us" title="A disciplined, technology-driven water utility partner" />
             <p className="mt-5 text-base leading-relaxed text-steel-600">
               {about.paragraphs[0]}
@@ -168,36 +170,50 @@ export default function Home() {
                 />
               </svg>
             </Link>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* Services */}
       <section className="section-pad border-y border-line bg-paper-100">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <SectionHeading
-            eyebrow="Core Services"
-            title="Integrated water management, end to end"
-            description="From daily distribution operations to hydraulic engineering and digital transformation — sustainable, cost-effective solutions for utilities, LGUs, and industry."
-            align="center"
-          />
-          <div className="mt-12 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+          <ScrollReveal>
+            <SectionHeading
+              eyebrow="Core Services"
+              title="Integrated water management, end to end"
+              description="From daily distribution operations to hydraulic engineering and digital transformation — sustainable, cost-effective solutions for utilities, LGUs, and industry."
+              align="center"
+            />
+          </ScrollReveal>
+          <ScrollReveal
+            as="div"
+            selector=":scope > a"
+            stagger={0.1}
+            className="mt-12 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3"
+          >
             {services.map((service, i) => (
               <ServiceCard service={service} index={i} key={service.slug} />
             ))}
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* Differentiators */}
       <section className="section-pad">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <SectionHeading
-            eyebrow="Why JAS"
-            title="Operational control, accountability, measurable results"
-            description="Our approach is anchored on digitized platforms, real-time monitoring, and transparent KPI-based performance management."
-          />
-          <div className="mt-12 grid divide-y divide-line border-y border-line sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">
+          <ScrollReveal>
+            <SectionHeading
+              eyebrow="Why JAS"
+              title="Operational control, accountability, measurable results"
+              description="Our approach is anchored on digitized platforms, real-time monitoring, and transparent KPI-based performance management."
+            />
+          </ScrollReveal>
+          <ScrollReveal
+            as="div"
+            selector=":scope > div"
+            stagger={0.08}
+            className="mt-12 grid divide-y divide-line border-y border-line sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4"
+          >
             {differentiators.map((item) => (
               <div key={item.title} className="p-6">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="text-signal-600">
@@ -211,14 +227,17 @@ export default function Home() {
                 </p>
               </div>
             ))}
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* Leadership preview */}
       <section className="section-pad border-t border-line bg-paper-100">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+          <ScrollReveal
+            as="div"
+            className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end"
+          >
             <SectionHeading
               eyebrow="Our Team"
               title="Leadership built on utility expertise"
@@ -230,12 +249,17 @@ export default function Home() {
             >
               Meet the full team
             </Link>
-          </div>
-          <div className="mt-12 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+          </ScrollReveal>
+          <ScrollReveal
+            as="div"
+            selector=":scope > div"
+            stagger={0.1}
+            className="mt-12 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3"
+          >
             {leadershipPreview.map((member) => (
               <TeamCard member={member} key={member.slug} />
             ))}
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 

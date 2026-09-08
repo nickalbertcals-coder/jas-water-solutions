@@ -3,8 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { assetPath } from "@/lib/basePath";
+import { ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -17,13 +18,32 @@ const NAV_LINKS = [
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header || prefersReducedMotion()) return;
+
+    const trigger = ScrollTrigger.create({
+      start: 24,
+      end: 99999,
+      onUpdate: (self) => {
+        header.dataset.scrolled = self.scroll() > 24 ? "true" : "false";
+      },
+    });
+
+    return () => trigger.kill();
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-paper-50/95 backdrop-blur">
+    <header
+      ref={headerRef}
+      className="sticky top-0 z-50 border-b border-line bg-paper-50/95 backdrop-blur transition-shadow"
+    >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-8">
         <Link href="/" className="flex items-center gap-2">
           <Image
