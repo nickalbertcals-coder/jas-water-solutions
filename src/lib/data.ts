@@ -27,6 +27,7 @@ export type Service = {
   description: string;
   image: string;
   subItems?: string[];
+  learnMore?: { href: string; label: string };
 };
 
 export const services: Service[] = [
@@ -38,6 +39,7 @@ export const services: Service[] = [
     description:
       "Comprehensive management, operation, and maintenance of water utility systems, ensuring operational efficiency, regulatory compliance, and sustainable service delivery.",
     image: "/images/photos/worker_tablet.jpg",
+    learnMore: { href: "/operations", label: "See how our Level III operation runs" },
   },
   {
     slug: "bulk-water-supply",
@@ -191,6 +193,258 @@ export const contact = {
   phone: "+63 (000) 000 0000",
   location: "Philippines",
 };
+
+export const operations = {
+  eyebrow: "Level III Distribution Operation",
+  title: "Reliable Distribution. Satisfied Customers.",
+  subtitle: "Clean Water. Safe Water. Every Time.",
+  mission:
+    "To deliver safe, reliable and affordable water to our customers 24/7 through efficient operations, sound management and excellent customer service.",
+};
+
+export type ProcessStage = { key: string; label: string };
+
+export const processStages: ProcessStage[] = [
+  { key: "bulk-supply", label: "Bulk Water Supply" },
+  { key: "reservoir", label: "Reservoir" },
+  { key: "pumping", label: "Pumping Station" },
+  { key: "network", label: "Distribution Network" },
+  { key: "connection", label: "Service Connection" },
+  { key: "meter", label: "Meter" },
+  { key: "customer", label: "Customer" },
+];
+
+export type Department = {
+  number: string;
+  title: string;
+  goal?: string;
+  functions: string[];
+};
+
+export const departments: Department[] = [
+  {
+    number: "03",
+    title: "Operations & Distribution Department",
+    goal: "Deliver water at the right pressure, at the right place, at the right time.",
+    functions: [
+      "Reservoir operation & level control",
+      "Pump scheduling & operation",
+      "Pressure management",
+      "Valve operation & isolation",
+      "Daily system monitoring",
+      "Respond to low / no water complaints",
+      "Ensure continuity of water supply",
+    ],
+  },
+  {
+    number: "04",
+    title: "Water Quality & Laboratory Department",
+    goal: "Ensure water quality meets Philippine National Standards for Drinking Water (DOH AO 2017-0010).",
+    functions: [
+      "Distribution system sampling (plan & execute)",
+      "Monitor residual chlorine",
+      "Test turbidity, pH, color & bacteriological quality",
+      "Maintain sampling points",
+      "Analyze results & trending",
+      "Report and corrective actions",
+    ],
+  },
+  {
+    number: "05",
+    title: "Engineering & Planning Department",
+    functions: [
+      "Hydraulic modeling & system analysis",
+      "Pipeline sizing & network design",
+      "Pressure zone management",
+      "Expansion & improvement planning",
+      "As-built drawings & GIS mapping",
+      "New subdivision & line extension coordination",
+      "Permits & regulatory compliance",
+    ],
+  },
+  {
+    number: "06",
+    title: "Non-Revenue Water (NRW) Department",
+    goal: "Minimize water losses and maximize system efficiency.",
+    functions: [
+      "Water balance & NRW monitoring",
+      "District Metered Areas (DMA) monitoring",
+      "Leak detection & repair coordination",
+      "Meter accuracy & replacement program",
+      "Illegal connections detection",
+      "NRW reduction initiatives",
+    ],
+  },
+  {
+    number: "07",
+    title: "Maintenance Department",
+    goal: "Maintain assets and respond quickly to service disruptions.",
+    functions: [
+      "Pipeline repair & maintenance",
+      "Valve, hydrant & appurtenances maintenance",
+      "Pump maintenance (preventive & corrective)",
+      "Preventive maintenance program",
+      "Emergency response & standby operations",
+      "Maintain tools, equipment & spare parts",
+    ],
+  },
+  {
+    number: "08",
+    title: "Service Connection & Metering Department",
+    functions: [
+      "New service application & inspection",
+      "Service connection installation",
+      "Meter installation & replacement",
+      "Meter testing & calibration",
+      "Reconnection / disconnection",
+      "Maintain accurate customer connection records",
+    ],
+  },
+  {
+    number: "09",
+    title: "Meter Reading Department",
+    functions: [
+      "Route planning & assignment",
+      "Read-and-bill operation",
+      "Accurate meter reading",
+      "Consumption validation",
+      "Identify high / low usage anomalies",
+      "Update customer records",
+    ],
+  },
+  {
+    number: "10",
+    title: "Billing & Collection Department",
+    goal: "Improve collection efficiency and cash flow.",
+    functions: [
+      "Meter data to billing system",
+      "Generate bills & deliver on time",
+      "Collection & payment processing",
+      "Aging of accounts monitoring",
+      "Disconnection & reconnection workflow",
+      "Collection efficiency improvement",
+    ],
+  },
+  {
+    number: "11",
+    title: "Customer Service Department",
+    goal: "Provide fast, courteous and effective customer service.",
+    functions: [
+      "New service applications",
+      "Respond to complaints",
+      "Low / no water reports",
+      "Billing inquiries & assistance",
+      "Leak / pipe break reports",
+      "Coordinate service restoration with Operations",
+    ],
+  },
+  {
+    number: "12",
+    title: "Commercial Department",
+    functions: [
+      "Customer database management",
+      "Account management",
+      "Consumption analysis & reporting",
+      "Revenue monitoring",
+      "Collection performance monitoring",
+      "Market development & promotions",
+    ],
+  },
+  {
+    number: "13",
+    title: "Finance & Accounting Department",
+    functions: [
+      "Revenue accounting",
+      "Bulk water cost monitoring",
+      "Power & fuel cost monitoring",
+      "O&M expenses & chemicals",
+      "Payroll & general expenses",
+      "CAPEX / OPEX monitoring",
+      "Cost per cubic meter (₱/m³) analysis & reporting",
+    ],
+  },
+  {
+    number: "14",
+    title: "Administration, HR & Procurement",
+    functions: [
+      "Human resources & training",
+      "Employee safety & welfare",
+      "PPE & safety supplies",
+      "Procurement of materials & services",
+      "Inventory management",
+      "Contractor & vendor management",
+      "Office administration & support",
+    ],
+  },
+  {
+    number: "15",
+    title: "Safety, Security & Regulatory Compliance",
+    functions: [
+      "Safety policies & procedures",
+      "Confined space entry",
+      "Excavation & trenching safety",
+      "Chemical handling (chlorine)",
+      "Electrical safety",
+      "Traffic management",
+      "Regulatory compliance & reporting",
+      "Environmental protection",
+    ],
+  },
+  {
+    number: "16",
+    title: "SCADA / MIS / Data Management",
+    functions: [
+      "Real-time monitoring (flow, pressure, level)",
+      "Pump & valve status monitoring",
+      "Alarms & notifications",
+      "Data logging & analytics",
+      "Energy monitoring (kWh)",
+      "Customer & billing data integrity",
+      "Reporting & dashboards",
+    ],
+  },
+];
+
+export const emergencyScenarios = [
+  "Mainline breaks",
+  "Pump failure",
+  "Power outage",
+  "Water contamination",
+  "Low reservoir level",
+  "Drought / water shortage",
+  "Emergency communication & coordination",
+];
+
+export const emergencyGoal = "Protect public health and restore service quickly.";
+
+export type JourneyStage = { label: string; sublabel: string };
+
+export const waterJourney: JourneyStage[] = [
+  { label: "Bulk Water Supply", sublabel: "From WTP" },
+  { label: "Operations", sublabel: "Deliver & manage" },
+  { label: "Water Quality", sublabel: "Ensure safe water" },
+  { label: "Distribution Network", sublabel: "Conveys water" },
+  { label: "Metering", sublabel: "Measure accurately" },
+  { label: "Billing", sublabel: "Generate bill" },
+  { label: "Collection", sublabel: "Collect payment" },
+  { label: "Customer Service", sublabel: "Assist customers" },
+  { label: "Finance", sublabel: "Manage resources" },
+  { label: "Happy Customers", sublabel: "" },
+];
+
+export const journeyTagline =
+  "One team. One system. One goal. Reliable service. Every customer. Every day.";
+
+export const keyTakeaways = [
+  "Level III operation is both a technical and commercial operation.",
+  "We deliver safe, reliable and continuous water to our customers.",
+  "We manage losses, maintain assets and control costs.",
+  "We meter accurately, bill correctly and collect revenue.",
+  "People, process and technology work together.",
+  "We serve our communities and build a better future.",
+];
+
+export const keyTakeawaysTagline = "Knowledge today, Better water tomorrow.";
 
 export const differentiators = [
   {

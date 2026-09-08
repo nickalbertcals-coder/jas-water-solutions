@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { Metadata } from "next";
 import CTASection from "@/components/CTASection";
 import ScrollReveal from "@/components/motion/ScrollReveal";
@@ -87,6 +88,23 @@ export default function ServicesPage() {
                           </li>
                         ))}
                       </ul>
+                    )}
+                    {service.learnMore && (
+                      <Link
+                        href={service.learnMore.href}
+                        className="mt-6 inline-flex items-center gap-1.5 font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900 hover:text-signal-600"
+                      >
+                        {service.learnMore.label}
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                          <path
+                            d="M3 8h10M9 4l4 4-4 4"
+                            stroke="currentColor"
+                            strokeWidth="1.6"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </Link>
                     )}
                   </ScrollReveal>
                 </div>

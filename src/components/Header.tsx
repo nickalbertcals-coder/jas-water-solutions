@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
+  { href: "/operations", label: "Operations" },
   { href: "/team", label: "Leadership" },
   { href: "/contact", label: "Contact" },
 ];
@@ -56,7 +57,7 @@ export default function Header() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-5 lg:flex lg:gap-6">
           {NAV_LINKS.map((link) => {
             const active =
               link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
@@ -76,7 +77,7 @@ export default function Header() {
           })}
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <Link
             href="/contact"
             className="rounded border border-ink-900 bg-ink-900 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.06em] text-paper-50 transition-colors hover:bg-ink-700"
@@ -90,7 +91,7 @@ export default function Header() {
           onClick={() => setOpen((v) => !v)}
           aria-label="Toggle navigation menu"
           aria-expanded={open}
-          className="flex h-10 w-10 items-center justify-center rounded border border-line md:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded border border-line lg:hidden"
         >
           <span className="relative block h-3.5 w-4">
             <span
@@ -113,7 +114,7 @@ export default function Header() {
       </div>
 
       {open && (
-        <div className="border-t border-line bg-paper-50 md:hidden">
+        <div className="border-t border-line bg-paper-50 lg:hidden">
           <nav className="flex flex-col gap-1 px-5 py-4">
             {NAV_LINKS.map((link) => {
               const active =
