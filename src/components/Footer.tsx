@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { company, contact } from "@/lib/data";
-import { assetPath } from "@/lib/basePath";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -19,7 +18,7 @@ export default function Footer() {
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <Image
-              src={assetPath("/images/logo.png")}
+              src="/images/logo.png"
               alt={company.name}
               width={168}
               height={78}

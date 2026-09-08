@@ -4,7 +4,6 @@ import SectionHeading from "@/components/SectionHeading";
 import CTASection from "@/components/CTASection";
 import ScrollReveal from "@/components/motion/ScrollReveal";
 import { about, mission, vision } from "@/lib/data";
-import { assetPath } from "@/lib/basePath";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -61,7 +60,7 @@ export default function AboutPage() {
           <ScrollReveal as="div" className="lg:sticky lg:top-24" y={28}>
             <div className="relative aspect-[4/5] w-full overflow-hidden border border-line">
               <Image
-                src={assetPath("/images/photos/workers_orange.jpg")}
+                src="/images/photos/workers_orange.jpg"
                 alt="JAS Water Solutions field engineers at a water facility"
                 fill
                 sizes="(min-width: 1024px) 480px, 90vw"

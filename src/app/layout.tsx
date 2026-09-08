@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Space_Grotesk, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { assetPath } from "@/lib/basePath";
 import "./globals.css";
 
 const grotesk = Space_Grotesk({
@@ -31,8 +30,8 @@ export const metadata: Metadata = {
   description:
     "JAS Water Solutions Inc. delivers Operation & Maintenance of Level III water distribution systems, bulk water supply, hydraulic engineering, and digital water solutions — managed with precision, built for sustainability.",
   icons: {
-    icon: [{ url: assetPath("/icon-192.png"), sizes: "192x192", type: "image/png" }],
-    apple: assetPath("/apple-icon.png"),
+    icon: [{ url: "/icon-192.png", sizes: "192x192", type: "image/png" }],
+    apple: "/apple-icon.png",
   },
 };
 

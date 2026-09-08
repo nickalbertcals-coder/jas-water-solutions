@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { assetPath } from "@/lib/basePath";
 import { ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 
 const NAV_LINKS = [
@@ -48,7 +47,7 @@ export default function Header() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-8">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src={assetPath("/images/logo.png")}
+            src="/images/logo.png"
             alt="JAS Water Solutions Inc."
             width={168}
             height={78}

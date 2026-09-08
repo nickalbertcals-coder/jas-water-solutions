@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Service } from "@/lib/data";
-import { assetPath } from "@/lib/basePath";
 
 export default function ServiceCard({ service, index }: { service: Service; index: number }) {
   const ref = `§${String(index + 1).padStart(2, "0")}`;
@@ -12,7 +11,7 @@ export default function ServiceCard({ service, index }: { service: Service; inde
     >
       <div className="relative h-40 w-full overflow-hidden border-b border-line">
         <Image
-          src={assetPath(service.image)}
+          src={service.image}
           alt={service.title}
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"

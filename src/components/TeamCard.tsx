@@ -1,6 +1,5 @@
 import Image from "next/image";
 import type { TeamMember } from "@/lib/data";
-import { assetPath } from "@/lib/basePath";
 
 function initials(name: string) {
   const words = name
@@ -19,7 +18,7 @@ export default function TeamCard({ member }: { member: TeamMember }) {
         <div className="relative h-20 w-20 shrink-0 overflow-hidden border border-line-strong">
           {member.image ? (
             <Image
-              src={assetPath(member.image)}
+              src={member.image}
               alt={member.name}
               fill
               sizes="80px"

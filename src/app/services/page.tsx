@@ -5,7 +5,6 @@ import CTASection from "@/components/CTASection";
 import ScrollReveal from "@/components/motion/ScrollReveal";
 import ServiceIndexNav from "@/components/motion/ServiceIndexNav";
 import { services } from "@/lib/data";
-import { assetPath } from "@/lib/basePath";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -61,7 +60,7 @@ export default function ServicesPage() {
                   <ScrollReveal as="div" y={28}>
                     <div className="relative aspect-[4/3] w-full overflow-hidden border border-line">
                       <Image
-                        src={assetPath(service.image)}
+                        src={service.image}
                         alt={service.title}
                         fill
                         sizes="(min-width: 1024px) 560px, 90vw"

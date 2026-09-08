@@ -8,7 +8,6 @@ import HydraulicSchematic from "@/components/HydraulicSchematic";
 import ScrollReveal from "@/components/motion/ScrollReveal";
 import ScrambleText from "@/components/motion/ScrambleText";
 import { about, differentiators, services, team, vision, mission } from "@/lib/data";
-import { assetPath } from "@/lib/basePath";
 
 const HERO_STATS = [
   { value: "LEVEL III", label: "Water Distribution Systems" },
@@ -124,7 +123,7 @@ export default function Home() {
           <ScrollReveal y={28}>
             <div className="relative aspect-[4/3] w-full overflow-hidden border border-line">
               <Image
-                src={assetPath("/images/photos/hand_water.jpg")}
+                src="/images/photos/hand_water.jpg"
                 alt="Clean potable water delivered by JAS Water Solutions"
                 fill
                 sizes="(min-width: 1024px) 560px, 90vw"
