@@ -1,64 +1,74 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import HydraulicSchematic from "./HydraulicSchematic";
+
+const EDGE_FADE =
+  "radial-gradient(ellipse at center, black 55%, transparent 88%)";
+const VIDEO_SRC = "/videos/hero.mp4";
 
 /**
- * Hero background video: an ambient, muted, looping clip of JAS's
- * water operations. Falls back to a static poster frame if the
- * visitor prefers reduced motion, if the video source isn't present
- * yet, or if autoplay is blocked by the browser.
+ * Hero background video: an ambient, muted, looping clip meant to
+ * blend directly into the black hero — no frame, no border. Edges
+ * are masked with a radial fade so it dissolves into the section
+ * rather than reading as a boxed video, regardless of what's near
+ * the edge of the source clip.
  *
- * Drop the generated clip at /public/videos/hero.mp4 — everything
- * else (poster fallback, reduced motion, mobile behavior) is already
- * wired up.
+ * Until /public/videos/hero.mp4 exists (or if it fails to load, or
+ * the visitor prefers reduced motion), this renders the site's own
+ * glowing hydraulic schematic instead — the same visual language the
+ * video is meant to extend, so the hero looks intentional either way.
+ *
+ * Presence is checked with a HEAD request rather than the video
+ * element's `error` event: browsers don't reliably fire that event
+ * for a plain missing file, so relying on it left this silently
+ * rendering an empty box with no fallback.
  */
 export default function HeroVideo({ className }: { className?: string }) {
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [videoFailed, setVideoFailed] = useState(false);
+  const [videoAvailable, setVideoAvailable] = useState(false);
 
   useEffect(() => {
     setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+    let cancelled = false;
+    fetch(VIDEO_SRC, { method: "HEAD" })
+      .then((res) => {
+        if (!cancelled) setVideoAvailable(res.ok);
+      })
+      .catch(() => {
+        if (!cancelled) setVideoAvailable(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const showVideo = !reducedMotion && !videoFailed;
+  const showVideo = videoAvailable && !reducedMotion;
 
   return (
-    <div className={`relative overflow-hidden border border-white/10 ${className ?? ""}`}>
+    <div className={`relative ${className ?? ""}`}>
       {showVideo ? (
         <video
           className="h-full w-full object-cover"
+          style={{ WebkitMaskImage: EDGE_FADE, maskImage: EDGE_FADE }}
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
-          poster="/images/photos/treatment_aerial.jpg"
-          onError={() => setVideoFailed(true)}
+          onError={() => setVideoAvailable(false)}
         >
-          <source src="/videos/hero.mp4" type="video/mp4" />
+          <source src={VIDEO_SRC} type="video/mp4" />
         </video>
       ) : (
-        <Image
-          src="/images/photos/treatment_aerial.jpg"
-          alt="JAS Water Solutions treatment facility"
-          fill
-          sizes="(min-width: 1024px) 560px, 90vw"
-          className="object-cover"
-          priority
-        />
+        <>
+          <HydraulicSchematic tone="paper" interactive className="h-full w-full" />
+          <p className="pointer-events-none absolute bottom-0 right-1 font-mono text-[10px] uppercase tracking-[0.06em] text-paper-50/40">
+            Hover the network to explore
+          </p>
+        </>
       )}
-
-      {/* vignette so the frame melts into the black hero background */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{ boxShadow: "inset 0 0 90px 40px rgba(0,0,0,0.55)" }}
-      />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/25" />
-
-      <p className="pointer-events-none absolute bottom-3 left-3 font-mono text-[10px] font-medium uppercase tracking-[0.06em] text-paper-50/80">
-        Water Treatment Operations
-      </p>
     </div>
   );
 }

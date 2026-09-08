@@ -108,7 +108,7 @@ export default function Home() {
             </dl>
           </ScrollReveal>
 
-          <HeroVideo className="hidden aspect-[4/5] w-full lg:block" />
+          <HeroVideo className="hidden aspect-[6/5] w-full lg:block" />
         </div>
       </section>
 
