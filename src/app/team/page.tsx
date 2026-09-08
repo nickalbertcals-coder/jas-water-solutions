@@ -29,7 +29,7 @@ export default function TeamPage() {
             <span className="h-2.5 w-[3px] bg-signal-500" />
             Our Leadership &amp; Team Structure
           </span>
-          <h1 className="font-display mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
+          <h1 className="font-display text-balance mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
             The people behind every reliable water system
           </h1>
           <p className="mt-5 text-base leading-relaxed text-paper-50/70 sm:text-lg">

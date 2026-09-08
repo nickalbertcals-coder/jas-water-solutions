@@ -50,7 +50,7 @@ export default function AboutPage() {
             <span className="h-2.5 w-[3px] bg-signal-500" />
             About Us
           </span>
-          <h1 className="font-display mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
+          <h1 className="font-display text-balance mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
             Professionally managed water utilities, built on discipline
           </h1>
         </ScrollReveal>
@@ -97,7 +97,7 @@ export default function AboutPage() {
               <p className="font-mono text-xs font-medium uppercase tracking-[0.1em] text-signal-600">
                 Vision
               </p>
-              <h2 className="font-display mt-3 text-2xl font-semibold text-ink-900">
+              <h2 className="font-display text-balance mt-3 text-2xl font-semibold text-ink-900">
                 Where we&apos;re headed
               </h2>
               <p className="mt-3 text-base leading-relaxed text-steel-600">{vision}</p>
@@ -106,7 +106,7 @@ export default function AboutPage() {
               <p className="font-mono text-xs font-medium uppercase tracking-[0.1em] text-signal-600">
                 Mission
               </p>
-              <h2 className="font-display mt-3 text-2xl font-semibold text-ink-900">
+              <h2 className="font-display text-balance mt-3 text-2xl font-semibold text-ink-900">
                 How we get there
               </h2>
               <p className="mt-3 text-base leading-relaxed text-steel-600">{mission}</p>
@@ -132,7 +132,7 @@ export default function AboutPage() {
           >
             {VALUES.map((v) => (
               <div key={v.title} className="p-6">
-                <h3 className="font-display text-base font-semibold text-ink-900">
+                <h3 className="font-display text-balance text-base font-semibold text-ink-900">
                   {v.title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-steel-600">

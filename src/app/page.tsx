@@ -66,7 +66,7 @@ export default function Home() {
               <span className="h-2.5 w-[3px] bg-signal-600" />
               Water Utility Operations &amp; Maintenance
             </span>
-            <h1 className="font-display mt-5 text-4xl font-semibold leading-[1.1] tracking-tight text-ink-900 sm:text-5xl lg:text-[3.1rem]">
+            <h1 className="font-display text-balance mt-5 text-4xl font-semibold leading-[1.1] tracking-tight text-ink-900 sm:text-5xl lg:text-[3.1rem]">
               Digitized water systems.
               <br />
               Managed with precision.
@@ -222,7 +222,7 @@ export default function Home() {
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="text-signal-600">
                   {DIFFERENTIATOR_ICONS[item.title]}
                 </svg>
-                <h3 className="font-display mt-4 text-base font-semibold text-ink-900">
+                <h3 className="font-display text-balance mt-4 text-base font-semibold text-ink-900">
                   {item.title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-steel-600">

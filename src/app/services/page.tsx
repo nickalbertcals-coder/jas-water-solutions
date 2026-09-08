@@ -28,7 +28,7 @@ export default function ServicesPage() {
             <span className="h-2.5 w-[3px] bg-signal-500" />
             Core Services
           </span>
-          <h1 className="font-display mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
+          <h1 className="font-display text-balance mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
             Innovative, sustainable, cost-effective water management
           </h1>
           <p className="mt-5 text-base leading-relaxed text-paper-50/70 sm:text-lg">
@@ -73,7 +73,7 @@ export default function ServicesPage() {
                     <span className="font-mono text-sm font-medium text-signal-600">
                       §{String(i + 1).padStart(2, "0")}
                     </span>
-                    <h2 className="font-display mt-2 text-2xl font-semibold text-ink-900 sm:text-3xl">
+                    <h2 className="font-display text-balance mt-2 text-2xl font-semibold text-ink-900 sm:text-3xl">
                       {service.title}
                     </h2>
                     <p className="mt-4 text-base leading-relaxed text-steel-600">

@@ -13,7 +13,7 @@ export default function CTASection() {
           <span className="h-2.5 w-[3px] bg-signal-500" />
           Start a conversation
         </span>
-        <h2 className="font-display text-3xl font-semibold text-paper-50 sm:text-4xl">
+        <h2 className="font-display text-balance text-3xl font-semibold text-paper-50 sm:text-4xl">
           Ready for a professionally managed water utility?
         </h2>
         <p className="max-w-2xl text-base leading-relaxed text-paper-50/70 sm:text-lg">

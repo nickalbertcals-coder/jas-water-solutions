@@ -50,7 +50,7 @@ export default function ContactPageClient() {
             <span className="h-2.5 w-[3px] bg-signal-500" />
             Contact
           </span>
-          <h1 className="font-display mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
+          <h1 className="font-display text-balance mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
             Let&apos;s talk about your water utility
           </h1>
           <p className="mt-5 text-base leading-relaxed text-paper-50/70 sm:text-lg">
@@ -63,7 +63,7 @@ export default function ContactPageClient() {
       <section className="section-pad">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">
           <ScrollReveal as="div" y={28}>
-            <h2 className="font-display text-2xl font-semibold text-ink-900">
+            <h2 className="font-display text-balance text-2xl font-semibold text-ink-900">
               Contact details
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-steel-600">
@@ -117,7 +117,7 @@ export default function ContactPageClient() {
                     />
                   </svg>
                 </span>
-                <h3 className="font-display text-lg font-semibold text-ink-900">
+                <h3 className="font-display text-balance text-lg font-semibold text-ink-900">
                   Your email app should now be open
                 </h3>
                 <p className="max-w-sm text-sm leading-relaxed text-steel-600">

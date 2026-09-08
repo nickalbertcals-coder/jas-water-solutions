@@ -23,7 +23,7 @@ export default function ServiceCard({ service, index }: { service: Service; inde
         <span className="font-mono text-xs font-medium tracking-[0.06em] text-signal-600">
           {ref}
         </span>
-        <h3 className="font-display text-lg font-semibold text-ink-900">
+        <h3 className="font-display text-balance text-lg font-semibold text-ink-900">
           {service.title}
         </h3>
         <p className="text-sm leading-relaxed text-steel-600">{service.summary}</p>

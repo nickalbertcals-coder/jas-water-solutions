@@ -32,7 +32,7 @@ export default function TeamCard({ member }: { member: TeamMember }) {
           )}
         </div>
         <div>
-          <h3 className="font-display text-base font-semibold text-ink-900">
+          <h3 className="font-display text-balance text-base font-semibold text-ink-900">
             {member.name}
           </h3>
           <p className="mt-0.5 font-mono text-xs font-medium uppercase tracking-[0.05em] text-signal-600">

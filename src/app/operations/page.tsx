@@ -138,7 +138,7 @@ export default function OperationsPage() {
             <span className="h-2.5 w-[3px] bg-signal-500" />
             {operations.eyebrow}
           </span>
-          <h1 className="font-display mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
+          <h1 className="font-display text-balance mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
             {operations.title}
           </h1>
           <p className="mt-4 font-mono text-sm uppercase tracking-[0.08em] text-signal-500/90 sm:text-base">
@@ -218,7 +218,7 @@ export default function OperationsPage() {
                     {dept.number}
                   </span>
                   <div>
-                    <h3 className="font-display text-lg font-semibold text-ink-900">
+                    <h3 className="font-display text-balance text-lg font-semibold text-ink-900">
                       {dept.title}
                     </h3>
                     {dept.goal && (
@@ -250,7 +250,7 @@ export default function OperationsPage() {
               <span className="h-2.5 w-[3px] bg-signal-500" />
               Emergency Response &amp; Business Continuity
             </span>
-            <h2 className="font-display mt-5 text-2xl font-semibold text-paper-50 sm:text-3xl">
+            <h2 className="font-display text-balance mt-5 text-2xl font-semibold text-paper-50 sm:text-3xl">
               Ready for the unexpected
             </h2>
           </ScrollReveal>
@@ -338,7 +338,7 @@ export default function OperationsPage() {
             ))}
           </ScrollReveal>
           <ScrollReveal delay={0.1} className="mt-8 text-center">
-            <p className="font-display text-xl font-semibold text-ink-900">{keyTakeawaysTagline}</p>
+            <p className="font-display text-balance text-xl font-semibold text-ink-900">{keyTakeawaysTagline}</p>
           </ScrollReveal>
         </div>
       </section>
