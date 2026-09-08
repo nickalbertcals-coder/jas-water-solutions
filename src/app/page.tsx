@@ -110,7 +110,10 @@ export default function Home() {
           </ScrollReveal>
 
           <div className="relative hidden aspect-[6/5] w-full lg:block">
-            <HydraulicSchematic tone="ink" className="h-full w-full" />
+            <HydraulicSchematic tone="ink" interactive className="h-full w-full" />
+            <p className="absolute bottom-0 right-1 font-mono text-[10px] uppercase tracking-[0.06em] text-steel-500">
+              Hover the network to explore
+            </p>
           </div>
         </div>
       </section>
