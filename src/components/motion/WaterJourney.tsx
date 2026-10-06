@@ -2,7 +2,6 @@
 
 import Eyebrow from "@/components/Eyebrow";
 import { JourneyDefs, JourneyScene } from "@/components/JourneyScenes";
-import WaterBackground from "@/components/WaterBackground";
 import { useLayoutEffect, useRef, useSyncExternalStore } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { processStages } from "@/lib/data";
@@ -64,6 +63,7 @@ export default function WaterJourney() {
       const nodes = gsap.utils.toArray<HTMLElement>("[data-stage-node]", root);
       const fill = root.querySelector<HTMLElement>("[data-fill]");
       const drop = root.querySelector<HTMLElement>("[data-drop]");
+      const glow = root.querySelector<HTMLElement>("[data-glow]");
       const counter = root.querySelector<HTMLElement>("[data-counter]");
       if (!fill || !drop) return;
 
@@ -72,6 +72,9 @@ export default function WaterJourney() {
       gsap.set(scenes, { autoAlpha: 0, x: 70, scale: 0.95 });
       gsap.set(scenes[0], { autoAlpha: 1, x: 0, scale: 1 });
       gsap.set(fill, { scaleX: 0, transformOrigin: "left center" });
+
+      // timeline moments at which each stop is fully on screen (first stop = very start)
+      const snapTimes = [0, ...Array.from({ length: n - 1 }, (_, i) => i + 1.12), n - 1 + 0.4];
 
       let lastIndex = -1;
       const setActive = (index: number) => {
@@ -96,14 +99,34 @@ export default function WaterJourney() {
           invalidateOnRefresh: true,
           // follow the timeline's own clock (it includes a rest beat), so the node
           // flips right as the text arrives — not on raw scroll progress
-          onUpdate: () => setActive(Math.min(n - 1, Math.floor(tl.time() + 0.25))),
+          onUpdate: () => setActive(Math.min(n - 1, Math.floor(tl.time() + 0.5))),
+          // settle on a stop: the drop rests exactly on a node, with its copy and picture in place
+          snap: {
+            snapTo: (progress: number) => {
+              const total = tl.duration();
+              let best = 0;
+              for (const t of snapTimes) {
+                const v = t / total;
+                if (Math.abs(v - progress) < Math.abs(best - progress)) best = v;
+              }
+              return best;
+            },
+            duration: { min: 0.3, max: 0.8 },
+            delay: 0.1,
+            ease: "power2.inOut",
+          },
         },
       });
       tlRef.current = tl;
 
-      // water moves along the pipe for the whole scroll distance
-      tl.to(fill, { scaleX: 1, duration: n - 1 }, 0);
-      tl.to(drop, { left: "100%", duration: n - 1 }, 0);
+      // the drop travels stop to stop: it moves while the copy swaps, then rests on the next node
+      for (let i = 0; i < n - 1; i++) {
+        const to = (i + 1) / (n - 1);
+        const move = { duration: 0.6, ease: "power2.inOut" };
+        tl.to(fill, { scaleX: to, ...move }, i + 0.2);
+        tl.to(drop, { left: `${to * 100}%`, ...move }, i + 0.2);
+        if (glow) tl.to(glow, { left: `${15 + to * 70}%`, ...move }, i + 0.2);
+      }
 
       // copy and illustration hand off at each node
       for (let i = 0; i < n - 1; i++) {
@@ -143,7 +166,7 @@ export default function WaterJourney() {
     const st = tl?.scrollTrigger;
     if (!tl || !st) return;
     const total = tl.duration();
-    const time = Math.min(total, index + 0.05);
+    const time = index === 0 ? 0 : Math.min(total, index + 0.12);
     window.scrollTo({ top: st.start + (time / total) * (st.end - st.start), behavior: "smooth" });
   };
 
@@ -151,13 +174,19 @@ export default function WaterJourney() {
     <section
       ref={rootRef}
       aria-labelledby="journey-heading"
-      className="relative overflow-hidden bg-[linear-gradient(135deg,#02111c_0%,#052a44_60%,#06404f_100%)] text-paper-50"
+      className="relative overflow-hidden bg-[linear-gradient(180deg,#041526_0%,#06223a_100%)] text-paper-50"
     >
       <JourneyDefs />
-      <WaterBackground intensity={0.5} />
+      {/* blueprint dot grid, fading toward the edges */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,17,28,0.7)_0%,rgba(2,17,28,0.25)_45%,transparent_75%)]"
+        className="pointer-events-none absolute inset-0 opacity-70 [background-image:radial-gradient(rgba(160,215,240,0.42)_1.2px,transparent_1.6px)] [background-size:30px_30px] [mask-image:radial-gradient(ellipse_at_55%_45%,black_25%,transparent_85%)]"
+      />
+      {/* soft light that travels along with the water drop */}
+      <div
+        data-glow
+        aria-hidden
+        className="pointer-events-none absolute left-[15%] top-1/2 hidden h-[46rem] w-[46rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.22),transparent)] lg:block"
       />
 
       {/* ── Pinned, scroll-driven version (desktop) ── */}

@@ -26,7 +26,6 @@ uniform vec2 uRes;
 uniform float uTime;
 uniform vec2 uMouse;
 uniform float uMouseK;
-uniform float uIntensity;
 
 #define TAU 6.28318530718
 
@@ -71,7 +70,7 @@ void main() {
 
   // keep the light away from the headline (left), richer to the right and low
   float w = mix(0.28, 1.0, smoothstep(0.2, 0.85, uv.x)) * mix(1.0, 0.7, uv.y);
-  col += vec3(0.38, 0.88, 1.0) * c * 1.05 * w * uIntensity;
+  col += vec3(0.38, 0.88, 1.0) * c * 1.05 * w;
 
   // faint slanting light shafts
   float sh = sin((p.x * 1.7 - p.y * 1.1) * 3.2 + uTime * 0.18) * 0.5 + 0.5;
@@ -99,7 +98,7 @@ function compile(gl: WebGLRenderingContext, type: number, src: string) {
  * The canvas renders at half resolution — caustics are soft, and it keeps the
  * shader cheap on laptops and phones.
  */
-export default function WaterBackground({ intensity = 1 }: { intensity?: number }) {
+export default function WaterBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -130,7 +129,6 @@ export default function WaterBackground({ intensity = 1 }: { intensity?: number 
     const uTime = gl.getUniformLocation(prog, "uTime");
     const uMouse = gl.getUniformLocation(prog, "uMouse");
     const uMouseK = gl.getUniformLocation(prog, "uMouseK");
-    const uIntensity = gl.getUniformLocation(prog, "uIntensity");
 
     let shown = false;
     let time = 14; // start part-way in so the first frame already has structure
@@ -141,7 +139,6 @@ export default function WaterBackground({ intensity = 1 }: { intensity?: number 
       gl.uniform1f(uTime, time);
       gl.uniform2f(uMouse, mouse.x, mouse.y);
       gl.uniform1f(uMouseK, mouse.k);
-      gl.uniform1f(uIntensity, intensity);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       if (!shown) {
         shown = true;
@@ -207,7 +204,7 @@ export default function WaterBackground({ intensity = 1 }: { intensity?: number 
       window.removeEventListener("pointermove", onMove);
       gl.getExtension("WEBGL_lose_context")?.loseContext();
     };
-  }, [intensity]);
+  }, []);
 
   return (
     <canvas
