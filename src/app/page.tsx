@@ -54,6 +54,34 @@ const WHO_POINTS = [
   },
 ];
 
+const WHY_ICONS = [
+  // digitized platforms: monitor with a live pulse line
+  <>
+    <rect x="3" y="4" width="18" height="12.5" rx="2.2" />
+    <path d="M9 20.5h6M12 16.5v4" />
+    <path d="M6.5 10.5h3l1.4-3 2.2 6 1.4-3H17.5" className="wj-draw" strokeDasharray="6 4" />
+  </>,
+  // KPI-based performance: bars that keep growing
+  <>
+    <path d="M3.5 20.5h17" />
+    <rect x="5" y="12" width="3.4" height="8" rx="1" className="wj-bar" />
+    <rect x="10.3" y="8" width="3.4" height="12" rx="1" className="wj-bar" style={{ animationDelay: "0.35s" }} />
+    <rect x="15.6" y="4" width="3.4" height="16" rx="1" className="wj-bar" style={{ animationDelay: "0.7s" }} />
+  </>,
+  // experienced team
+  <>
+    <circle cx="12" cy="8" r="3.2" />
+    <path d="M5.5 20c0-3.8 2.8-6 6.5-6s6.5 2.2 6.5 6" />
+    <circle cx="4.8" cy="10" r="2" />
+    <circle cx="19.2" cy="10" r="2" />
+  </>,
+  // revenue assurance: a drop that is accounted for
+  <>
+    <path d="M12 2.8c-.3 0-.5.2-.7.4C9 5.8 5.5 9.8 5.5 13.8a6.5 6.5 0 0 0 13 0c0-4-3.5-8-5.8-10.6-.2-.2-.4-.4-.7-.4Z" />
+    <path d="M9 14l2.2 2.2 4-4.4" className="wj-draw" strokeDasharray="10 4" />
+  </>,
+];
+
 const leadershipPreview = team.slice(0, 3);
 
 const highlight =
@@ -296,31 +324,71 @@ export default function Home() {
       </section>
 
       {/* ───────── Why JAS ───────── */}
-      <section className="section-pad relative bg-ink-900 text-paper-50">
-        <div className="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-[minmax(0,26rem)_1fr] lg:gap-24">
-          <div className="lg:sticky lg:top-32 lg:self-start">
-            <Eyebrow tone="light">Why JAS</Eyebrow>
-            <h2 className="font-statement mt-5 text-balance text-[clamp(2.1rem,3.8vw,3.5rem)] font-semibold">
-              Control. Accountability. Results you can measure.
-            </h2>
-            <p className="mt-6 text-pretty text-lg leading-relaxed text-paper-50/78">
+      <section className="section-pad relative isolate overflow-hidden bg-[linear-gradient(180deg,#05182b_0%,#082a45_100%)] text-paper-50">
+        {/* concentric ripple rings, anchored top-right and bottom-left */}
+        <svg aria-hidden viewBox="0 0 800 800" className="pointer-events-none absolute -right-72 -top-72 -z-10 h-[50rem] w-[50rem] text-accent-500">
+          {[120, 200, 280, 360, 440].map((r, i) => (
+            <circle key={r} cx="400" cy="400" r={r} fill="none" stroke="currentColor" strokeOpacity={0.2 - i * 0.03} />
+          ))}
+        </svg>
+        <svg aria-hidden viewBox="0 0 800 800" className="pointer-events-none absolute -bottom-80 -left-80 -z-10 h-[46rem] w-[46rem] text-live-500">
+          {[120, 200, 280, 360].map((r, i) => (
+            <circle key={r} cx="400" cy="400" r={r} fill="none" stroke="currentColor" strokeOpacity={0.14 - i * 0.025} />
+          ))}
+        </svg>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[28rem] w-[60rem] max-w-none -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.14),transparent)]"
+        />
+
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <ScrollReveal
+            as="div"
+            selector=":scope > *"
+            y={26}
+            stagger={0.1}
+            className="grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-end lg:gap-16"
+          >
+            <div>
+              <Eyebrow tone="light">Why JAS</Eyebrow>
+              <h2 className="font-statement mt-5 text-[clamp(2rem,3.7vw,3.3rem)]">
+                <span className="block">Control. Accountability.</span>
+                <span className="text-water block w-fit">Results you can measure.</span>
+              </h2>
+            </div>
+            <p className="max-w-md text-pretty text-lg leading-relaxed text-paper-50/80 lg:justify-self-end">
               Our approach is anchored on digitized platforms, real-time monitoring, and transparent
               KPI-based performance management.
             </p>
-          </div>
+          </ScrollReveal>
 
           <ScrollReveal
             as="div"
             selector=":scope > div"
+            y={34}
             stagger={0.12}
-            className="divide-y divide-white/15 border-y border-white/15"
+            className="mt-14 grid gap-5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-6"
           >
-            {differentiators.map((item) => (
-              <div key={item.title} className="grid gap-4 py-10 sm:grid-cols-[minmax(0,18rem)_1fr] sm:gap-10">
-                <h3 className="font-statement text-balance text-2xl text-paper-50 sm:text-[1.9rem]">
-                  {item.title}
-                </h3>
-                <p className="text-pretty text-lg leading-relaxed text-paper-50/78">{item.description}</p>
+            {differentiators.map((item, i) => (
+              <div
+                key={item.title}
+                className="group relative flex flex-col overflow-hidden rounded-[1.75rem] border border-white/12 bg-[linear-gradient(160deg,rgba(255,255,255,0.1)_0%,rgba(255,255,255,0.03)_100%)] p-7 shadow-[0_30px_60px_-36px_rgba(0,0,0,0.8)] backdrop-blur-sm transition-[transform,border-color] duration-500 hover:-translate-y-1.5 hover:border-accent-500/50 sm:p-8"
+              >
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.28),transparent)] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                />
+                <div className="flex items-center justify-between">
+                  <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-accent-500/30 bg-accent-500/10 text-accent-500 shadow-[0_0_30px_-8px_rgba(76,201,232,0.6)]">
+                    <svg viewBox="0 0 24 24" className="h-9 w-9" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      {WHY_ICONS[i]}
+                    </svg>
+                  </span>
+                  <span className="font-label text-sm font-bold tabular-nums text-paper-50/45">{String(i + 1).padStart(2, "0")}</span>
+                </div>
+                <h3 className="font-display mt-8 text-balance text-xl font-bold leading-snug sm:text-[1.4rem]">{item.title}</h3>
+                <p className="mt-3 text-pretty text-base leading-relaxed text-paper-50/78">{item.description}</p>
+                <span aria-hidden className="mt-7 block h-1 w-12 rounded-full bg-[linear-gradient(90deg,#4cc9e8,#3ee0b4)] transition-[width] duration-500 group-hover:w-24" />
               </div>
             ))}
           </ScrollReveal>

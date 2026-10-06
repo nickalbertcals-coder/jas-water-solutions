@@ -172,6 +172,8 @@ header[data-scrolled="true"] {
   .jchip { animation: jchip 4.5s ease-out infinite both; }
   .jrise { animation: jrise 3s ease-in infinite; }
   .jgauge { animation: jgauge 4s ease-in-out infinite alternate; }
+  .wj-draw { animation: wj-draw 2.4s linear infinite; }
+  .wj-bar { animation: wj-bar 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
   .jbub { animation: jbub 4s ease-in infinite; }
   .jfloat { animation: jfloat 6s ease-in-out infinite alternate; }
   .jwin { animation: jwin 5s ease-in-out infinite; }
@@ -192,6 +194,8 @@ header[data-scrolled="true"] {
 @keyframes jtick { 0%, 70% { transform: translateY(0); } 85%, 100% { transform: translateY(-24px); } }
 @keyframes jchip { 0%, 8% { opacity: 0; transform: translateY(10px); } 22%, 80% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(0); } }
 @keyframes jgauge { from { transform: rotate(-52deg); } to { transform: rotate(38deg); } }
+@keyframes wj-draw { to { stroke-dashoffset: -20; } }
+@keyframes wj-bar { 0%, 100% { transform: scaleY(0.55); } 50% { transform: scaleY(1); } }
 @keyframes jbub { 0% { transform: translateY(0); opacity: 0; } 12% { opacity: 0.9; } 85% { opacity: 0.8; } 100% { transform: translateY(var(--rise, -40px)); opacity: 0; } }
 @keyframes jfloat { from { transform: translate3d(0, -3px, 0); } to { transform: translate3d(0, 4px, 0); } }
 @keyframes jwin { 0%, 100% { opacity: 1; } 45% { opacity: 0.45; } 70% { opacity: 0.85; } }
