@@ -1,5 +1,6 @@
 "use client";
 
+import Eyebrow from "@/components/Eyebrow";
 import { useLayoutEffect, useRef, useSyncExternalStore } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { processStages } from "@/lib/data";
@@ -129,10 +130,7 @@ export default function WaterJourney() {
       >
         <div className="flex items-start justify-between">
           <div>
-            <p className="inline-flex items-center gap-3 font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] text-accent-500">
-              <span className="h-px w-8 bg-accent-500" />
-              The journey of one cubic meter
-            </p>
+            <Eyebrow tone="light">The journey of one cubic meter</Eyebrow>
             <h2 id="journey-heading" className="sr-only">
               From bulk supply to every customer
             </h2>
@@ -209,10 +207,7 @@ export default function WaterJourney() {
 
       {/* ── Static version (mobile, tablet, reduced motion) ── */}
       <div className={`relative mx-auto max-w-7xl px-5 py-20 sm:px-8 ${staticMode ? "block" : "lg:hidden"}`}>
-        <p className="inline-flex items-center gap-3 font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] text-accent-500">
-          <span className="h-px w-8 bg-accent-500" />
-          The journey of one cubic meter
-        </p>
+        <Eyebrow tone="light">The journey of one cubic meter</Eyebrow>
         <ol className="mt-10 divide-y divide-white/10 border-y border-white/10">
           {processStages.map((stage, i) => (
             <li key={stage.key} className="grid grid-cols-[3rem_1fr] gap-4 py-6 sm:grid-cols-[5rem_1fr]">

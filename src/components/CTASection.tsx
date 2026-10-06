@@ -1,3 +1,4 @@
+import Eyebrow from "@/components/Eyebrow";
 import Link from "next/link";
 import ScrollReveal from "@/components/motion/ScrollReveal";
 
@@ -16,10 +17,7 @@ export default function CTASection() {
         stagger={0.12}
         className="relative mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32"
       >
-        <span className="inline-flex items-center gap-3 font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] text-accent-500">
-          <span className="h-px w-8 bg-current" />
-          Start a conversation
-        </span>
+        <Eyebrow tone="light">Start a conversation</Eyebrow>
         <h2 className="font-statement mt-6 max-w-5xl text-balance text-[clamp(2.4rem,5.6vw,5.4rem)] font-semibold text-paper-50">
           Ready for a professionally managed <span className="text-water">water utility?</span>
         </h2>

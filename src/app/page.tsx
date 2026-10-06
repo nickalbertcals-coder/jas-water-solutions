@@ -1,3 +1,4 @@
+import Eyebrow from "@/components/Eyebrow";
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
 import TeamRow from "@/components/TeamRow";
@@ -18,17 +19,6 @@ const HERO_STATS = [
 ];
 
 const leadershipPreview = team.slice(0, 3);
-
-const Eyebrow = ({ children, tone = "dark" }: { children: React.ReactNode; tone?: "dark" | "light" }) => (
-  <span
-    className={`inline-flex items-center gap-3 font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] ${
-      tone === "light" ? "text-accent-500" : "text-accent-600"
-    }`}
-  >
-    <span className="h-px w-8 bg-current" />
-    {children}
-  </span>
-);
 
 const highlight =
   "bg-gradient-to-t from-accent-500/35 to-accent-500/35 bg-[length:100%_0.34em] bg-bottom bg-no-repeat";
@@ -147,13 +137,13 @@ export default function Home() {
             className="mt-20 grid gap-12 border-t border-ink-900/20 pt-10 md:grid-cols-2 md:gap-20"
           >
             <div>
-              <p className="font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] text-accent-600">Vision</p>
+              <Eyebrow as="p">Vision</Eyebrow>
               <p className="font-display mt-5 text-pretty text-xl leading-snug text-ink-900 sm:text-2xl">
                 {vision}
               </p>
             </div>
             <div>
-              <p className="font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] text-accent-600">Mission</p>
+              <Eyebrow as="p">Mission</Eyebrow>
               <p className="font-display mt-5 text-pretty text-xl leading-snug text-ink-900 sm:text-2xl">
                 {mission}
               </p>

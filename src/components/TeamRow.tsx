@@ -24,7 +24,7 @@ export default function TeamRow({ member }: { member: TeamMember }) {
         <h3 className="font-statement text-balance text-[clamp(1.6rem,2.6vw,2.4rem)] font-semibold text-ink-900">
           {member.name}
         </h3>
-        <p className="mt-2 font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] text-accent-600">
+        <p className="mt-2 font-label text-sm font-bold text-accent-600">
           {member.role}
         </p>
       </div>

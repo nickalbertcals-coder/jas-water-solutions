@@ -1,3 +1,4 @@
+import Eyebrow from "@/components/Eyebrow";
 import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import CTASection from "@/components/CTASection";
@@ -129,9 +130,7 @@ export default function OperationsPage() {
       {/* Hero */}
       <PageHero eyebrow={operations.eyebrow} title={operations.title} description={operations.subtitle}>
         <div className="mt-10 max-w-2xl border-l-2 border-accent-500 bg-white/[0.04] p-6 backdrop-blur-sm">
-          <p className="font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] text-accent-500">
-            Our Operational Mission
-          </p>
+          <Eyebrow tone="light" as="p">Our operational mission</Eyebrow>
           <p className="mt-3 text-base leading-relaxed text-paper-50/80 sm:text-lg">
             {operations.mission}
           </p>
@@ -229,10 +228,7 @@ export default function OperationsPage() {
       <section className="border-b border-line bg-ink-900">
         <div className="mx-auto max-w-5xl px-5 py-16 text-center sm:px-8 sm:py-20">
           <ScrollReveal>
-            <span className="inline-flex items-center gap-2 font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] text-accent-500">
-              <span className="h-2.5 w-[3px] bg-accent-500" />
-              Emergency Response &amp; Business Continuity
-            </span>
+            <Eyebrow tone="light">Emergency response &amp; business continuity</Eyebrow>
             <h2 className="font-display text-balance mt-5 text-2xl font-semibold text-paper-50 sm:text-3xl">
               Ready for the unexpected
             </h2>

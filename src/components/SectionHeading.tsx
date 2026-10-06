@@ -1,3 +1,4 @@
+import Eyebrow from "@/components/Eyebrow";
 type Props = {
   eyebrow?: string;
   title: string;
@@ -17,14 +18,7 @@ export default function SectionHeading({
   return (
     <div className={`max-w-4xl ${isCenter ? "mx-auto text-center" : ""}`}>
       {eyebrow && (
-        <span
-          className={`inline-flex items-center gap-3 font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] ${
-            light ? "text-accent-500" : "text-accent-600"
-          }`}
-        >
-          <span className="h-px w-8 bg-current" />
-          {eyebrow}
-        </span>
+        <Eyebrow tone={light ? "light" : "dark"}>{eyebrow}</Eyebrow>
       )}
       <h2
         className={`font-statement mt-4 text-balance text-[clamp(2.1rem,3.8vw,3.5rem)] font-semibold ${
