@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useLayoutEffect, useRef, useState } from "react";
-import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
+import { gsap, prefersReducedMotion } from "@/lib/gsap";
 
 type Props = {
   className?: string;
@@ -160,7 +160,7 @@ export default function HydraulicSchematic({ className, tone = "ink", interactiv
     <div ref={containerRef} className={`relative ${className ?? ""}`}>
       <svg
         ref={svgRef}
-        viewBox="0 0 560 460"
+        viewBox="0 50 540 360"
         fill="none"
         className="h-full w-full"
         role="img"

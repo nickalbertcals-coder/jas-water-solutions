@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Space_Grotesk, IBM_Plex_Sans, IBM_Plex_Mono, Barlow_Condensed } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
 const grotesk = Space_Grotesk({
   variable: "--font-grotesk",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
+
+const barlow = Barlow_Condensed({
+  variable: "--font-barlow",
   subsets: ["latin"],
   weight: ["500", "600", "700"],
 });
@@ -43,7 +49,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${grotesk.variable} ${plexSans.variable} ${plexMono.variable} antialiased`}
+        className={`${grotesk.variable} ${barlow.variable} ${plexSans.variable} ${plexMono.variable} antialiased`}
       >
         <Header />
         <main>{children}</main>

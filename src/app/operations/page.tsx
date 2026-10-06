@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import CTASection from "@/components/CTASection";
 import ScrollReveal from "@/components/motion/ScrollReveal";
+import PageHero from "@/components/PageHero";
 import {
   operations,
   processStages,
@@ -126,34 +127,16 @@ export default function OperationsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="border-b border-line bg-ink-900">
-        <ScrollReveal
-          as="div"
-          selector=":scope > *"
-          y={16}
-          stagger={0.1}
-          className="relative mx-auto max-w-4xl px-5 py-16 text-center sm:px-8 sm:py-20"
-        >
-          <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-500">
-            <span className="h-2.5 w-[3px] bg-signal-500" />
-            {operations.eyebrow}
-          </span>
-          <h1 className="font-display text-balance mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
-            {operations.title}
-          </h1>
-          <p className="mt-4 font-mono text-sm uppercase tracking-[0.08em] text-signal-500/90 sm:text-base">
-            {operations.subtitle}
+      <PageHero eyebrow={operations.eyebrow} title={operations.title} description={operations.subtitle}>
+        <div className="mt-10 max-w-2xl border-l-2 border-signal-500 bg-white/[0.04] p-6 backdrop-blur-sm">
+          <p className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-500">
+            Our Operational Mission
           </p>
-          <div className="mx-auto mt-8 max-w-2xl border border-white/15 bg-white/5 p-6 text-left">
-            <p className="font-mono text-xs font-medium uppercase tracking-[0.1em] text-signal-500">
-              Our Operational Mission
-            </p>
-            <p className="mt-2 text-sm leading-relaxed text-paper-50/80 sm:text-base">
-              {operations.mission}
-            </p>
-          </div>
-        </ScrollReveal>
-      </section>
+          <p className="mt-3 text-base leading-relaxed text-paper-50/80 sm:text-lg">
+            {operations.mission}
+          </p>
+        </div>
+      </PageHero>
 
       {/* Process flow */}
       <section className="section-pad">

@@ -202,16 +202,51 @@ export const operations = {
     "To deliver safe, reliable and affordable water to our customers 24/7 through efficient operations, sound management and excellent customer service.",
 };
 
-export type ProcessStage = { key: string; label: string };
+export type ProcessStage = { key: string; label: string; description: string };
 
 export const processStages: ProcessStage[] = [
-  { key: "bulk-supply", label: "Bulk Water Supply" },
-  { key: "reservoir", label: "Reservoir" },
-  { key: "pumping", label: "Pumping Station" },
-  { key: "network", label: "Distribution Network" },
-  { key: "connection", label: "Service Connection" },
-  { key: "meter", label: "Meter" },
-  { key: "customer", label: "Customer" },
+  {
+    key: "bulk-supply",
+    label: "Bulk Water Supply",
+    description:
+      "Treated water arrives from the water treatment plant — the start of every cubic meter we manage.",
+  },
+  {
+    key: "reservoir",
+    label: "Reservoir",
+    description:
+      "Reservoir operation and level control keep supply buffered and pressure steady through the day.",
+  },
+  {
+    key: "pumping",
+    label: "Pumping Station",
+    description:
+      "Pumps are scheduled and operated to reach every pressure zone, with status and energy monitored in real time.",
+  },
+  {
+    key: "network",
+    label: "Distribution Network",
+    description:
+      "Pressure management, valve isolation and daily system monitoring carry water across the network.",
+  },
+  {
+    key: "connection",
+    label: "Service Connection",
+    description:
+      "New applications are inspected and connections installed, with accurate customer connection records kept.",
+  },
+  {
+    key: "meter",
+    label: "Meter",
+    description:
+      "Meters are installed, tested and calibrated — and every reading is validated before it reaches a bill.",
+  },
+  {
+    key: "customer",
+    label: "Customer",
+    description:
+      "Read, billed and collected — and any low-pressure or no-water report is answered and restored with Operations.",
+  },
 ];
 
 export type Department = {

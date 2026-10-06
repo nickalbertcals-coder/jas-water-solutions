@@ -4,6 +4,7 @@ import TeamCard from "@/components/TeamCard";
 import CTASection from "@/components/CTASection";
 import ScrollReveal from "@/components/motion/ScrollReveal";
 import { team } from "@/lib/data";
+import PageHero from "@/components/PageHero";
 
 export const metadata: Metadata = {
   title: "Leadership",
@@ -17,27 +18,11 @@ const rest = team.slice(1);
 export default function TeamPage() {
   return (
     <>
-      <section className="border-b border-line bg-ink-900">
-        <ScrollReveal
-          as="div"
-          selector=":scope > *"
-          y={16}
-          stagger={0.1}
-          className="relative mx-auto max-w-4xl px-5 py-16 text-center sm:px-8 sm:py-20"
-        >
-          <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-500">
-            <span className="h-2.5 w-[3px] bg-signal-500" />
-            Our Leadership &amp; Team Structure
-          </span>
-          <h1 className="font-display text-balance mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
-            The people behind every reliable water system
-          </h1>
-          <p className="mt-5 text-base leading-relaxed text-paper-50/70 sm:text-lg">
-            Engineers, system operators, finance professionals, and legal
-            specialists with deep utility management expertise.
-          </p>
-        </ScrollReveal>
-      </section>
+      <PageHero
+        eyebrow="Leadership & Team Structure"
+        title="The people behind every reliable water system"
+        description="Engineers, system operators, finance professionals, and legal specialists with deep utility management expertise."
+      />
 
       <section className="section-pad">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">

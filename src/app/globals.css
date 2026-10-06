@@ -22,6 +22,10 @@
   --signal-500: #d6791f;
   --signal-600: #b8641a;
   --signal-tint: #f7e6d1;
+
+  /* Depth: true-black for hero/immersive sections, aqua for moving water */
+  --void: #05080c;
+  --aqua-400: #6fd0e0;
 }
 
 @theme inline {
@@ -46,6 +50,10 @@
   --color-signal-500: var(--signal-500);
   --color-signal-600: var(--signal-600);
   --color-signal-tint: var(--signal-tint);
+
+  --color-void: var(--void);
+  --color-aqua-400: var(--aqua-400);
+  --font-statement: var(--font-barlow);
 }
 
 body {
@@ -56,6 +64,14 @@ body {
 
 .font-display {
   font-family: var(--font-grotesk), var(--font-plex-sans), Arial, sans-serif;
+}
+
+/* Signage-style condensed caps for big statements — highway/utility sign DNA */
+.font-statement {
+  font-family: var(--font-barlow), "Arial Narrow", Impact, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+  line-height: 0.92;
 }
 
 .font-mono {
@@ -76,10 +92,31 @@ body {
   outline-offset: 2px;
 }
 
-/* Header elevation once the page has scrolled past the hero */
+/* Header: dark glass; gains a hairline once the page scrolls */
 header[data-scrolled="true"] {
-  box-shadow: 0 1px 0 0 var(--line-strong);
-  background-color: rgb(246 247 246 / 0.98);
+  box-shadow: 0 1px 0 0 rgb(255 255 255 / 0.12);
+  background-color: rgb(5 8 12 / 0.97);
+}
+
+/* Topographic contour backdrop — elevation lines, one amber bench-mark */
+.contours {
+  position: absolute;
+  inset: -6%;
+  background-image: url("/images/contours.svg");
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .contours {
+    animation: contour-drift 48s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes contour-drift {
+  from { transform: translate3d(-1.5%, -1%, 0) scale(1.02); }
+  to   { transform: translate3d(1.5%, 1%, 0) scale(1.08); }
 }
 
 /* Draws a hairline left-to-right; driven by GSAP scaleX on scroll */

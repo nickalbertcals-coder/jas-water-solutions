@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { contact } from "@/lib/data";
 import ScrollReveal from "@/components/motion/ScrollReveal";
+import PageHero from "@/components/PageHero";
 
 const CONTACT_DETAILS = [
   {
@@ -38,27 +39,11 @@ export default function ContactPageClient() {
 
   return (
     <>
-      <section className="border-b border-line bg-ink-900">
-        <ScrollReveal
-          as="div"
-          selector=":scope > *"
-          y={16}
-          stagger={0.1}
-          className="relative mx-auto max-w-4xl px-5 py-16 text-center sm:px-8 sm:py-20"
-        >
-          <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-500">
-            <span className="h-2.5 w-[3px] bg-signal-500" />
-            Contact
-          </span>
-          <h1 className="font-display text-balance mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
-            Let&apos;s talk about your water utility
-          </h1>
-          <p className="mt-5 text-base leading-relaxed text-paper-50/70 sm:text-lg">
-            Reach out for O&amp;M partnerships, bulk water supply, technical
-            consultancy, or general inquiries.
-          </p>
-        </ScrollReveal>
-      </section>
+      <PageHero
+        eyebrow="Contact"
+        title="Let's talk about your water utility"
+        description="Reach out for O&M partnerships, bulk water supply, technical consultancy, or general inquiries."
+      />
 
       <section className="section-pad">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">

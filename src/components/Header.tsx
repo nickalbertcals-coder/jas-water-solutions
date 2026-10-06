@@ -42,7 +42,7 @@ export default function Header() {
   return (
     <header
       ref={headerRef}
-      className="sticky top-0 z-50 border-b border-line bg-paper-50/95 backdrop-blur transition-shadow"
+      className="sticky top-0 z-50 border-b border-white/10 bg-void/95 backdrop-blur-md transition-[background-color,box-shadow]"
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-8">
         <Link href="/" className="flex items-center gap-2">
@@ -52,7 +52,7 @@ export default function Header() {
             width={168}
             height={78}
             priority
-            className="h-10 w-auto sm:h-11"
+            className="h-10 w-auto brightness-0 invert sm:h-11"
           />
         </Link>
 
@@ -66,8 +66,8 @@ export default function Header() {
                 href={link.href}
                 className={`font-mono text-xs font-medium uppercase tracking-[0.08em] transition-colors ${
                   active
-                    ? "text-signal-600"
-                    : "text-ink-700/70 hover:text-ink-900"
+                    ? "text-signal-500"
+                    : "text-paper-50/65 hover:text-paper-50"
                 }`}
               >
                 {link.label}
@@ -79,7 +79,7 @@ export default function Header() {
         <div className="hidden lg:block">
           <Link
             href="/contact"
-            className="rounded border border-ink-900 bg-ink-900 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.06em] text-paper-50 transition-colors hover:bg-ink-700"
+            className="border border-paper-50 bg-paper-50 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900 transition-colors hover:border-signal-500 hover:bg-signal-500"
           >
             Get in Touch
           </Link>
@@ -90,21 +90,21 @@ export default function Header() {
           onClick={() => setOpen((v) => !v)}
           aria-label="Toggle navigation menu"
           aria-expanded={open}
-          className="flex h-10 w-10 items-center justify-center rounded border border-line lg:hidden"
+          className="flex h-10 w-10 items-center justify-center border border-white/20 lg:hidden"
         >
           <span className="relative block h-3.5 w-4">
             <span
-              className={`absolute left-0 top-0 h-0.5 w-4 bg-ink-900 transition-transform ${
+              className={`absolute left-0 top-0 h-0.5 w-4 bg-paper-50 transition-transform ${
                 open ? "translate-y-[6px] rotate-45" : ""
               }`}
             />
             <span
-              className={`absolute left-0 top-1.5 h-0.5 w-4 bg-ink-900 transition-opacity ${
+              className={`absolute left-0 top-1.5 h-0.5 w-4 bg-paper-50 transition-opacity ${
                 open ? "opacity-0" : "opacity-100"
               }`}
             />
             <span
-              className={`absolute left-0 top-3 h-0.5 w-4 bg-ink-900 transition-transform ${
+              className={`absolute left-0 top-3 h-0.5 w-4 bg-paper-50 transition-transform ${
                 open ? "-translate-y-[6px] -rotate-45" : ""
               }`}
             />
@@ -113,7 +113,7 @@ export default function Header() {
       </div>
 
       {open && (
-        <div className="border-t border-line bg-paper-50 lg:hidden">
+        <div className="border-t border-white/10 bg-void lg:hidden">
           <nav className="flex flex-col gap-1 px-5 py-4">
             {NAV_LINKS.map((link) => {
               const active =
@@ -124,8 +124,8 @@ export default function Header() {
                   href={link.href}
                   className={`rounded px-3 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.08em] ${
                     active
-                      ? "bg-paper-100 text-signal-600"
-                      : "text-ink-700/80 hover:bg-paper-100"
+                      ? "bg-white/5 text-signal-500"
+                      : "text-paper-50/75 hover:bg-white/5"
                   }`}
                 >
                   {link.label}
@@ -134,7 +134,7 @@ export default function Header() {
             })}
             <Link
               href="/contact"
-              className="mt-2 rounded border border-ink-900 bg-ink-900 px-5 py-2.5 text-center font-mono text-xs font-medium uppercase tracking-[0.06em] text-paper-50"
+              className="mt-2 border border-paper-50 bg-paper-50 px-5 py-2.5 text-center font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900"
             >
               Get in Touch
             </Link>

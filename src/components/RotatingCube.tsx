@@ -72,7 +72,7 @@ export default function RotatingCube({ className }: { className?: string }) {
     if (!el) return;
     const ro = new ResizeObserver((entries) => {
       const w = entries[0].contentRect.width;
-      setSize(Math.round(w * 0.68));
+      setSize(Math.round(w * 0.52));
     });
     ro.observe(el);
     return () => ro.disconnect();
@@ -176,11 +176,11 @@ export default function RotatingCube({ className }: { className?: string }) {
                 backgroundImage: `url(${face.image})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-                opacity: 0.55,
+                opacity: 0.82,
               }}
             />
-            {/* frosted paper wash, ties the panel to the site's palette */}
-            <div className="absolute inset-0 bg-paper-50/30" />
+            {/* faint aqua tint — glass over a dark panel */}
+            <div className="absolute inset-0 bg-aqua-400/[0.06]" />
             {/* dynamic lighting — darkens as the face turns away from the viewer */}
             <div
               ref={(el) => {

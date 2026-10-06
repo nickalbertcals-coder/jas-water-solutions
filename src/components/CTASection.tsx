@@ -1,41 +1,47 @@
 import Link from "next/link";
-import HydraulicSchematic from "./HydraulicSchematic";
+import ScrollReveal from "@/components/motion/ScrollReveal";
 
 export default function CTASection() {
   return (
-    <section className="relative overflow-hidden bg-ink-900">
-      <HydraulicSchematic
-        tone="paper"
-        className="pointer-events-none absolute -right-16 top-1/2 hidden h-[420px] w-[420px] -translate-y-1/2 opacity-[0.08] lg:block"
+    <section className="relative isolate overflow-hidden bg-void">
+      <div className="contours" aria-hidden />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_80%,transparent_20%,rgba(5,8,12,0.85)_100%)]"
       />
-      <div className="section-pad relative mx-auto flex max-w-5xl flex-col items-center gap-6 px-5 text-center sm:px-8">
-        <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-500">
-          <span className="h-2.5 w-[3px] bg-signal-500" />
+      <ScrollReveal
+        as="div"
+        selector=":scope > *"
+        y={26}
+        stagger={0.12}
+        className="relative mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32"
+      >
+        <span className="inline-flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.18em] text-signal-500">
+          <span className="h-px w-8 bg-current" />
           Start a conversation
         </span>
-        <h2 className="font-display text-balance text-3xl font-semibold text-paper-50 sm:text-4xl">
-          Ready for a professionally managed water utility?
+        <h2 className="font-statement mt-6 max-w-5xl text-balance text-[clamp(3rem,8vw,8rem)] font-semibold text-paper-50">
+          Ready for a professionally managed <span className="text-signal-500">water utility?</span>
         </h2>
-        <p className="max-w-2xl text-base leading-relaxed text-paper-50/70 sm:text-lg">
-          Let&apos;s talk about how digitized operations, transparent revenue
-          management, and disciplined O&amp;M can strengthen your water
-          service delivery.
+        <p className="mt-8 max-w-2xl text-pretty text-lg leading-relaxed text-paper-50/65 sm:text-xl">
+          Let&apos;s talk about how digitized operations, transparent revenue management, and
+          disciplined O&amp;M can strengthen your water service delivery.
         </p>
-        <div className="mt-2 flex flex-col gap-3 sm:flex-row">
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <Link
             href="/contact"
-            className="rounded border border-paper-50 bg-paper-50 px-7 py-3 font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900 transition-colors hover:bg-transparent hover:text-paper-50"
+            className="border border-paper-50 bg-paper-50 px-8 py-4 text-center font-mono text-xs font-medium uppercase tracking-[0.08em] text-ink-900 transition-colors hover:border-signal-500 hover:bg-signal-500"
           >
-            Talk to Our Team
+            Talk to our team
           </Link>
           <Link
             href="/services"
-            className="rounded border border-signal-500 px-7 py-3 font-mono text-xs font-medium uppercase tracking-[0.06em] text-signal-500 transition-colors hover:bg-signal-500 hover:text-ink-900"
+            className="border border-white/25 px-8 py-4 text-center font-mono text-xs font-medium uppercase tracking-[0.08em] text-paper-50 transition-colors hover:border-paper-50"
           >
-            Explore Our Services
+            Explore our services
           </Link>
         </div>
-      </div>
+      </ScrollReveal>
     </section>
   );
 }

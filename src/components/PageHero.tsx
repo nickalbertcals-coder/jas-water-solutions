@@ -1,0 +1,47 @@
+import type { ReactNode } from "react";
+import ScrollReveal from "@/components/motion/ScrollReveal";
+
+type Props = {
+  eyebrow: string;
+  title: string;
+  description?: string;
+  children?: ReactNode;
+};
+
+/**
+ * Opening band for inner pages: true-black with the drifting topographic
+ * contour layer, and a huge signage-style statement — the same visual
+ * system as the home hero, so the site reads as one place.
+ */
+export default function PageHero({ eyebrow, title, description, children }: Props) {
+  return (
+    <section className="relative overflow-hidden bg-void">
+      <div className="contours" aria-hidden />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_30%,transparent_30%,rgba(5,8,12,0.75)_100%)]"
+      />
+      <ScrollReveal
+        as="div"
+        selector=":scope > *"
+        y={22}
+        stagger={0.12}
+        className="relative mx-auto max-w-7xl px-5 pb-16 pt-20 sm:px-8 sm:pb-24 sm:pt-28"
+      >
+        <span className="inline-flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.18em] text-signal-500">
+          <span className="h-px w-8 bg-signal-500" />
+          {eyebrow}
+        </span>
+        <h1 className="font-statement mt-6 max-w-5xl text-balance text-[clamp(3rem,8vw,7.5rem)] font-semibold text-paper-50">
+          {title}
+        </h1>
+        {description && (
+          <p className="mt-8 max-w-2xl text-pretty text-lg leading-relaxed text-paper-50/65 sm:text-xl">
+            {description}
+          </p>
+        )}
+        {children}
+      </ScrollReveal>
+    </section>
+  );
+}

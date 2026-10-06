@@ -4,6 +4,7 @@ import SectionHeading from "@/components/SectionHeading";
 import CTASection from "@/components/CTASection";
 import ScrollReveal from "@/components/motion/ScrollReveal";
 import { about, mission, vision } from "@/lib/data";
+import PageHero from "@/components/PageHero";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -37,23 +38,10 @@ const VALUES = [
 export default function AboutPage() {
   return (
     <>
-      <section className="border-b border-line bg-ink-900">
-        <ScrollReveal
-          as="div"
-          selector=":scope > *"
-          y={16}
-          stagger={0.1}
-          className="relative mx-auto max-w-4xl px-5 py-16 text-center sm:px-8 sm:py-20"
-        >
-          <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-500">
-            <span className="h-2.5 w-[3px] bg-signal-500" />
-            About Us
-          </span>
-          <h1 className="font-display text-balance mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
-            Professionally managed water utilities, built on discipline
-          </h1>
-        </ScrollReveal>
-      </section>
+      <PageHero
+        eyebrow="About Us"
+        title="Professionally managed water utilities, built on discipline"
+      />
 
       <section className="section-pad">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">

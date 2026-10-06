@@ -5,6 +5,7 @@ import CTASection from "@/components/CTASection";
 import ScrollReveal from "@/components/motion/ScrollReveal";
 import ServiceIndexNav from "@/components/motion/ServiceIndexNav";
 import { services } from "@/lib/data";
+import PageHero from "@/components/PageHero";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -15,28 +16,11 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <>
-      <section className="border-b border-line bg-ink-900">
-        <ScrollReveal
-          as="div"
-          selector=":scope > *"
-          y={16}
-          stagger={0.1}
-          className="relative mx-auto max-w-4xl px-5 py-16 text-center sm:px-8 sm:py-20"
-        >
-          <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-500">
-            <span className="h-2.5 w-[3px] bg-signal-500" />
-            Core Services
-          </span>
-          <h1 className="font-display text-balance mt-6 text-4xl font-semibold text-paper-50 sm:text-5xl">
-            Innovative, sustainable, cost-effective water management
-          </h1>
-          <p className="mt-5 text-base leading-relaxed text-paper-50/70 sm:text-lg">
-            Integrated engineering, operations, technical consultancy, and
-            water supply services for water utilities, government agencies,
-            and private sector clients.
-          </p>
-        </ScrollReveal>
-      </section>
+      <PageHero
+        eyebrow="Core Services"
+        title="Innovative, sustainable, cost-effective water management"
+        description="Integrated engineering, operations, technical consultancy, and water supply services for water utilities, government agencies, and private sector clients."
+      />
 
       <ServiceIndexNav
         items={services.map((s, i) => ({ slug: s.slug, title: s.title, index: i }))}
@@ -72,7 +56,7 @@ export default function ServicesPage() {
                     <span className="font-mono text-sm font-medium text-signal-600">
                       §{String(i + 1).padStart(2, "0")}
                     </span>
-                    <h2 className="font-display text-balance mt-2 text-2xl font-semibold text-ink-900 sm:text-3xl">
+                    <h2 className="font-statement mt-3 text-balance text-[clamp(2.4rem,4.4vw,4rem)] font-semibold text-ink-900">
                       {service.title}
                     </h2>
                     <p className="mt-4 text-base leading-relaxed text-steel-600">

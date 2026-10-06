@@ -1,252 +1,245 @@
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
-import ServiceCard from "@/components/ServiceCard";
-import TeamCard from "@/components/TeamCard";
+import TeamRow from "@/components/TeamRow";
 import CTASection from "@/components/CTASection";
 import HeroVideo from "@/components/HeroVideo";
 import RotatingCube from "@/components/RotatingCube";
+import ServiceList from "@/components/ServiceList";
 import ScrollReveal from "@/components/motion/ScrollReveal";
 import ScrambleText from "@/components/motion/ScrambleText";
+import WaterJourney from "@/components/motion/WaterJourney";
 import { about, differentiators, services, team, vision, mission } from "@/lib/data";
 
 const HERO_STATS = [
-  { value: "LEVEL III", label: "Water Distribution Systems" },
-  { value: "24 / 7", label: "Digitized Monitoring" },
-  { value: "07", label: "Leadership Specialists" },
+  { value: "LEVEL III", label: "Distribution systems operated" },
+  { value: "24 / 7", label: "Digitized monitoring" },
+  { value: "14", label: "Operating departments" },
 ];
 
-const DIFFERENTIATOR_ICONS: Record<string, React.ReactNode> = {
-  "Digitized Platforms": (
-    <path
-      d="M4 18V9m6 9V4m6 14v-7"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-    />
-  ),
-  "KPI-Based Performance": (
-    <path
-      d="M4 15l4-5 3 3 6-8"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  ),
-  "Experienced Team": (
-    <>
-      <circle cx="9" cy="8" r="3" stroke="currentColor" strokeWidth="1.6" />
-      <path
-        d="M3.5 19c.6-3 2.7-5 5.5-5s4.9 2 5.5 5M15 10.5c1.9.4 3 1.6 3.5 3.5"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
-    </>
-  ),
-  "Revenue Assurance": (
-    <>
-      <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M11 7.5v7M8.5 9.3c0-1 1-1.8 2.5-1.8s2.5.7 2.5 1.6c0 2.2-5 1-5 3.2 0 .9 1 1.7 2.5 1.7s2.5-.7 2.5-1.7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-    </>
-  ),
-};
-
 const leadershipPreview = team.slice(0, 3);
+
+const Eyebrow = ({ children, tone = "dark" }: { children: React.ReactNode; tone?: "dark" | "light" }) => (
+  <span
+    className={`inline-flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.18em] ${
+      tone === "light" ? "text-signal-500" : "text-signal-600"
+    }`}
+  >
+    <span className="h-px w-8 bg-current" />
+    {children}
+  </span>
+);
+
+const highlight =
+  "bg-gradient-to-t from-signal-500/35 to-signal-500/35 bg-[length:100%_0.34em] bg-bottom bg-no-repeat";
 
 export default function Home() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-black">
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 pb-14 pt-14 sm:px-8 sm:pb-20 sm:pt-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <ScrollReveal selector=":scope > *" y={16} stagger={0.1} once>
-            <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-500">
-              <span className="h-2.5 w-[3px] bg-signal-500" />
-              Water Utility Operations &amp; Maintenance
-            </span>
-            <h1 className="font-display text-balance mt-5 text-4xl font-semibold leading-[1.1] tracking-tight text-paper-50 sm:text-5xl lg:text-[3.1rem]">
-              Digitized water systems.
-              <br />
-              Managed with precision.
-              <br />
-              Built for sustainability.
-            </h1>
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-paper-50/70 sm:text-lg">
-              JAS Water Solutions Inc. delivers end-to-end Operation &amp;
-              Maintenance of Level III water distribution systems — from
-              network operations and preventive maintenance to computerized
-              billing, collection, and Non-Revenue Water reduction.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/contact"
-                className="rounded border border-paper-50 bg-paper-50 px-7 py-3 text-center font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900 transition-colors hover:bg-paper-50/90"
-              >
-                Get in Touch
-              </Link>
-              <Link
-                href="/services"
-                className="rounded border border-white/25 px-7 py-3 text-center font-mono text-xs font-medium uppercase tracking-[0.06em] text-paper-50 transition-colors hover:border-white/60"
-              >
-                Our Core Services
-              </Link>
-            </div>
+      {/* ───────── Hero ───────── */}
+      <section className="relative isolate overflow-hidden bg-void">
+        <div className="contours" aria-hidden />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_72%_22%,transparent_22%,rgba(5,8,12,0.88)_100%)]"
+        />
 
-            <dl className="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-white/15 pt-6">
-              {HERO_STATS.map((stat) => (
-                <div key={stat.label}>
-                  <dt className="sr-only">{stat.label}</dt>
-                  <dd className="font-mono text-xl font-medium text-paper-50">
-                    <ScrambleText text={stat.value} />
-                  </dd>
-                  <p className="mt-1 text-xs leading-snug text-paper-50/60">
-                    {stat.label}
-                  </p>
-                </div>
-              ))}
-            </dl>
-          </ScrollReveal>
-
-          <HeroVideo className="hidden aspect-[6/5] w-full lg:block" />
-        </div>
-      </section>
-
-      {/* About snapshot */}
-      <section className="section-pad">
-        <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:items-start">
-          <ScrollReveal y={28}>
-            <RotatingCube />
-            <div className="mt-6 grid grid-cols-2 gap-px border border-line bg-line">
-              <div className="bg-white p-5">
-                <p className="font-mono text-xs font-medium uppercase tracking-[0.08em] text-signal-600">
-                  Vision
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-steel-600">{vision}</p>
+        <div className="relative mx-auto flex min-h-[calc(100svh-4.3rem)] max-w-7xl flex-col px-5 pb-8 pt-8 sm:px-8 lg:pt-10">
+          {/* top row: intro + live schematic/video */}
+          <div className="order-2 grid gap-10 lg:order-1 lg:grid-cols-[minmax(0,28rem)_1fr] lg:items-start">
+            <ScrollReveal selector=":scope > *" y={18} stagger={0.1}>
+              <span className="hidden lg:block">
+                <Eyebrow tone="light">Water utility operations &amp; maintenance</Eyebrow>
+              </span>
+              <p className="mt-0 text-pretty text-[1.05rem] leading-relaxed text-paper-50/70 lg:mt-5">
+                JAS Water Solutions delivers end-to-end Operation &amp; Maintenance of Level III water
+                distribution systems — from network operations and preventive maintenance to
+                computerized billing, collection, and Non-Revenue Water reduction.
+              </p>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/contact"
+                  className="border border-paper-50 bg-paper-50 px-7 py-3.5 text-center font-mono text-xs font-medium uppercase tracking-[0.08em] text-ink-900 transition-colors hover:border-signal-500 hover:bg-signal-500"
+                >
+                  Get in touch
+                </Link>
+                <Link
+                  href="/services"
+                  className="border border-white/25 px-7 py-3.5 text-center font-mono text-xs font-medium uppercase tracking-[0.08em] text-paper-50 transition-colors hover:border-paper-50"
+                >
+                  Our core services
+                </Link>
               </div>
-              <div className="bg-white p-5">
-                <p className="font-mono text-xs font-medium uppercase tracking-[0.08em] text-signal-600">
-                  Mission
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-steel-600">{mission}</p>
-              </div>
-            </div>
-          </ScrollReveal>
+              <dl className="mt-8 grid grid-cols-3 border-t border-white/15 pt-5">
+                {HERO_STATS.map((stat) => (
+                  <div key={stat.label} className="pr-3">
+                    <dt className="sr-only">{stat.label}</dt>
+                    <dd className="font-statement text-3xl font-semibold text-paper-50 sm:text-4xl">
+                      <ScrambleText text={stat.value} />
+                    </dd>
+                    <p className="mt-1.5 font-mono text-[10px] uppercase leading-snug tracking-[0.1em] text-paper-50/50">
+                      {stat.label}
+                    </p>
+                  </div>
+                ))}
+              </dl>
+            </ScrollReveal>
 
-          <ScrollReveal y={28} delay={0.1}>
-            <SectionHeading eyebrow="About Us" title="A disciplined, technology-driven water utility partner" />
-            <p className="mt-5 text-base leading-relaxed text-steel-600">
-              {about.paragraphs[0]}
-            </p>
-            <p className="mt-4 text-base leading-relaxed text-steel-600">
-              {about.paragraphs[1]}
-            </p>
-            <p className="mt-4 text-base leading-relaxed text-steel-600">
-              {about.paragraphs[3]}
-            </p>
-            <Link
-              href="/about"
-              className="mt-8 inline-flex items-center gap-1.5 font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900 hover:text-signal-600"
-            >
-              More about JAS Water Solutions
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                <path
-                  d="M3 8h10M9 4l4 4-4 4"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </Link>
-          </ScrollReveal>
-        </div>
-      </section>
+            <HeroVideo className="hidden aspect-[3/2] w-full max-w-[36rem] justify-self-end lg:block" />
+          </div>
 
-      {/* Services */}
-      <section className="section-pad border-y border-line bg-paper-100">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <ScrollReveal>
-            <SectionHeading
-              eyebrow="Core Services"
-              title="Integrated water management, end to end"
-              description="From daily distribution operations to hydraulic engineering and digital transformation — sustainable, cost-effective solutions for utilities, LGUs, and industry."
-              align="center"
-            />
-          </ScrollReveal>
+          {/* headline + stats */}
           <ScrollReveal
             as="div"
-            selector=":scope > a"
-            stagger={0.1}
-            className="mt-12 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3"
+            selector="h1 > span"
+            y={56}
+            stagger={0.14}
+            className="order-1 mb-10 mt-0 lg:order-2 lg:mb-0 lg:mt-auto lg:pt-8"
           >
-            {services.map((service, i) => (
-              <ServiceCard service={service} index={i} key={service.slug} />
-            ))}
+            <div className="mb-6 lg:hidden">
+              <Eyebrow tone="light">Water utility operations &amp; maintenance</Eyebrow>
+            </div>
+            <h1 className="font-statement text-[clamp(2.9rem,7.1vw,7.8rem)] font-semibold text-paper-50">
+              <span className="block">Digitized water systems.</span>
+              <span className="block">Managed with precision.</span>
+              <span className="block text-signal-500">Built for sustainability.</span>
+            </h1>
           </ScrollReveal>
+
         </div>
       </section>
 
-      {/* Differentiators */}
-      <section className="section-pad">
+      {/* ───────── Who we are ───────── */}
+      <section className="section-pad bg-paper-50">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <ScrollReveal>
-            <SectionHeading
-              eyebrow="Why JAS"
-              title="Operational control, accountability, measurable results"
-              description="Our approach is anchored on digitized platforms, real-time monitoring, and transparent KPI-based performance management."
-            />
-          </ScrollReveal>
+          <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
+            <ScrollReveal as="div" y={28} className="lg:col-span-7">
+              <Eyebrow>Who we are</Eyebrow>
+              <p className="font-display mt-7 text-balance text-[clamp(1.85rem,3.4vw,3.2rem)] font-medium leading-[1.14] tracking-tight text-ink-900">
+                JAS runs <span className={highlight}>Level III water distribution systems</span> end to
+                end — from network operations and preventive maintenance to computerized meter
+                reading, billing and collection.
+              </p>
+              <p className="mt-8 max-w-2xl text-pretty text-lg leading-relaxed text-steel-600">
+                {about.paragraphs[3]}
+              </p>
+              <Link
+                href="/about"
+                className="mt-9 inline-flex items-center gap-3 border-b border-ink-900 pb-1 font-mono text-xs font-medium uppercase tracking-[0.1em] text-ink-900 transition-colors hover:border-signal-600 hover:text-signal-600"
+              >
+                More about JAS Water Solutions
+                <span aria-hidden>→</span>
+              </Link>
+            </ScrollReveal>
+
+            <ScrollReveal as="div" y={28} delay={0.1} className="lg:col-span-5">
+              <div className="relative isolate aspect-square overflow-hidden bg-void">
+                <div className="contours" aria-hidden />
+                <RotatingCube />
+              </div>
+            </ScrollReveal>
+          </div>
+
           <ScrollReveal
             as="div"
             selector=":scope > div"
-            stagger={0.08}
-            className="mt-12 grid divide-y divide-line border-y border-line sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4"
+            stagger={0.12}
+            className="mt-20 grid gap-12 border-t border-ink-900/20 pt-10 md:grid-cols-2 md:gap-20"
+          >
+            <div>
+              <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-signal-600">Vision</p>
+              <p className="font-display mt-5 text-pretty text-xl leading-snug text-ink-900 sm:text-2xl">
+                {vision}
+              </p>
+            </div>
+            <div>
+              <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-signal-600">Mission</p>
+              <p className="font-display mt-5 text-pretty text-xl leading-snug text-ink-900 sm:text-2xl">
+                {mission}
+              </p>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ───────── The journey (scroll-driven) ───────── */}
+      <WaterJourney />
+
+      {/* ───────── Services ───────── */}
+      <section className="section-pad bg-paper-50">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <ScrollReveal
+            as="div"
+            className="mb-14 grid gap-6 lg:grid-cols-[1fr_minmax(0,26rem)] lg:items-end lg:gap-16"
+          >
+            <SectionHeading eyebrow="Core services" title="Everything between the reservoir and the customer" />
+            <p className="text-pretty text-lg leading-relaxed text-steel-600">
+              From daily distribution operations to hydraulic engineering and digital transformation —
+              for water districts, LGUs and industry.
+            </p>
+          </ScrollReveal>
+          <ServiceList services={services} />
+        </div>
+      </section>
+
+      {/* ───────── Why JAS ───────── */}
+      <section className="section-pad relative bg-ink-900 text-paper-50">
+        <div className="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-[minmax(0,26rem)_1fr] lg:gap-24">
+          <div className="lg:sticky lg:top-32 lg:self-start">
+            <Eyebrow tone="light">Why JAS</Eyebrow>
+            <h2 className="font-statement mt-5 text-balance text-[clamp(2.6rem,5.2vw,4.8rem)] font-semibold">
+              Control. Accountability. Results you can measure.
+            </h2>
+            <p className="mt-6 text-pretty text-lg leading-relaxed text-paper-50/65">
+              Our approach is anchored on digitized platforms, real-time monitoring, and transparent
+              KPI-based performance management.
+            </p>
+          </div>
+
+          <ScrollReveal
+            as="div"
+            selector=":scope > div"
+            stagger={0.12}
+            className="divide-y divide-white/15 border-y border-white/15"
           >
             {differentiators.map((item) => (
-              <div key={item.title} className="p-6">
-                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="text-signal-600">
-                  {DIFFERENTIATOR_ICONS[item.title]}
-                </svg>
-                <h3 className="font-display text-balance mt-4 text-base font-semibold text-ink-900">
+              <div key={item.title} className="grid gap-4 py-10 sm:grid-cols-[minmax(0,13rem)_1fr] sm:gap-10">
+                <h3 className="font-statement text-4xl font-semibold text-paper-50 sm:text-[2.6rem]">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-steel-600">
-                  {item.description}
-                </p>
+                <p className="text-pretty text-lg leading-relaxed text-paper-50/65">{item.description}</p>
               </div>
             ))}
           </ScrollReveal>
         </div>
       </section>
 
-      {/* Leadership preview */}
-      <section className="section-pad border-t border-line bg-paper-100">
+      {/* ───────── Leadership ───────── */}
+      <section className="section-pad bg-paper-100">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <ScrollReveal
             as="div"
             className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end"
           >
             <SectionHeading
-              eyebrow="Our Team"
+              eyebrow="Our team"
               title="Leadership built on utility expertise"
               description="Engineers, finance professionals, and legal specialists guiding every operation."
             />
             <Link
               href="/team"
-              className="inline-flex shrink-0 items-center gap-1.5 rounded border border-ink-900/25 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900 hover:border-ink-900"
+              className="inline-flex shrink-0 items-center gap-3 border-b border-ink-900 pb-1 font-mono text-xs font-medium uppercase tracking-[0.1em] text-ink-900 transition-colors hover:border-signal-600 hover:text-signal-600"
             >
-              Meet the full team
+              Meet the full team <span aria-hidden>→</span>
             </Link>
           </ScrollReveal>
           <ScrollReveal
             as="div"
             selector=":scope > div"
             stagger={0.1}
-            className="mt-12 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3"
+            className="mt-14 border-t border-ink-900/20"
           >
             {leadershipPreview.map((member) => (
-              <TeamCard member={member} key={member.slug} />
+              <TeamRow member={member} key={member.slug} />
             ))}
           </ScrollReveal>
         </div>

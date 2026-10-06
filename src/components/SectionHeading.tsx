@@ -15,19 +15,19 @@ export default function SectionHeading({
 }: Props) {
   const isCenter = align === "center";
   return (
-    <div className={`max-w-2xl ${isCenter ? "mx-auto text-center" : ""}`}>
+    <div className={`max-w-4xl ${isCenter ? "mx-auto text-center" : ""}`}>
       {eyebrow && (
         <span
-          className={`inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] ${
+          className={`inline-flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.18em] ${
             light ? "text-signal-500" : "text-signal-600"
           }`}
         >
-          <span className={`h-2.5 w-[3px] ${light ? "bg-signal-500" : "bg-signal-600"}`} />
+          <span className="h-px w-8 bg-current" />
           {eyebrow}
         </span>
       )}
       <h2
-        className={`font-display mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl ${
+        className={`font-statement mt-4 text-balance text-[clamp(2.5rem,5.2vw,4.75rem)] font-semibold ${
           light ? "text-paper-50" : "text-ink-900"
         }`}
       >
@@ -35,9 +35,9 @@ export default function SectionHeading({
       </h2>
       {description && (
         <p
-          className={`mt-4 text-pretty text-base leading-relaxed sm:text-lg ${
-            light ? "text-paper-50/70" : "text-steel-600"
-          }`}
+          className={`mt-6 max-w-2xl text-pretty text-lg leading-relaxed sm:text-xl ${
+            isCenter ? "mx-auto" : ""
+          } ${light ? "text-paper-50/70" : "text-steel-600"}`}
         >
           {description}
         </p>

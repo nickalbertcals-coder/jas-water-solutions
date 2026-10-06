@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { TeamMember } from "@/lib/data";
 
-function initials(name: string) {
+export function initials(name: string) {
   const words = name
     .replace(/^(Engr\.|Atty\.)\s+/i, "")
     .split(" ")
