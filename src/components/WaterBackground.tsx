@@ -64,17 +64,17 @@ void main() {
   col = mix(col, teal, smoothstep(0.55, 1.0, g) * 0.75);
 
   // two caustic layers at different scales/speeds for depth
-  float c1 = caustic(p * 0.5, uTime * 0.30);
-  float c2 = caustic(p * 0.85 + 3.7, uTime * 0.45 + 7.0);
-  float c = c1 * 0.95 + c2 * 0.5;
+  float c1 = caustic(p * 0.34, uTime * 0.17);
+  float c2 = caustic(p * 0.56 + 3.7, uTime * 0.26 + 7.0);
+  float c = c1 * 0.9 + c2 * 0.28;
 
   // keep the light away from the headline (left), richer to the right and low
   float w = mix(0.28, 1.0, smoothstep(0.2, 0.85, uv.x)) * mix(1.0, 0.7, uv.y);
-  col += vec3(0.38, 0.88, 1.0) * c * 1.05 * w;
+  col += vec3(0.38, 0.88, 1.0) * c * 0.62 * w;
 
   // faint slanting light shafts
   float sh = sin((p.x * 1.7 - p.y * 1.1) * 3.2 + uTime * 0.18) * 0.5 + 0.5;
-  col += vec3(0.08, 0.32, 0.46) * pow(sh, 7.0) * 0.12 * (1.0 - uv.y * 0.7);
+  col += vec3(0.08, 0.32, 0.46) * pow(sh, 7.0) * 0.07 * (1.0 - uv.y * 0.7);
 
   // cursor glow + vignette
   col += vec3(0.18, 0.6, 0.8) * exp(-md2 * 26.0) * 0.12 * uMouseK;
