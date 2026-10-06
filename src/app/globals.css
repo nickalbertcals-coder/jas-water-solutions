@@ -163,7 +163,7 @@ header[data-scrolled="true"] {
   .jdial { animation: jdial 9s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 50% 100%; }
   .jpulse { animation: jpulse 2.4s ease-out infinite; transform-box: fill-box; transform-origin: center; }
   .jdrip { animation: jdrip 1.7s cubic-bezier(.5,0,1,.6) infinite; }
-  .jlevel { animation: jlevel 7s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 50% 100%; }
+  .jlevel { animation: jlevel 7s ease-in-out infinite alternate; }
   .jmark { animation: jmark 7s ease-in-out infinite alternate; }
   .jshimmer-a { animation: jshimmer 3.6s ease-in-out infinite; }
   .jshimmer-b { animation: jshimmer 3.6s ease-in-out -1.8s infinite; }
@@ -171,6 +171,11 @@ header[data-scrolled="true"] {
   .jtick { animation: jtick 3.2s ease-in-out infinite; }
   .jchip { animation: jchip 4.5s ease-out infinite both; }
   .jrise { animation: jrise 3s ease-in infinite; }
+  .jgauge { animation: jgauge 4s ease-in-out infinite alternate; }
+  .jfloat { animation: jfloat 6s ease-in-out infinite alternate; }
+  .jwin { animation: jwin 5s ease-in-out infinite; }
+  .jripple { animation: jripple 3.2s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+  .jdialflat { animation: jdialflat 9s ease-in-out infinite alternate; transform-origin: 0 0; }
 }
 
 @keyframes jflow { to { stroke-dashoffset: -18; } }
@@ -179,12 +184,17 @@ header[data-scrolled="true"] {
 @keyframes jdial { from { transform: rotate(-120deg); } to { transform: rotate(95deg); } }
 @keyframes jpulse { 0% { transform: scale(0.6); opacity: 0.9; } 100% { transform: scale(2.2); opacity: 0; } }
 @keyframes jdrip { 0% { transform: translateY(0); opacity: 0; } 12% { opacity: 1; } 100% { transform: translateY(58px); opacity: 0; } }
-@keyframes jlevel { from { transform: scaleY(0.8); } to { transform: scaleY(1.12); } }
-@keyframes jmark { from { transform: translateY(19px); } to { transform: translateY(-19px); } }
+@keyframes jlevel { from { transform: translateY(8px); } to { transform: translateY(-8px); } }
+@keyframes jmark { from { transform: translateY(26px); } to { transform: translateY(-26px); } }
 @keyframes jshimmer { 0%, 100% { opacity: 0.15; } 50% { opacity: 1; } }
 @keyframes jblink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
 @keyframes jtick { 0%, 70% { transform: translateY(0); } 85%, 100% { transform: translateY(-24px); } }
 @keyframes jchip { 0%, 8% { opacity: 0; transform: translateY(10px); } 22%, 80% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(0); } }
+@keyframes jgauge { from { transform: rotate(-52deg); } to { transform: rotate(38deg); } }
+@keyframes jfloat { from { transform: translate3d(0, -3px, 0); } to { transform: translate3d(0, 4px, 0); } }
+@keyframes jwin { 0%, 100% { opacity: 1; } 45% { opacity: 0.45; } 70% { opacity: 0.85; } }
+@keyframes jripple { 0% { transform: scale(0.3); opacity: 0.8; } 100% { transform: scale(1.1); opacity: 0; } }
+@keyframes jdialflat { from { transform: rotate(-125deg); } to { transform: rotate(100deg); } }
 @keyframes jrise { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: 0.9; } 100% { transform: translateY(-70px); opacity: 0; } }
 
 /* Journey: soft light filtering down through the water from the top-right corner.
