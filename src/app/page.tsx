@@ -45,7 +45,7 @@ export default function Home() {
 
         <div className="relative mx-auto flex min-h-[calc(100svh-4.3rem)] max-w-7xl flex-col px-5 pb-8 pt-8 sm:px-8 lg:pt-10">
           {/* top row: intro + live schematic/video */}
-          <div className="order-2 grid gap-10 lg:order-1 lg:grid-cols-[minmax(0,28rem)_1fr] lg:items-start">
+          <div className="order-2 grid gap-10 lg:order-1 lg:grid-cols-[minmax(0,26rem)_1fr] lg:items-start">
             <ScrollReveal selector=":scope > *" y={18} stagger={0.1}>
               <span className="hidden lg:block">
                 <Eyebrow tone="light">Water utility operations &amp; maintenance</Eyebrow>
@@ -84,7 +84,7 @@ export default function Home() {
               </dl>
             </ScrollReveal>
 
-            <HeroVideo className="hidden aspect-[540/392] w-full max-w-[35rem] justify-self-end lg:block [@media(min-height:1000px)]:max-w-[43rem]" />
+            <HeroVideo className="hidden aspect-[540/392] w-full max-w-none justify-self-end lg:-mr-10 lg:block xl:-mr-16 xl:w-[calc(100%+2rem)]" />
           </div>
 
           {/* headline + stats */}
