@@ -28,13 +28,13 @@ export default function CTASection() {
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <Link
             href="/contact"
-            className="border border-paper-50 bg-paper-50 px-8 py-4 text-center font-label text-sm font-semibold text-ink-900 transition-colors hover:border-accent-500 hover:bg-accent-500"
+            className="rounded-full bg-accent-500 px-8 py-3.5 text-center font-label text-base font-bold text-void transition-colors hover:bg-paper-50"
           >
             Talk to our team
           </Link>
           <Link
             href="/services"
-            className="border border-white/25 px-8 py-4 text-center font-label text-sm font-semibold text-paper-50 transition-colors hover:border-paper-50"
+            className="rounded-full border border-white/30 px-8 py-3.5 text-center font-label text-base font-semibold text-paper-50 transition-colors hover:border-paper-50 hover:bg-white/10"
           >
             Explore our services
           </Link>
