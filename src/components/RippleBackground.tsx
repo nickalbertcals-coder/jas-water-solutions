@@ -5,10 +5,10 @@ import { useEffect, useRef } from "react";
 const CONTOUR_SRC = "/images/contours.svg";
 const CONTOUR_W = 1600;
 const CONTOUR_H = 900;
-const GRID_W = 256; // simulation columns; rows follow the hero's aspect ratio
+const GRID_W = 200; // simulation columns; rows follow the hero's aspect ratio
 const STEP_MS = 33.3; // simulation tick; larger = slower waves (16.7 ≈ real-time)
-const DAMPING = 0.978;
-const GRADIENT_GAIN = 1.1;
+const DAMPING = 0.962; // higher fade-out keeps the surface calm and uncluttered
+const GRADIENT_GAIN = 1.3;
 
 const VERT = `
 attribute vec2 aPos;
@@ -31,14 +31,13 @@ void main() {
 
   // slow drift of the contour layer, then refract it through the surface
   vec2 drift = vec2(sin(uTime * 0.025), cos(uTime * 0.02)) * 0.012;
-  vec2 uv = (vUv - 0.5) * 0.94 + 0.5 + drift + g * 0.05;
+  vec2 uv = (vUv - 0.5) * 0.94 + 0.5 + drift + g * 0.03;
   vec3 col = texture2D(uBg, uv).rgb;
 
   // water light: aqua caustic on the slope + a thin specular glint
   vec3 aqua = vec3(0.30, 0.79, 0.91);
   float light = clamp(dot(normalize(g + 1e-4), vec2(-0.55, 0.83)), 0.0, 1.0) * mag;
-  col += aqua * (mag * 0.4 + light * 0.9);
-  col += vec3(0.85, 0.97, 1.0) * pow(light, 2.0) * 1.2;
+  col += aqua * (mag * 0.4 + light * 0.8);
 
   gl_FragColor = vec4(col, 1.0);
 }`;
@@ -230,32 +229,25 @@ export default function RippleBackground() {
     };
 
     // ── input ──
-    let last: { x: number; y: number } | null = null;
+    // One soft, wide drop at a time (not a continuous trail) so the rings stay
+    // clean concentric circles instead of interfering into noise.
+    let lastDrop = 0;
+    let lastPos: { x: number; y: number } | null = null;
     const onMove = (e: PointerEvent) => {
       const rect = canvas.getBoundingClientRect();
       const inside = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
-      if (!inside) {
-        last = null;
-        return;
-      }
-      const gx = ((e.clientX - rect.left) / rect.width) * cols;
-      const gy = ((e.clientY - rect.top) / rect.height) * rows;
-      if (last) {
-        const dist = Math.hypot(gx - last.x, gy - last.y);
-        // lay drops along the path so a fast swipe leaves a continuous wake
-        const n = Math.min(8, Math.ceil(dist / 3));
-        const strength = Math.min(0.9, 0.18 + dist * 0.025);
-        for (let k = 1; k <= n; k++) {
-          const t = k / n;
-          drop(last.x + (gx - last.x) * t, last.y + (gy - last.y) * t, 3.2, strength / Math.sqrt(n));
-        }
-      }
-      last = { x: gx, y: gy };
+      if (!inside) return;
+      const now = performance.now();
+      const moved = lastPos ? Math.hypot(e.clientX - lastPos.x, e.clientY - lastPos.y) : 999;
+      if (now - lastDrop < 380 || moved < 60) return;
+      lastDrop = now;
+      lastPos = { x: e.clientX, y: e.clientY };
+      drop(((e.clientX - rect.left) / rect.width) * cols, ((e.clientY - rect.top) / rect.height) * rows, 6, 0.65);
     };
     const onDown = (e: PointerEvent) => {
       const rect = canvas.getBoundingClientRect();
       if (e.clientY < rect.top || e.clientY > rect.bottom) return;
-      drop(((e.clientX - rect.left) / rect.width) * cols, ((e.clientY - rect.top) / rect.height) * rows, 5, 1.4);
+      drop(((e.clientX - rect.left) / rect.width) * cols, ((e.clientY - rect.top) / rect.height) * rows, 7, 0.8);
     };
     window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("pointerdown", onDown, { passive: true });
@@ -285,8 +277,8 @@ export default function RippleBackground() {
       }
       nextIdle -= dt;
       if (nextIdle <= 0) {
-        drop(8 + Math.random() * (cols - 16), 8 + Math.random() * (rows - 16), 4 + Math.random() * 2, 0.55);
-        nextIdle = 2200 + Math.random() * 3000;
+        drop(12 + Math.random() * (cols - 24), 12 + Math.random() * (rows - 24), 6, 0.45);
+        nextIdle = 3500 + Math.random() * 3500;
       }
       encode();
       gl.activeTexture(gl.TEXTURE1);
