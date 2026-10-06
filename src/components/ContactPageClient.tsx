@@ -64,7 +64,7 @@ export default function ContactPageClient() {
                     {detail.href ? (
                       <a
                         href={detail.href}
-                        className="text-base font-medium text-ink-900 hover:text-signal-600"
+                        className="text-base font-medium text-ink-900 hover:text-accent-600"
                       >
                         {detail.value}
                       </a>
@@ -77,7 +77,7 @@ export default function ContactPageClient() {
             </dl>
 
             <div className="mt-8 border border-line bg-paper-100 p-6">
-              <p className="font-mono text-xs font-medium uppercase tracking-[0.08em] text-signal-600">
+              <p className="font-mono text-xs font-medium uppercase tracking-[0.08em] text-accent-600">
                 Service areas
               </p>
               <p className="mt-2 text-sm leading-relaxed text-steel-600">
@@ -91,7 +91,7 @@ export default function ContactPageClient() {
           <ScrollReveal as="div" y={28} delay={0.1} className="border border-line bg-white p-6 sm:p-8">
             {status === "submitted" ? (
               <div className="flex h-full flex-col items-center justify-center gap-3 py-16 text-center">
-                <span className="flex h-12 w-12 items-center justify-center border border-signal-500 text-signal-600">
+                <span className="flex h-12 w-12 items-center justify-center border border-accent-500 text-accent-600">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                     <path
                       d="M4 12.5 9.5 18 20 6"
@@ -112,7 +112,7 @@ export default function ContactPageClient() {
                 <button
                   type="button"
                   onClick={() => setStatus("idle")}
-                  className="mt-2 font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900 hover:text-signal-600"
+                  className="mt-2 font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900 hover:text-accent-600"
                 >
                   Send another message
                 </button>

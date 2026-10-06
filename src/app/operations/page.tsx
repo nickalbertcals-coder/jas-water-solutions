@@ -128,8 +128,8 @@ export default function OperationsPage() {
     <>
       {/* Hero */}
       <PageHero eyebrow={operations.eyebrow} title={operations.title} description={operations.subtitle}>
-        <div className="mt-10 max-w-2xl border-l-2 border-signal-500 bg-white/[0.04] p-6 backdrop-blur-sm">
-          <p className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-500">
+        <div className="mt-10 max-w-2xl border-l-2 border-accent-500 bg-white/[0.04] p-6 backdrop-blur-sm">
+          <p className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-accent-500">
             Our Operational Mission
           </p>
           <p className="mt-3 text-base leading-relaxed text-paper-50/80 sm:text-lg">
@@ -197,7 +197,7 @@ export default function OperationsPage() {
             {departments.map((dept) => (
               <div key={dept.number} className="grid gap-4 py-7 lg:grid-cols-[auto_1fr] lg:gap-10">
                 <div className="flex items-start gap-4 lg:w-72">
-                  <span className="font-mono text-sm font-medium text-signal-600">
+                  <span className="font-mono text-sm font-medium text-accent-600">
                     {dept.number}
                   </span>
                   <div>
@@ -214,7 +214,7 @@ export default function OperationsPage() {
                 <ul className="grid gap-x-6 gap-y-2 sm:grid-cols-2">
                   {dept.functions.map((fn) => (
                     <li key={fn} className="flex gap-2.5 text-sm text-ink-900/80">
-                      <span className="mt-2 h-[3px] w-2 shrink-0 bg-signal-500" />
+                      <span className="mt-2 h-[3px] w-2 shrink-0 bg-accent-500" />
                       <span>{fn}</span>
                     </li>
                   ))}
@@ -229,8 +229,8 @@ export default function OperationsPage() {
       <section className="border-b border-line bg-ink-900">
         <div className="mx-auto max-w-5xl px-5 py-16 text-center sm:px-8 sm:py-20">
           <ScrollReveal>
-            <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-500">
-              <span className="h-2.5 w-[3px] bg-signal-500" />
+            <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-accent-500">
+              <span className="h-2.5 w-[3px] bg-accent-500" />
               Emergency Response &amp; Business Continuity
             </span>
             <h2 className="font-display text-balance mt-5 text-2xl font-semibold text-paper-50 sm:text-3xl">
@@ -253,7 +253,7 @@ export default function OperationsPage() {
             ))}
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
-            <p className="mt-8 font-mono text-sm uppercase tracking-[0.06em] text-signal-500">
+            <p className="mt-8 font-mono text-sm uppercase tracking-[0.06em] text-accent-500">
               {emergencyGoal}
             </p>
           </ScrollReveal>
@@ -293,7 +293,7 @@ export default function OperationsPage() {
             ))}
           </ScrollReveal>
           <ScrollReveal delay={0.1} className="mt-10 text-center">
-            <p className="font-mono text-xs font-medium uppercase tracking-[0.08em] text-signal-600 sm:text-sm">
+            <p className="font-mono text-xs font-medium uppercase tracking-[0.08em] text-accent-600 sm:text-sm">
               {journeyTagline}
             </p>
           </ScrollReveal>
@@ -315,7 +315,7 @@ export default function OperationsPage() {
           >
             {keyTakeaways.map((point) => (
               <li key={point} className="flex gap-3 border border-line bg-white p-4 text-sm text-ink-900/85">
-                <span className="mt-1.5 h-[3px] w-2 shrink-0 bg-signal-500" />
+                <span className="mt-1.5 h-[3px] w-2 shrink-0 bg-accent-500" />
                 <span>{point}</span>
               </li>
             ))}

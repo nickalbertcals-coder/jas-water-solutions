@@ -36,7 +36,7 @@ export default function Footer() {
             <ul className="mt-4 space-y-2.5 text-sm">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-paper-50/80 hover:text-signal-500">
+                  <Link href={link.href} className="text-paper-50/80 hover:text-accent-500">
                     {link.label}
                   </Link>
                 </li>
@@ -50,7 +50,7 @@ export default function Footer() {
             </h3>
             <ul className="mt-4 space-y-2.5 text-sm text-paper-50/80">
               <li>
-                <a href={`mailto:${contact.email}`} className="hover:text-signal-500">
+                <a href={`mailto:${contact.email}`} className="hover:text-accent-500">
                   {contact.email}
                 </a>
               </li>

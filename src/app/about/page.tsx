@@ -81,7 +81,7 @@ export default function AboutPage() {
             className="grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2"
           >
             <div className="bg-white p-8">
-              <p className="font-mono text-xs font-medium uppercase tracking-[0.1em] text-signal-600">
+              <p className="font-mono text-xs font-medium uppercase tracking-[0.1em] text-accent-600">
                 Vision
               </p>
               <h2 className="font-display text-balance mt-3 text-2xl font-semibold text-ink-900">
@@ -90,7 +90,7 @@ export default function AboutPage() {
               <p className="mt-3 text-base leading-relaxed text-steel-600">{vision}</p>
             </div>
             <div className="bg-white p-8">
-              <p className="font-mono text-xs font-medium uppercase tracking-[0.1em] text-signal-600">
+              <p className="font-mono text-xs font-medium uppercase tracking-[0.1em] text-accent-600">
                 Mission
               </p>
               <h2 className="font-display text-balance mt-3 text-2xl font-semibold text-ink-900">

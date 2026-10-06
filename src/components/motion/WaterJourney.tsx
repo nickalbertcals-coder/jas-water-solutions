@@ -21,7 +21,7 @@ const getReducedMotionServer = () => false;
  * On desktop the section pins to the viewport and scrolling carries a
  * drop of water down the line through each real operating stage: the
  * headline, description and ghost numeral change per stage, the line
- * fills, passed nodes light up and the current one pulses amber.
+ * fills, passed nodes light up and the current one glows seafoam.
  *
  * On small screens, and for visitors who prefer reduced motion, it
  * renders as a plain stacked list — same content, no pinning.
@@ -118,7 +118,7 @@ export default function WaterJourney() {
       <div className="contours" aria-hidden />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,transparent_35%,rgba(5,8,12,0.8)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,transparent_35%,rgba(3,18,31,0.8)_100%)]"
       />
 
       {/* ── Pinned, scroll-driven version (desktop) ── */}
@@ -129,8 +129,8 @@ export default function WaterJourney() {
       >
         <div className="flex items-start justify-between">
           <div>
-            <p className="inline-flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.18em] text-signal-500">
-              <span className="h-px w-8 bg-signal-500" />
+            <p className="inline-flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent-500">
+              <span className="h-px w-8 bg-accent-500" />
               The journey of one cubic meter
             </p>
             <h2 id="journey-heading" className="sr-only">
@@ -181,12 +181,12 @@ export default function WaterJourney() {
           <div className="absolute inset-x-0 top-[1.875rem] h-px bg-white/15" />
           <div
             data-fill
-            className="absolute inset-x-0 top-[1.875rem] h-px bg-aqua-400 shadow-[0_0_14px_2px_rgba(111,208,224,0.55)]"
+            className="absolute inset-x-0 top-[1.875rem] h-px bg-aqua-400 shadow-[0_0_14px_2px_rgba(76,201,232,0.55)]"
           />
           <span
             data-drop
             aria-hidden
-            className="absolute top-[1.875rem] z-10 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-aqua-400 shadow-[0_0_18px_4px_rgba(111,208,224,0.7)]"
+            className="absolute top-[1.875rem] z-10 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-aqua-400 shadow-[0_0_18px_4px_rgba(76,201,232,0.7)]"
             style={{ left: "0%" }}
           />
           <ol className="relative flex justify-between">
@@ -197,7 +197,7 @@ export default function WaterJourney() {
                 data-state="idle"
                 className="group flex w-0 flex-col items-center"
               >
-                <span className="h-3 w-3 rounded-full border border-white/40 bg-void transition-all duration-300 group-data-[state=passed]:border-aqua-400 group-data-[state=passed]:bg-aqua-400 group-data-[state=active]:scale-150 group-data-[state=active]:border-signal-500 group-data-[state=active]:bg-signal-500" />
+                <span className="h-3 w-3 rounded-full border border-white/40 bg-void transition-all duration-300 group-data-[state=passed]:border-aqua-400 group-data-[state=passed]:bg-aqua-400 group-data-[state=active]:scale-150 group-data-[state=active]:border-live-500 group-data-[state=active]:bg-live-500" />
                 <span className="mt-4 whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.08em] text-paper-50/40 transition-colors duration-300 group-data-[state=active]:text-paper-50 group-data-[state=passed]:text-paper-50/70">
                   {stage.label}
                 </span>
@@ -209,14 +209,14 @@ export default function WaterJourney() {
 
       {/* ── Static version (mobile, tablet, reduced motion) ── */}
       <div className={`relative mx-auto max-w-7xl px-5 py-20 sm:px-8 ${staticMode ? "block" : "lg:hidden"}`}>
-        <p className="inline-flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.18em] text-signal-500">
-          <span className="h-px w-8 bg-signal-500" />
+        <p className="inline-flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent-500">
+          <span className="h-px w-8 bg-accent-500" />
           The journey of one cubic meter
         </p>
         <ol className="mt-10 divide-y divide-white/10 border-y border-white/10">
           {processStages.map((stage, i) => (
             <li key={stage.key} className="grid grid-cols-[3rem_1fr] gap-4 py-6 sm:grid-cols-[5rem_1fr]">
-              <span className="font-mono text-sm tabular-nums text-signal-500">{pad(i + 1)}</span>
+              <span className="font-mono text-sm tabular-nums text-accent-500">{pad(i + 1)}</span>
               <div>
                 <h3 className="font-statement text-4xl font-semibold sm:text-5xl">{stage.label}</h3>
                 <p className="mt-3 max-w-xl text-base leading-relaxed text-paper-50/65">

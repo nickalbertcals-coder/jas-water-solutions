@@ -1,31 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6f7f6;
-  --foreground: #14202b;
+  --background: #f3f9fc;
+  --foreground: #0a2236;
 
-  /* Blueprint ink */
-  --ink-900: #0e1b29;
-  --ink-800: #16283a;
-  --ink-700: #1c3348;
-  --steel-600: #4c5c6b;
-  --steel-500: #5f7080;
-  --steel-300: #a9b6bf;
+  /* Deep water — dark surfaces */
+  --void: #03121f;
+  --ink-900: #0a2740;
+  --ink-800: #0f3556;
+  --ink-700: #174b72;
+  --steel-600: #3f6178;
+  --steel-500: #587a91;
+  --steel-300: #a4c0d1;
 
-  /* Paper */
-  --paper-50: #f6f7f6;
-  --paper-100: #eceeed;
-  --line: #d9dfdf;
-  --line-strong: #c3cbca;
+  /* Cool, blue-tinted paper — light surfaces */
+  --paper-50: #f3f9fc;
+  --paper-100: #e3f0f7;
+  --line: #cfe3ee;
+  --line-strong: #b0cddd;
 
-  /* Signal accent — sourced from PPE / safety-rail colors in field photography */
-  --signal-500: #d6791f;
-  --signal-600: #b8641a;
-  --signal-tint: #f7e6d1;
+  /* Aqua — the brand accent: moving water. 500 on dark, 600 on light. */
+  --accent-500: #4cc9e8;
+  --accent-600: #0a729a;
+  --accent-tint: #d3eef8;
 
-  /* Depth: true-black for hero/immersive sections, aqua for moving water */
-  --void: #05080c;
-  --aqua-400: #6fd0e0;
+  /* Seafoam — "live" status and sustainability */
+  --live-500: #3ee0b4;
 }
 
 @theme inline {
@@ -47,12 +47,13 @@
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
 
-  --color-signal-500: var(--signal-500);
-  --color-signal-600: var(--signal-600);
-  --color-signal-tint: var(--signal-tint);
+  --color-accent-500: var(--accent-500);
+  --color-accent-600: var(--accent-600);
+  --color-accent-tint: var(--accent-tint);
+  --color-live-500: var(--live-500);
 
   --color-void: var(--void);
-  --color-aqua-400: var(--aqua-400);
+  --color-aqua-400: var(--accent-500);
   --font-statement: var(--font-barlow);
 }
 
@@ -74,6 +75,14 @@ body {
   line-height: 0.92;
 }
 
+/* Aqua → seafoam: the "clean water" gradient, for the one line that should glow */
+.text-water {
+  background-image: linear-gradient(90deg, var(--accent-500), var(--live-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 .font-mono {
   font-family: var(--font-plex-mono), ui-monospace, monospace;
 }
@@ -88,17 +97,17 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--signal-500);
+  outline: 2px solid var(--accent-500);
   outline-offset: 2px;
 }
 
 /* Header: dark glass; gains a hairline once the page scrolls */
 header[data-scrolled="true"] {
   box-shadow: 0 1px 0 0 rgb(255 255 255 / 0.12);
-  background-color: rgb(5 8 12 / 0.97);
+  background-color: rgb(3 18 31 / 0.97);
 }
 
-/* Topographic contour backdrop — elevation lines, one amber bench-mark */
+/* Topographic contour backdrop — elevation lines, one seafoam bench-mark */
 .contours {
   position: absolute;
   inset: -6%;

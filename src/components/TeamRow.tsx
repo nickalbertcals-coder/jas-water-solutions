@@ -24,7 +24,7 @@ export default function TeamRow({ member }: { member: TeamMember }) {
         <h3 className="font-statement text-balance text-[clamp(2rem,3.6vw,3.4rem)] font-semibold text-ink-900">
           {member.name}
         </h3>
-        <p className="mt-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-signal-600">
+        <p className="mt-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-accent-600">
           {member.role}
         </p>
       </div>
@@ -32,7 +32,7 @@ export default function TeamRow({ member }: { member: TeamMember }) {
       <ul className="col-span-2 space-y-1.5 text-sm text-steel-600 lg:col-span-1">
         {member.expertise.slice(0, 3).map((item) => (
           <li key={item} className="flex gap-2.5">
-            <span className="mt-[9px] h-[2px] w-2.5 shrink-0 bg-signal-500" />
+            <span className="mt-[9px] h-[2px] w-2.5 shrink-0 bg-accent-500" />
             <span>{item}</span>
           </li>
         ))}

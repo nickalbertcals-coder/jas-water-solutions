@@ -20,11 +20,12 @@ const pathOf = (pts: Pt[], z = 0.1) =>
   pts.map(([x, y], i) => `${i ? "L" : "M"}${P(x, y, z).map(f1).join(" ")}`).join("");
 
 const C = {
-  aqua: "#6fd0e0",
-  amber: "#e0821f",
-  top: "#27495f",
-  left: "#15293a",
-  right: "#0d1c29",
+  aqua: "#4cc9e8",
+  live: "#3ee0b4",
+  window: "#6bb8f2",
+  top: "#1f5578",
+  left: "#12364f",
+  right: "#0a2438",
   edge: "rgba(255,255,255,0.38)",
   edgeSoft: "rgba(255,255,255,0.2)",
 };
@@ -118,7 +119,7 @@ function District({ cx, cy, boxes, live }: { cx: number; cy: number; boxes: BoxD
   return (
     <g>
       {sorted.map(([dx, dy, w, d, h], i) => (
-        <Box key={i} x={cx + dx} y={cy + dy} w={w} d={d} h={h} win={live ? C.amber : C.aqua} seed={i + Math.round(cx * 3)} />
+        <Box key={i} x={cx + dx} y={cy + dy} w={w} d={d} h={h} win={live ? C.live : C.window} seed={i + Math.round(cx * 3)} />
       ))}
     </g>
   );
@@ -300,7 +301,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
         <style>{`
           text { font-family: var(--font-plex-mono), monospace; }
           .sc-hot { outline: none; cursor: ${interactive ? "pointer" : "default"}; }
-          .sc-hot:focus-visible .sc-hit { stroke: ${C.amber}; stroke-width: 1.5; }
+          .sc-hot:focus-visible .sc-hit { stroke: ${C.live}; stroke-width: 1.5; }
           @media (prefers-reduced-motion: no-preference) {
             .sc-win { animation: sc-twinkle 5s ease-in-out infinite; }
             .sc-led { animation: sc-blink 2.4s ease-in-out infinite; }
@@ -313,18 +314,18 @@ export default function HydraulicSchematic({ className, interactive = false }: P
 
         <defs>
           <linearGradient id={`tank-${uid}`} x1="0" x2="1" y1="0" y2="0">
-            <stop offset="0" stopColor="#0a1620" />
-            <stop offset="0.38" stopColor="#21415a" />
-            <stop offset="0.7" stopColor="#12263a" />
-            <stop offset="1" stopColor="#08121b" />
+            <stop offset="0" stopColor="#07213a" />
+            <stop offset="0.38" stopColor="#1f5a80" />
+            <stop offset="0.7" stopColor="#0f3a58" />
+            <stop offset="1" stopColor="#051a2b" />
           </linearGradient>
           <linearGradient id={`plat-${uid}`} x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0" stopColor="#0f1d2a" />
-            <stop offset="1" stopColor="#070d14" />
+            <stop offset="0" stopColor="#0b2c47" />
+            <stop offset="1" stopColor="#04131f" />
           </linearGradient>
           <radialGradient id={`ring-${uid}`}>
-            <stop offset="0" stopColor={C.amber} stopOpacity="0.28" />
-            <stop offset="1" stopColor={C.amber} stopOpacity="0" />
+            <stop offset="0" stopColor={C.live} stopOpacity="0.4" />
+            <stop offset="1" stopColor={C.live} stopOpacity="0" />
           </radialGradient>
           <clipPath id={`tankclip-${uid}`}>
             <path d={tankBody} />
@@ -344,8 +345,8 @@ export default function HydraulicSchematic({ className, interactive = false }: P
         <g className="sc-float">
           {/* platform */}
           <g className="sc-platform" strokeLinejoin="round">
-            <polygon points={platform.left} fill="#070d13" stroke={C.edgeSoft} />
-            <polygon points={platform.right} fill="#05090e" stroke={C.edgeSoft} />
+            <polygon points={platform.left} fill="#051624" stroke={C.edgeSoft} />
+            <polygon points={platform.right} fill="#030f19" stroke={C.edgeSoft} />
             <polygon points={platform.top} fill={`url(#plat-${uid})`} stroke={C.edge} />
             <path className="sc-grid" d={gridPath} stroke="rgba(255,255,255,0.075)" strokeWidth="1" />
           </g>
@@ -363,7 +364,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
           {/* live-district pressure rings (on the ground) */}
           <ellipse cx={lx} cy={ly} rx="88" ry="50" fill={`url(#ring-${uid})`} />
           {[0, 1, 2].map((i) => (
-            <ellipse key={i} className="sc-ring" cx={lx} cy={ly} rx="84" ry="48" stroke={C.amber} strokeWidth="1.4" strokeOpacity="0.85" />
+            <ellipse key={i} className="sc-ring" cx={lx} cy={ly} rx="84" ry="48" stroke={C.live} strokeWidth="1.8" strokeOpacity="0.95" />
           ))}
 
           {/* mains */}
@@ -371,8 +372,8 @@ export default function HydraulicSchematic({ className, interactive = false }: P
             const d = pathOf(pts);
             return (
               <g className="sc-pipe" key={i} strokeLinecap="round" strokeLinejoin="round">
-                <path className="sc-pipe-body" d={d} stroke="#31526c" strokeWidth="9.5" />
-                <path className="sc-pipe-body" d={d} stroke="#050c13" strokeWidth="6" />
+                <path className="sc-pipe-body" d={d} stroke="#2a6a92" strokeWidth="9.5" />
+                <path className="sc-pipe-body" d={d} stroke="#03111d" strokeWidth="6" />
                 <path d={d} stroke={C.aqua} strokeOpacity="0.16" strokeWidth="2" />
                 <g filter={`url(#glow-${uid})`}>
                   <path className="sc-flow" d={d} stroke={C.aqua} strokeWidth="2.6" />
@@ -384,8 +385,8 @@ export default function HydraulicSchematic({ className, interactive = false }: P
             const [sx, sy] = P(vx, vy, 0.1);
             return (
               <g className="sc-valve" key={i}>
-                <ellipse cx={sx} cy={sy + 2.5} rx="11" ry="6.4" fill="#0a1620" stroke={C.edge} />
-                <ellipse cx={sx} cy={sy} rx="11" ry="6.4" fill="#1b3144" stroke={C.edge} />
+                <ellipse cx={sx} cy={sy + 2.5} rx="11" ry="6.4" fill="#07213a" stroke={C.edge} />
+                <ellipse cx={sx} cy={sy} rx="11" ry="6.4" fill="#1d4d6e" stroke={C.edge} />
                 <ellipse cx={sx} cy={sy} rx="4.2" ry="2.4" fill={C.aqua} fillOpacity="0.85" />
               </g>
             );
@@ -401,7 +402,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
                     <g clipPath={`url(#tankclip-${uid})`}>
                       <g className="sc-water">
                         <rect x={tx - trx} y={waterY} width={trx * 2} height={ty - waterY + try_ + 6} fill={C.aqua} fillOpacity="0.34" />
-                        <ellipse cx={tx} cy={waterY} rx={trx} ry={try_} fill="#3f8fa3" stroke={C.aqua} strokeOpacity="0.95" />
+                        <ellipse cx={tx} cy={waterY} rx={trx} ry={try_} fill="#2f9fc4" stroke={C.aqua} strokeOpacity="0.95" />
                         <ellipse cx={tx - trx * 0.28} cy={waterY - 1} rx={trx * 0.42} ry={try_ * 0.34} fill="#fff" fillOpacity="0.12" />
                       </g>
                     </g>
@@ -413,8 +414,8 @@ export default function HydraulicSchematic({ className, interactive = false }: P
                       />
                     ))}
                     <rect x={tx - trx * 0.55} y={tTop + 10} width="7" height={ty - tTop - 14} fill="#fff" fillOpacity="0.07" />
-                    <ellipse cx={tx} cy={tTop} rx={trx} ry={try_} fill="#23435d" stroke={C.edge} />
-                    <ellipse cx={tx} cy={tTop} rx={trx * 0.62} ry={try_ * 0.62} fill="#0c1823" stroke={C.edgeSoft} />
+                    <ellipse cx={tx} cy={tTop} rx={trx} ry={try_} fill="#235f86" stroke={C.edge} />
+                    <ellipse cx={tx} cy={tTop} rx={trx * 0.62} ry={try_ * 0.62} fill="#071e33" stroke={C.edgeSoft} />
                     <ellipse cx={tx} cy={tTop} rx={trx * 0.2} ry={try_ * 0.2} fill={C.aqua} fillOpacity="0.8" />
                     <ellipse className="sc-hit" cx={tx} cy={(tTop + ty) / 2} rx={trx + 6} ry={(ty - tTop) / 2 + try_ + 4} fill="transparent" />
                   </g>
@@ -424,16 +425,16 @@ export default function HydraulicSchematic({ className, interactive = false }: P
               return (
                 <g className="sc-obj" key={key}>
                   <g {...hot} data-tip={TIPS.pump} aria-label={TIPS.pump}>
-                    <Box x={PUMP.x} y={PUMP.y} w={PUMP.w} d={PUMP.d} h={PUMP.h} win={C.aqua} seed={5} />
+                    <Box x={PUMP.x} y={PUMP.y} w={PUMP.w} d={PUMP.d} h={PUMP.h} win={C.window} seed={5} />
                     {/* rooftop motor */}
                     <path
                       d={`M${f1(pumpTop[0] - 14)} ${f1(pumpTop[1] - 12)}L${f1(pumpTop[0] - 14)} ${f1(pumpTop[1])}A14 8 0 0 0 ${f1(pumpTop[0] + 14)} ${f1(pumpTop[1])}L${f1(pumpTop[0] + 14)} ${f1(pumpTop[1] - 12)}Z`}
-                      fill="#162b3d"
+                      fill="#13405e"
                       stroke={C.edgeSoft}
                     />
-                    <ellipse cx={pumpTop[0]} cy={pumpTop[1] - 12} rx="14" ry="8" fill="#2a4c66" stroke={C.edge} />
+                    <ellipse cx={pumpTop[0]} cy={pumpTop[1] - 12} rx="14" ry="8" fill="#2c6a92" stroke={C.edge} />
                     <ellipse cx={pumpTop[0]} cy={pumpTop[1] - 12} rx="5" ry="2.8" fill={C.aqua} fillOpacity="0.75" />
-                    <circle className="sc-led" cx={led[0]} cy={led[1]} r="2.6" fill={C.amber} />
+                    <circle className="sc-led" cx={led[0]} cy={led[1]} r="2.6" fill={C.live} />
                     {/* telemetry mast — the "digitized monitoring" in one glance */}
                     <line x1={mast[0]} y1={mast[1]} x2={mast[0]} y2={mast[1] - 46} stroke="rgba(255,255,255,0.7)" strokeWidth="1.6" />
                     <line x1={mast[0] - 6} y1={mast[1] - 30} x2={mast[0] + 6} y2={mast[1] - 30} stroke="rgba(255,255,255,0.5)" strokeWidth="1.3" />
@@ -468,7 +469,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
           {label(pumpTop[0] + 16, pumpTop[1] - 66, "BOOSTER PUMP", undefined, "start")}
           {label(d1[0], d1[1] - 78, "DMA-01", undefined, "middle", d1[0], d1[1] - 52)}
           {label(d3[0], d3[1] - 78, "DMA-03", undefined, "middle", d3[0], d3[1] - 52)}
-          {label(lx + 62, ly - 2, "DMA-02 — LIVE", C.amber, "start", lx + 40, ly - 8)}
+          {label(lx + 62, ly - 2, "DMA-02 — LIVE", C.live, "start", lx + 40, ly - 8)}
         </g>
       </svg>
 

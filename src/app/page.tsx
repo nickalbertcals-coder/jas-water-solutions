@@ -21,7 +21,7 @@ const leadershipPreview = team.slice(0, 3);
 const Eyebrow = ({ children, tone = "dark" }: { children: React.ReactNode; tone?: "dark" | "light" }) => (
   <span
     className={`inline-flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.18em] ${
-      tone === "light" ? "text-signal-500" : "text-signal-600"
+      tone === "light" ? "text-accent-500" : "text-accent-600"
     }`}
   >
     <span className="h-px w-8 bg-current" />
@@ -30,7 +30,7 @@ const Eyebrow = ({ children, tone = "dark" }: { children: React.ReactNode; tone?
 );
 
 const highlight =
-  "bg-gradient-to-t from-signal-500/35 to-signal-500/35 bg-[length:100%_0.34em] bg-bottom bg-no-repeat";
+  "bg-gradient-to-t from-accent-500/35 to-accent-500/35 bg-[length:100%_0.34em] bg-bottom bg-no-repeat";
 
 export default function Home() {
   return (
@@ -40,7 +40,7 @@ export default function Home() {
         <div className="contours" aria-hidden />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_72%_22%,transparent_22%,rgba(5,8,12,0.88)_100%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_72%_22%,rgba(23,75,114,0.32)_0%,transparent_46%),radial-gradient(ellipse_at_72%_22%,transparent_22%,rgba(3,18,31,0.9)_100%)]"
         />
 
         <div className="relative mx-auto flex min-h-[calc(100svh-4.3rem)] max-w-7xl flex-col px-5 pb-8 pt-8 sm:px-8 lg:pt-10">
@@ -58,7 +58,7 @@ export default function Home() {
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/contact"
-                  className="border border-paper-50 bg-paper-50 px-7 py-3.5 text-center font-mono text-xs font-medium uppercase tracking-[0.08em] text-ink-900 transition-colors hover:border-signal-500 hover:bg-signal-500"
+                  className="border border-paper-50 bg-paper-50 px-7 py-3.5 text-center font-mono text-xs font-medium uppercase tracking-[0.08em] text-ink-900 transition-colors hover:border-accent-500 hover:bg-accent-500"
                 >
                   Get in touch
                 </Link>
@@ -101,7 +101,7 @@ export default function Home() {
             <h1 className="font-statement text-[clamp(2.9rem,7.1vw,7.8rem)] font-semibold text-paper-50">
               <span className="block">Digitized water systems.</span>
               <span className="block">Managed with precision.</span>
-              <span className="block text-signal-500">Built for sustainability.</span>
+              <span className="text-water block w-fit">Built for sustainability.</span>
             </h1>
           </ScrollReveal>
 
@@ -124,7 +124,7 @@ export default function Home() {
               </p>
               <Link
                 href="/about"
-                className="mt-9 inline-flex items-center gap-3 border-b border-ink-900 pb-1 font-mono text-xs font-medium uppercase tracking-[0.1em] text-ink-900 transition-colors hover:border-signal-600 hover:text-signal-600"
+                className="mt-9 inline-flex items-center gap-3 border-b border-ink-900 pb-1 font-mono text-xs font-medium uppercase tracking-[0.1em] text-ink-900 transition-colors hover:border-accent-600 hover:text-accent-600"
               >
                 More about JAS Water Solutions
                 <span aria-hidden>→</span>
@@ -146,13 +146,13 @@ export default function Home() {
             className="mt-20 grid gap-12 border-t border-ink-900/20 pt-10 md:grid-cols-2 md:gap-20"
           >
             <div>
-              <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-signal-600">Vision</p>
+              <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent-600">Vision</p>
               <p className="font-display mt-5 text-pretty text-xl leading-snug text-ink-900 sm:text-2xl">
                 {vision}
               </p>
             </div>
             <div>
-              <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-signal-600">Mission</p>
+              <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent-600">Mission</p>
               <p className="font-display mt-5 text-pretty text-xl leading-snug text-ink-900 sm:text-2xl">
                 {mission}
               </p>
@@ -227,7 +227,7 @@ export default function Home() {
             />
             <Link
               href="/team"
-              className="inline-flex shrink-0 items-center gap-3 border-b border-ink-900 pb-1 font-mono text-xs font-medium uppercase tracking-[0.1em] text-ink-900 transition-colors hover:border-signal-600 hover:text-signal-600"
+              className="inline-flex shrink-0 items-center gap-3 border-b border-ink-900 pb-1 font-mono text-xs font-medium uppercase tracking-[0.1em] text-ink-900 transition-colors hover:border-accent-600 hover:text-accent-600"
             >
               Meet the full team <span aria-hidden>→</span>
             </Link>

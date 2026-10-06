@@ -66,7 +66,7 @@ export default function Header() {
                 href={link.href}
                 className={`font-mono text-xs font-medium uppercase tracking-[0.08em] transition-colors ${
                   active
-                    ? "text-signal-500"
+                    ? "text-accent-500"
                     : "text-paper-50/65 hover:text-paper-50"
                 }`}
               >
@@ -79,7 +79,7 @@ export default function Header() {
         <div className="hidden lg:block">
           <Link
             href="/contact"
-            className="border border-paper-50 bg-paper-50 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900 transition-colors hover:border-signal-500 hover:bg-signal-500"
+            className="border border-paper-50 bg-paper-50 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900 transition-colors hover:border-accent-500 hover:bg-accent-500"
           >
             Get in Touch
           </Link>
@@ -124,7 +124,7 @@ export default function Header() {
                   href={link.href}
                   className={`rounded px-3 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.08em] ${
                     active
-                      ? "bg-white/5 text-signal-500"
+                      ? "bg-white/5 text-accent-500"
                       : "text-paper-50/75 hover:bg-white/5"
                   }`}
                 >

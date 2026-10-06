@@ -36,11 +36,11 @@ export default function ServiceIndexNav({ items }: { items: Item[] }) {
               href={`#${item.slug}`}
               className={`border-b-2 pb-1 font-mono text-xs font-medium uppercase tracking-[0.05em] transition-colors ${
                 isActive
-                  ? "border-signal-500 text-ink-900"
+                  ? "border-accent-500 text-ink-900"
                   : "border-transparent text-steel-600 hover:text-ink-900"
               }`}
             >
-              <span className="text-signal-600">§{String(item.index + 1).padStart(2, "0")}</span>{" "}
+              <span className="text-accent-600">§{String(item.index + 1).padStart(2, "0")}</span>{" "}
               {item.title}
             </Link>
           );

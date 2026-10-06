@@ -19,7 +19,7 @@ export default function PageHero({ eyebrow, title, description, children }: Prop
       <div className="contours" aria-hidden />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_30%,transparent_30%,rgba(5,8,12,0.75)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_30%,rgba(23,75,114,0.3)_0%,transparent_50%),radial-gradient(ellipse_at_20%_30%,transparent_30%,rgba(3,18,31,0.8)_100%)]"
       />
       <ScrollReveal
         as="div"
@@ -28,8 +28,8 @@ export default function PageHero({ eyebrow, title, description, children }: Prop
         stagger={0.12}
         className="relative mx-auto max-w-7xl px-5 pb-16 pt-20 sm:px-8 sm:pb-24 sm:pt-28"
       >
-        <span className="inline-flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.18em] text-signal-500">
-          <span className="h-px w-8 bg-signal-500" />
+        <span className="inline-flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent-500">
+          <span className="h-px w-8 bg-accent-500" />
           {eyebrow}
         </span>
         <h1 className="font-statement mt-6 max-w-5xl text-balance text-[clamp(3rem,8vw,7.5rem)] font-semibold text-paper-50">

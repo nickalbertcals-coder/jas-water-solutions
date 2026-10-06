@@ -54,11 +54,11 @@ export default function ServiceList({ services }: { services: Service[] }) {
               dimmed ? "opacity-35" : "opacity-100"
             }`}
           >
-            <span className="font-mono text-sm tabular-nums text-signal-600">
+            <span className="font-mono text-sm tabular-nums text-accent-600">
               §{String(i + 1).padStart(2, "0")}
             </span>
 
-            <h3 className="font-statement text-[clamp(2.1rem,4.1vw,3.9rem)] font-semibold text-ink-900 transition-transform duration-500 ease-out group-hover:translate-x-3 group-hover:text-signal-600">
+            <h3 className="font-statement text-[clamp(2.1rem,4.1vw,3.9rem)] font-semibold text-ink-900 transition-transform duration-500 ease-out group-hover:translate-x-3 group-hover:text-accent-600">
               {service.title}
             </h3>
 
@@ -71,7 +71,7 @@ export default function ServiceList({ services }: { services: Service[] }) {
               height="28"
               viewBox="0 0 28 28"
               fill="none"
-              className="hidden justify-self-end text-ink-900 transition-transform duration-500 ease-out group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-signal-600 lg:block"
+              className="hidden justify-self-end text-ink-900 transition-transform duration-500 ease-out group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-accent-600 lg:block"
               aria-hidden
             >
               <path d="M7 21 21 7M10 7h11v11" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" />
@@ -84,7 +84,7 @@ export default function ServiceList({ services }: { services: Service[] }) {
       <div
         ref={previewRef}
         aria-hidden
-        className="pointer-events-none absolute left-0 top-0 z-20 hidden aspect-[4/3] w-[22rem] overflow-hidden shadow-[0_30px_60px_-20px_rgba(5,8,12,0.55)] [@media(hover:hover)]:block"
+        className="pointer-events-none absolute left-0 top-0 z-20 hidden aspect-[4/3] w-[22rem] overflow-hidden shadow-[0_30px_60px_-20px_rgba(3,18,31,0.55)] [@media(hover:hover)]:block"
         style={{ opacity: active === null ? 0 : 1, transition: "opacity 0.25s ease" }}
       >
         {services.map((service, i) => (

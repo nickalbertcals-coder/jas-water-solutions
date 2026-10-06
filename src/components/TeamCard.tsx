@@ -34,7 +34,7 @@ export default function TeamCard({ member }: { member: TeamMember }) {
           <h3 className="font-display text-balance text-base font-semibold text-ink-900">
             {member.name}
           </h3>
-          <p className="mt-0.5 font-mono text-xs font-medium uppercase tracking-[0.05em] text-signal-600">
+          <p className="mt-0.5 font-mono text-xs font-medium uppercase tracking-[0.05em] text-accent-600">
             {member.role}
           </p>
           {member.profession && (
@@ -45,7 +45,7 @@ export default function TeamCard({ member }: { member: TeamMember }) {
       <ul className="flex flex-1 flex-col gap-2 p-6 text-sm text-steel-600">
         {member.expertise.map((item) => (
           <li key={item} className="flex gap-2.5">
-            <span className="mt-[7px] h-[3px] w-2 shrink-0 bg-signal-500" />
+            <span className="mt-[7px] h-[3px] w-2 shrink-0 bg-accent-500" />
             <span>{item}</span>
           </li>
         ))}

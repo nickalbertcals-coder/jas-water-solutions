@@ -19,7 +19,7 @@ export default function SectionHeading({
       {eyebrow && (
         <span
           className={`inline-flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.18em] ${
-            light ? "text-signal-500" : "text-signal-600"
+            light ? "text-accent-500" : "text-accent-600"
           }`}
         >
           <span className="h-px w-8 bg-current" />
