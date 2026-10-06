@@ -28,15 +28,15 @@ export default function PageHero({ eyebrow, title, description, children }: Prop
         stagger={0.12}
         className="relative mx-auto max-w-7xl px-5 pb-16 pt-20 sm:px-8 sm:pb-24 sm:pt-28"
       >
-        <span className="inline-flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent-500">
+        <span className="inline-flex items-center gap-3 font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] text-accent-500">
           <span className="h-px w-8 bg-accent-500" />
           {eyebrow}
         </span>
-        <h1 className="font-statement mt-6 max-w-5xl text-balance text-[clamp(3rem,8vw,7.5rem)] font-semibold text-paper-50">
+        <h1 className="font-statement mt-6 max-w-5xl text-balance text-[clamp(2.4rem,5.6vw,5rem)] font-semibold text-paper-50">
           {title}
         </h1>
         {description && (
-          <p className="mt-8 max-w-2xl text-pretty text-lg leading-relaxed text-paper-50/65 sm:text-xl">
+          <p className="mt-8 max-w-2xl text-pretty text-lg leading-relaxed text-paper-50/78 sm:text-xl">
             {description}
           </p>
         )}

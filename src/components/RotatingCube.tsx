@@ -190,7 +190,7 @@ export default function RotatingCube({ className }: { className?: string }) {
               style={{ opacity: 0 }}
             />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-900/85 via-ink-900/20 to-transparent px-3 pb-2 pt-6">
-              <p className="font-mono text-[10px] font-medium uppercase tracking-[0.06em] text-paper-50">
+              <p className="font-label text-[0.8125rem] font-semibold text-paper-50">
                 {face.label}
               </p>
             </div>

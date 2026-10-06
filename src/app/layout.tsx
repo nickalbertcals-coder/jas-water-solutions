@@ -1,31 +1,19 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, IBM_Plex_Sans, IBM_Plex_Mono, Barlow_Condensed } from "next/font/google";
+import { Plus_Jakarta_Sans, Figtree } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
-const grotesk = Space_Grotesk({
-  variable: "--font-grotesk",
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["600", "700", "800"],
 });
 
-const barlow = Barlow_Condensed({
-  variable: "--font-barlow",
+const figtree = Figtree({
+  variable: "--font-figtree",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
-const plexSans = IBM_Plex_Sans({
-  variable: "--font-plex-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
-
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -49,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${grotesk.variable} ${barlow.variable} ${plexSans.variable} ${plexMono.variable} antialiased`}
+        className={`${jakarta.variable} ${figtree.variable} antialiased`}
       >
         <Header />
         <main>{children}</main>

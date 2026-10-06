@@ -129,7 +129,7 @@ export default function OperationsPage() {
       {/* Hero */}
       <PageHero eyebrow={operations.eyebrow} title={operations.title} description={operations.subtitle}>
         <div className="mt-10 max-w-2xl border-l-2 border-accent-500 bg-white/[0.04] p-6 backdrop-blur-sm">
-          <p className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-accent-500">
+          <p className="font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] text-accent-500">
             Our Operational Mission
           </p>
           <p className="mt-3 text-base leading-relaxed text-paper-50/80 sm:text-lg">
@@ -163,12 +163,12 @@ export default function OperationsPage() {
                       {PROCESS_ICONS[stage.key]}
                     </svg>
                   </span>
-                  <p className="mt-3 font-mono text-xs font-medium uppercase leading-snug tracking-[0.02em] text-ink-900">
+                  <p className="mt-3 font-label text-sm font-semibold leading-snug text-ink-900">
                     {stage.label}
                   </p>
                 </div>
                 {i < processStages.length - 1 && (
-                  <span className="mt-6 hidden px-1 font-mono text-steel-500 sm:inline">→</span>
+                  <span className="mt-6 hidden px-1 font-label text-steel-500 sm:inline">→</span>
                 )}
               </div>
             ))}
@@ -197,7 +197,7 @@ export default function OperationsPage() {
             {departments.map((dept) => (
               <div key={dept.number} className="grid gap-4 py-7 lg:grid-cols-[auto_1fr] lg:gap-10">
                 <div className="flex items-start gap-4 lg:w-72">
-                  <span className="font-mono text-sm font-medium text-accent-600">
+                  <span className="font-label text-sm font-semibold text-accent-600">
                     {dept.number}
                   </span>
                   <div>
@@ -205,7 +205,7 @@ export default function OperationsPage() {
                       {dept.title}
                     </h3>
                     {dept.goal && (
-                      <p className="mt-1.5 text-sm italic leading-relaxed text-steel-600">
+                      <p className="mt-1.5 text-sm leading-relaxed text-steel-600">
                         Goal: {dept.goal}
                       </p>
                     )}
@@ -229,7 +229,7 @@ export default function OperationsPage() {
       <section className="border-b border-line bg-ink-900">
         <div className="mx-auto max-w-5xl px-5 py-16 text-center sm:px-8 sm:py-20">
           <ScrollReveal>
-            <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-accent-500">
+            <span className="inline-flex items-center gap-2 font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] text-accent-500">
               <span className="h-2.5 w-[3px] bg-accent-500" />
               Emergency Response &amp; Business Continuity
             </span>
@@ -246,14 +246,14 @@ export default function OperationsPage() {
             {emergencyScenarios.map((scenario) => (
               <span
                 key={scenario}
-                className="border border-white/15 px-4 py-2 font-mono text-xs uppercase tracking-[0.03em] text-paper-50/85"
+                className="border border-white/15 px-4 py-2 font-label text-sm text-paper-50/85"
               >
                 {scenario}
               </span>
             ))}
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
-            <p className="mt-8 font-mono text-sm uppercase tracking-[0.06em] text-accent-500">
+            <p className="mt-8 font-label text-sm text-accent-500">
               {emergencyGoal}
             </p>
           </ScrollReveal>
@@ -283,7 +283,7 @@ export default function OperationsPage() {
                     {JOURNEY_ICONS[stage.label]}
                   </svg>
                 </span>
-                <p className="mt-2.5 font-mono text-[11px] font-medium uppercase leading-snug tracking-[0.02em] text-ink-900">
+                <p className="mt-2.5 font-label text-[0.8125rem] font-semibold leading-snug text-ink-900">
                   {stage.label}
                 </p>
                 {stage.sublabel && (
@@ -293,7 +293,7 @@ export default function OperationsPage() {
             ))}
           </ScrollReveal>
           <ScrollReveal delay={0.1} className="mt-10 text-center">
-            <p className="font-mono text-xs font-medium uppercase tracking-[0.08em] text-accent-600 sm:text-sm">
+            <p className="font-label text-sm font-semibold text-accent-600 sm:text-sm">
               {journeyTagline}
             </p>
           </ScrollReveal>

@@ -129,7 +129,7 @@ export default function WaterJourney() {
       >
         <div className="flex items-start justify-between">
           <div>
-            <p className="inline-flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent-500">
+            <p className="inline-flex items-center gap-3 font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] text-accent-500">
               <span className="h-px w-8 bg-accent-500" />
               The journey of one cubic meter
             </p>
@@ -137,7 +137,7 @@ export default function WaterJourney() {
               From bulk supply to every customer
             </h2>
           </div>
-          <p data-counter className="font-mono text-sm tabular-nums text-paper-50/60">
+          <p data-counter className="font-label text-sm tabular-nums text-paper-50/70">
             01 / {pad(processStages.length)}
           </p>
         </div>
@@ -166,7 +166,7 @@ export default function WaterJourney() {
               data-stage-block
               className="absolute inset-y-0 left-0 flex max-w-3xl flex-col justify-center"
             >
-              <h3 className="font-statement text-[clamp(3.5rem,9.5vw,9rem)] font-semibold">
+              <h3 className="font-statement text-[clamp(2.8rem,6.5vw,6rem)] font-semibold">
                 {stage.label}
               </h3>
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-paper-50/70 sm:text-xl">
@@ -198,7 +198,7 @@ export default function WaterJourney() {
                 className="group flex w-0 flex-col items-center"
               >
                 <span className="h-3 w-3 rounded-full border border-white/40 bg-void transition-all duration-300 group-data-[state=passed]:border-aqua-400 group-data-[state=passed]:bg-aqua-400 group-data-[state=active]:scale-150 group-data-[state=active]:border-live-500 group-data-[state=active]:bg-live-500" />
-                <span className="mt-4 whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.08em] text-paper-50/40 transition-colors duration-300 group-data-[state=active]:text-paper-50 group-data-[state=passed]:text-paper-50/70">
+                <span className="mt-4 whitespace-nowrap font-label text-[0.8125rem] text-paper-50/70 transition-colors duration-300 group-data-[state=active]:text-paper-50 group-data-[state=passed]:text-paper-50/70">
                   {stage.label}
                 </span>
               </li>
@@ -209,17 +209,17 @@ export default function WaterJourney() {
 
       {/* ── Static version (mobile, tablet, reduced motion) ── */}
       <div className={`relative mx-auto max-w-7xl px-5 py-20 sm:px-8 ${staticMode ? "block" : "lg:hidden"}`}>
-        <p className="inline-flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent-500">
+        <p className="inline-flex items-center gap-3 font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] text-accent-500">
           <span className="h-px w-8 bg-accent-500" />
           The journey of one cubic meter
         </p>
         <ol className="mt-10 divide-y divide-white/10 border-y border-white/10">
           {processStages.map((stage, i) => (
             <li key={stage.key} className="grid grid-cols-[3rem_1fr] gap-4 py-6 sm:grid-cols-[5rem_1fr]">
-              <span className="font-mono text-sm tabular-nums text-accent-500">{pad(i + 1)}</span>
+              <span className="font-label text-sm tabular-nums text-accent-500">{pad(i + 1)}</span>
               <div>
-                <h3 className="font-statement text-4xl font-semibold sm:text-5xl">{stage.label}</h3>
-                <p className="mt-3 max-w-xl text-base leading-relaxed text-paper-50/65">
+                <h3 className="font-statement text-3xl font-semibold sm:text-4xl">{stage.label}</h3>
+                <p className="mt-3 max-w-xl text-base leading-relaxed text-paper-50/78">
                   {stage.description}
                 </p>
               </div>

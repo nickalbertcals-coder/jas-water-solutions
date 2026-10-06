@@ -53,10 +53,10 @@ export default function ServicesPage() {
                     </div>
                   </ScrollReveal>
                   <ScrollReveal as="div" y={28} delay={0.1}>
-                    <span className="font-mono text-sm font-medium text-accent-600">
+                    <span className="font-label text-sm font-semibold text-accent-600">
                       §{String(i + 1).padStart(2, "0")}
                     </span>
-                    <h2 className="font-statement mt-3 text-balance text-[clamp(2.4rem,4.4vw,4rem)] font-semibold text-ink-900">
+                    <h2 className="font-statement mt-3 text-balance text-[clamp(2rem,3.4vw,3rem)] font-semibold text-ink-900">
                       {service.title}
                     </h2>
                     <p className="mt-4 text-base leading-relaxed text-steel-600">
@@ -75,7 +75,7 @@ export default function ServicesPage() {
                     {service.learnMore && (
                       <Link
                         href={service.learnMore.href}
-                        className="mt-6 inline-flex items-center gap-1.5 font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900 hover:text-accent-600"
+                        className="mt-6 inline-flex items-center gap-1.5 font-label text-sm font-semibold text-ink-900 hover:text-accent-600"
                       >
                         {service.learnMore.label}
                         <svg width="12" height="12" viewBox="0 0 16 16" fill="none">

@@ -21,7 +21,7 @@ const leadershipPreview = team.slice(0, 3);
 
 const Eyebrow = ({ children, tone = "dark" }: { children: React.ReactNode; tone?: "dark" | "light" }) => (
   <span
-    className={`inline-flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.18em] ${
+    className={`inline-flex items-center gap-3 font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] ${
       tone === "light" ? "text-accent-500" : "text-accent-600"
     }`}
   >
@@ -59,13 +59,13 @@ export default function Home() {
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/contact"
-                  className="border border-paper-50 bg-paper-50 px-7 py-3.5 text-center font-mono text-xs font-medium uppercase tracking-[0.08em] text-ink-900 transition-colors hover:border-accent-500 hover:bg-accent-500"
+                  className="border border-paper-50 bg-paper-50 px-7 py-3.5 text-center font-label text-sm font-semibold text-ink-900 transition-colors hover:border-accent-500 hover:bg-accent-500"
                 >
                   Get in touch
                 </Link>
                 <Link
                   href="/services"
-                  className="border border-white/25 px-7 py-3.5 text-center font-mono text-xs font-medium uppercase tracking-[0.08em] text-paper-50 transition-colors hover:border-paper-50"
+                  className="border border-white/25 px-7 py-3.5 text-center font-label text-sm font-semibold text-paper-50 transition-colors hover:border-paper-50"
                 >
                   Our core services
                 </Link>
@@ -74,10 +74,10 @@ export default function Home() {
                 {HERO_STATS.map((stat) => (
                   <div key={stat.label} className="pr-3">
                     <dt className="sr-only">{stat.label}</dt>
-                    <dd className="font-statement text-3xl font-semibold text-paper-50 sm:text-4xl">
+                    <dd className="font-statement whitespace-nowrap text-2xl font-semibold text-paper-50 sm:text-[1.75rem]">
                       <ScrambleText text={stat.value} />
                     </dd>
-                    <p className="mt-1.5 font-mono text-[10px] uppercase leading-snug tracking-[0.1em] text-paper-50/50">
+                    <p className="mt-1.5 font-label text-[0.8125rem] leading-snug text-paper-50/70">
                       {stat.label}
                     </p>
                   </div>
@@ -99,7 +99,7 @@ export default function Home() {
             <div className="mb-6 lg:hidden">
               <Eyebrow tone="light">Water utility operations &amp; maintenance</Eyebrow>
             </div>
-            <h1 className="font-statement text-[clamp(2.9rem,7.1vw,7.8rem)] font-semibold text-paper-50">
+            <h1 className="font-statement text-[clamp(2.2rem,4.4vw,4.7rem)] font-semibold text-paper-50">
               <span className="block">Digitized water systems.</span>
               <span className="block">Managed with precision.</span>
               <span className="text-water block w-fit">Built for sustainability.</span>
@@ -115,7 +115,7 @@ export default function Home() {
           <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
             <ScrollReveal as="div" y={28} className="lg:col-span-7">
               <Eyebrow>Who we are</Eyebrow>
-              <p className="font-display mt-7 text-balance text-[clamp(1.85rem,3.4vw,3.2rem)] font-medium leading-[1.14] tracking-tight text-ink-900">
+              <p className="font-display mt-7 text-balance text-[clamp(1.7rem,2.8vw,2.6rem)] font-bold leading-[1.22] tracking-tight text-ink-900">
                 JAS runs <span className={highlight}>Level III water distribution systems</span> end to
                 end — from network operations and preventive maintenance to computerized meter
                 reading, billing and collection.
@@ -125,7 +125,7 @@ export default function Home() {
               </p>
               <Link
                 href="/about"
-                className="mt-9 inline-flex items-center gap-3 border-b border-ink-900 pb-1 font-mono text-xs font-medium uppercase tracking-[0.1em] text-ink-900 transition-colors hover:border-accent-600 hover:text-accent-600"
+                className="mt-9 inline-flex items-center gap-3 border-b border-ink-900 pb-1 font-label text-sm font-semibold text-ink-900 transition-colors hover:border-accent-600 hover:text-accent-600"
               >
                 More about JAS Water Solutions
                 <span aria-hidden>→</span>
@@ -147,13 +147,13 @@ export default function Home() {
             className="mt-20 grid gap-12 border-t border-ink-900/20 pt-10 md:grid-cols-2 md:gap-20"
           >
             <div>
-              <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent-600">Vision</p>
+              <p className="font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] text-accent-600">Vision</p>
               <p className="font-display mt-5 text-pretty text-xl leading-snug text-ink-900 sm:text-2xl">
                 {vision}
               </p>
             </div>
             <div>
-              <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent-600">Mission</p>
+              <p className="font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] text-accent-600">Mission</p>
               <p className="font-display mt-5 text-pretty text-xl leading-snug text-ink-900 sm:text-2xl">
                 {mission}
               </p>
@@ -187,10 +187,10 @@ export default function Home() {
         <div className="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-[minmax(0,26rem)_1fr] lg:gap-24">
           <div className="lg:sticky lg:top-32 lg:self-start">
             <Eyebrow tone="light">Why JAS</Eyebrow>
-            <h2 className="font-statement mt-5 text-balance text-[clamp(2.6rem,5.2vw,4.8rem)] font-semibold">
+            <h2 className="font-statement mt-5 text-balance text-[clamp(2.1rem,3.8vw,3.5rem)] font-semibold">
               Control. Accountability. Results you can measure.
             </h2>
-            <p className="mt-6 text-pretty text-lg leading-relaxed text-paper-50/65">
+            <p className="mt-6 text-pretty text-lg leading-relaxed text-paper-50/78">
               Our approach is anchored on digitized platforms, real-time monitoring, and transparent
               KPI-based performance management.
             </p>
@@ -207,7 +207,7 @@ export default function Home() {
                 <h3 className="font-statement text-4xl font-semibold text-paper-50 sm:text-[2.6rem]">
                   {item.title}
                 </h3>
-                <p className="text-pretty text-lg leading-relaxed text-paper-50/65">{item.description}</p>
+                <p className="text-pretty text-lg leading-relaxed text-paper-50/78">{item.description}</p>
               </div>
             ))}
           </ScrollReveal>
@@ -228,7 +228,7 @@ export default function Home() {
             />
             <Link
               href="/team"
-              className="inline-flex shrink-0 items-center gap-3 border-b border-ink-900 pb-1 font-mono text-xs font-medium uppercase tracking-[0.1em] text-ink-900 transition-colors hover:border-accent-600 hover:text-accent-600"
+              className="inline-flex shrink-0 items-center gap-3 border-b border-ink-900 pb-1 font-label text-sm font-semibold text-ink-900 transition-colors hover:border-accent-600 hover:text-accent-600"
             >
               Meet the full team <span aria-hidden>→</span>
             </Link>

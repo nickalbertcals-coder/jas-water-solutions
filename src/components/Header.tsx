@@ -64,10 +64,10 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`font-mono text-xs font-medium uppercase tracking-[0.08em] transition-colors ${
+                className={`font-label text-sm font-semibold transition-colors ${
                   active
                     ? "text-accent-500"
-                    : "text-paper-50/65 hover:text-paper-50"
+                    : "text-paper-50/78 hover:text-paper-50"
                 }`}
               >
                 {link.label}
@@ -79,7 +79,7 @@ export default function Header() {
         <div className="hidden lg:block">
           <Link
             href="/contact"
-            className="border border-paper-50 bg-paper-50 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900 transition-colors hover:border-accent-500 hover:bg-accent-500"
+            className="border border-paper-50 bg-paper-50 px-5 py-2.5 font-label text-sm font-semibold text-ink-900 transition-colors hover:border-accent-500 hover:bg-accent-500"
           >
             Get in Touch
           </Link>
@@ -122,7 +122,7 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`rounded px-3 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.08em] ${
+                  className={`rounded px-3 py-2.5 font-label text-sm font-semibold ${
                     active
                       ? "bg-white/5 text-accent-500"
                       : "text-paper-50/75 hover:bg-white/5"
@@ -134,7 +134,7 @@ export default function Header() {
             })}
             <Link
               href="/contact"
-              className="mt-2 border border-paper-50 bg-paper-50 px-5 py-2.5 text-center font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900"
+              className="mt-2 border border-paper-50 bg-paper-50 px-5 py-2.5 text-center font-label text-sm font-semibold text-ink-900"
             >
               Get in Touch
             </Link>

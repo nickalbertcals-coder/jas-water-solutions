@@ -9,8 +9,8 @@
   --ink-900: #0a2740;
   --ink-800: #0f3556;
   --ink-700: #174b72;
-  --steel-600: #3f6178;
-  --steel-500: #587a91;
+  --steel-600: #32526a;
+  --steel-500: #456a83;
   --steel-300: #a4c0d1;
 
   /* Cool, blue-tinted paper — light surfaces */
@@ -31,9 +31,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-plex-sans);
-  --font-display: var(--font-grotesk);
-  --font-mono: var(--font-plex-mono);
+  --font-sans: var(--font-figtree);
+  --font-display: var(--font-jakarta);
+  --font-label: var(--font-figtree);
 
   --color-ink-900: var(--ink-900);
   --color-ink-800: var(--ink-800);
@@ -54,25 +54,27 @@
 
   --color-void: var(--void);
   --color-aqua-400: var(--accent-500);
-  --font-statement: var(--font-barlow);
+  --font-statement: var(--font-jakarta);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-plex-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-figtree), Arial, Helvetica, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
 }
 
 .font-display {
-  font-family: var(--font-grotesk), var(--font-plex-sans), Arial, sans-serif;
+  font-family: var(--font-jakarta), var(--font-figtree), Arial, sans-serif;
 }
 
-/* Signage-style condensed caps for big statements — highway/utility sign DNA */
+/* Big statements: friendly, wide-set sans in normal sentence case — easy to read at a glance */
 .font-statement {
-  font-family: var(--font-barlow), "Arial Narrow", Impact, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: -0.005em;
-  line-height: 0.92;
+  font-family: var(--font-jakarta), var(--font-figtree), Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.06;
 }
 
 /* Aqua → seafoam: the "clean water" gradient, for the one line that should glow */
@@ -83,8 +85,8 @@ body {
   color: transparent;
 }
 
-.font-mono {
-  font-family: var(--font-plex-mono), ui-monospace, monospace;
+.font-label {
+  font-family: var(--font-figtree), Arial, sans-serif;
 }
 
 .section-pad {

@@ -68,10 +68,10 @@ const DISTRICTS = [
 ];
 
 const TIPS = {
-  tank: "Reservoir — level & inflow monitored",
-  pump: "Booster pump — scheduled & monitored",
-  dma: "District Metered Area — leak & loss monitoring",
-  live: "District Metered Area — real-time telemetry",
+  tank: "Reservoir — water level checked around the clock",
+  pump: "Booster pump — keeps water pressure steady",
+  dma: "Community supply area — watched for leaks and losses",
+  live: "Community supply area — live monitoring",
 };
 
 /* ───────────────────────── drawing primitives ───────────────────────── */
@@ -272,7 +272,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
       {lx2 !== undefined && ly2 !== undefined && (
         <line x1={anchor === "start" ? lx2 : x} y1={y + 6} x2={lx2} y2={ly2} stroke={color} strokeOpacity="0.5" strokeWidth="1" />
       )}
-      <text x={x} y={y} textAnchor={anchor} fontSize="11" letterSpacing="0.1em" fill={color}>
+      <text x={x} y={y} textAnchor={anchor} fontSize="14" fontWeight="600" letterSpacing="0.01em" fill={color}>
         {text}
       </text>
     </g>
@@ -299,7 +299,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
         aria-label="Isometric illustration of a water distribution system: a reservoir, booster pump house, glowing supply mains and metered districts, with one district reporting live"
       >
         <style>{`
-          text { font-family: var(--font-plex-mono), monospace; }
+          text { font-family: var(--font-figtree), sans-serif; }
           .sc-hot { outline: none; cursor: ${interactive ? "pointer" : "default"}; }
           .sc-hot:focus-visible .sc-hit { stroke: ${C.live}; stroke-width: 1.5; }
           @media (prefers-reduced-motion: no-preference) {
@@ -465,17 +465,17 @@ export default function HydraulicSchematic({ className, interactive = false }: P
           })}
 
           {/* labels */}
-          {label(tx, tTop - 40, "RESERVOIR", undefined, "middle", tx, tTop - 22)}
-          {label(pumpTop[0] + 16, pumpTop[1] - 66, "BOOSTER PUMP", undefined, "start")}
-          {label(d1[0], d1[1] - 78, "DMA-01", undefined, "middle", d1[0], d1[1] - 52)}
-          {label(d3[0], d3[1] - 78, "DMA-03", undefined, "middle", d3[0], d3[1] - 52)}
-          {label(lx + 62, ly - 2, "DMA-02 — LIVE", C.live, "start", lx + 40, ly - 8)}
+          {label(tx, tTop - 40, "Reservoir", undefined, "middle", tx, tTop - 22)}
+          {label(pumpTop[0] + 16, pumpTop[1] - 66, "Booster pump", undefined, "start")}
+          {label(d1[0], d1[1] - 78, "Area A", undefined, "middle", d1[0], d1[1] - 52)}
+          {label(d3[0], d3[1] - 78, "Area C", undefined, "middle", d3[0], d3[1] - 52)}
+          {label(lx + 62, ly - 2, "Area B — live", C.live, "start", lx + 40, ly - 8)}
         </g>
       </svg>
 
       {tooltip && (
         <div
-          className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-[calc(100%+10px)] whitespace-nowrap border border-white/20 bg-void/95 px-3 py-2 font-mono text-[11px] text-paper-50 shadow-lg backdrop-blur"
+          className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-[calc(100%+10px)] whitespace-nowrap border border-white/20 bg-void/95 px-3 py-2 font-label text-[0.8125rem] text-paper-50 shadow-lg backdrop-blur"
           style={{ left: tooltip.x, top: tooltip.y }}
         >
           {tooltip.text}

@@ -16,27 +16,27 @@ export default function CTASection() {
         stagger={0.12}
         className="relative mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32"
       >
-        <span className="inline-flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent-500">
+        <span className="inline-flex items-center gap-3 font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] text-accent-500">
           <span className="h-px w-8 bg-current" />
           Start a conversation
         </span>
-        <h2 className="font-statement mt-6 max-w-5xl text-balance text-[clamp(3rem,8vw,8rem)] font-semibold text-paper-50">
+        <h2 className="font-statement mt-6 max-w-5xl text-balance text-[clamp(2.4rem,5.6vw,5.4rem)] font-semibold text-paper-50">
           Ready for a professionally managed <span className="text-water">water utility?</span>
         </h2>
-        <p className="mt-8 max-w-2xl text-pretty text-lg leading-relaxed text-paper-50/65 sm:text-xl">
+        <p className="mt-8 max-w-2xl text-pretty text-lg leading-relaxed text-paper-50/78 sm:text-xl">
           Let&apos;s talk about how digitized operations, transparent revenue management, and
           disciplined O&amp;M can strengthen your water service delivery.
         </p>
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <Link
             href="/contact"
-            className="border border-paper-50 bg-paper-50 px-8 py-4 text-center font-mono text-xs font-medium uppercase tracking-[0.08em] text-ink-900 transition-colors hover:border-accent-500 hover:bg-accent-500"
+            className="border border-paper-50 bg-paper-50 px-8 py-4 text-center font-label text-sm font-semibold text-ink-900 transition-colors hover:border-accent-500 hover:bg-accent-500"
           >
             Talk to our team
           </Link>
           <Link
             href="/services"
-            className="border border-white/25 px-8 py-4 text-center font-mono text-xs font-medium uppercase tracking-[0.08em] text-paper-50 transition-colors hover:border-paper-50"
+            className="border border-white/25 px-8 py-4 text-center font-label text-sm font-semibold text-paper-50 transition-colors hover:border-paper-50"
           >
             Explore our services
           </Link>

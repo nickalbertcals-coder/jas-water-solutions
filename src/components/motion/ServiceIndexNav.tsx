@@ -34,7 +34,7 @@ export default function ServiceIndexNav({ items }: { items: Item[] }) {
             <Link
               key={item.slug}
               href={`#${item.slug}`}
-              className={`border-b-2 pb-1 font-mono text-xs font-medium uppercase tracking-[0.05em] transition-colors ${
+              className={`border-b-2 pb-1 font-label text-sm font-semibold transition-colors ${
                 isActive
                   ? "border-accent-500 text-ink-900"
                   : "border-transparent text-steel-600 hover:text-ink-900"

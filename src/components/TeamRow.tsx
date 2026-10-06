@@ -14,17 +14,17 @@ export default function TeamRow({ member }: { member: TeamMember }) {
         {member.image ? (
           <Image src={member.image} alt={member.name} fill sizes="80px" className="object-cover" />
         ) : (
-          <div className="flex h-full w-full items-center justify-center font-mono text-lg font-medium text-paper-50">
+          <div className="flex h-full w-full items-center justify-center font-label text-lg font-semibold text-paper-50">
             {initials(member.name)}
           </div>
         )}
       </div>
 
       <div>
-        <h3 className="font-statement text-balance text-[clamp(2rem,3.6vw,3.4rem)] font-semibold text-ink-900">
+        <h3 className="font-statement text-balance text-[clamp(1.6rem,2.6vw,2.4rem)] font-semibold text-ink-900">
           {member.name}
         </h3>
-        <p className="mt-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-accent-600">
+        <p className="mt-2 font-label text-[0.8125rem] font-bold uppercase tracking-[0.1em] text-accent-600">
           {member.role}
         </p>
       </div>

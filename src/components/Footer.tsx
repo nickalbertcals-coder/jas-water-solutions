@@ -24,13 +24,13 @@ export default function Footer() {
               height={78}
               className="h-10 w-auto brightness-0 invert"
             />
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-paper-50/60">
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-paper-50/70">
               {company.tagline}
             </p>
           </div>
 
           <div>
-            <h3 className="font-mono text-xs font-medium uppercase tracking-[0.1em] text-paper-50/45">
+            <h3 className="font-label text-sm font-semibold text-paper-50/70">
               Navigate
             </h3>
             <ul className="mt-4 space-y-2.5 text-sm">
@@ -45,7 +45,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="font-mono text-xs font-medium uppercase tracking-[0.1em] text-paper-50/45">
+            <h3 className="font-label text-sm font-semibold text-paper-50/70">
               Contact
             </h3>
             <ul className="mt-4 space-y-2.5 text-sm text-paper-50/80">
@@ -60,7 +60,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-white/12 pt-6 font-mono text-xs text-paper-50/45 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-3 border-t border-white/12 pt-6 font-label text-sm text-paper-50/70 sm:flex-row sm:items-center sm:justify-between">
           <p>&copy; {new Date().getFullYear()} {company.name} — All rights reserved.</p>
           <p>Operation &amp; Maintenance of Level III Water Distribution Systems</p>
         </div>

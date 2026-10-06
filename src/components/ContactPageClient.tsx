@@ -57,7 +57,7 @@ export default function ContactPageClient() {
             <dl className="mt-8 divide-y divide-line border-y border-line">
               {CONTACT_DETAILS.map((detail) => (
                 <div key={detail.label} className="flex items-baseline justify-between gap-4 py-4">
-                  <dt className="font-mono text-xs font-medium uppercase tracking-[0.08em] text-steel-500">
+                  <dt className="font-label text-sm font-semibold text-steel-500">
                     {detail.label}
                   </dt>
                   <dd>
@@ -77,7 +77,7 @@ export default function ContactPageClient() {
             </dl>
 
             <div className="mt-8 border border-line bg-paper-100 p-6">
-              <p className="font-mono text-xs font-medium uppercase tracking-[0.08em] text-accent-600">
+              <p className="font-label text-sm font-semibold text-accent-600">
                 Service areas
               </p>
               <p className="mt-2 text-sm leading-relaxed text-steel-600">
@@ -112,7 +112,7 @@ export default function ContactPageClient() {
                 <button
                   type="button"
                   onClick={() => setStatus("idle")}
-                  className="mt-2 font-mono text-xs font-medium uppercase tracking-[0.06em] text-ink-900 hover:text-accent-600"
+                  className="mt-2 font-label text-sm font-semibold text-ink-900 hover:text-accent-600"
                 >
                   Send another message
                 </button>
@@ -121,7 +121,7 @@ export default function ContactPageClient() {
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="name" className="font-mono text-xs font-medium uppercase tracking-[0.05em] text-steel-600">
+                    <label htmlFor="name" className="font-label text-sm font-semibold text-steel-600">
                       Full name
                     </label>
                     <input
@@ -134,7 +134,7 @@ export default function ContactPageClient() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="font-mono text-xs font-medium uppercase tracking-[0.05em] text-steel-600">
+                    <label htmlFor="email" className="font-label text-sm font-semibold text-steel-600">
                       Email address
                     </label>
                     <input
@@ -149,7 +149,7 @@ export default function ContactPageClient() {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="company" className="font-mono text-xs font-medium uppercase tracking-[0.05em] text-steel-600">
+                  <label htmlFor="company" className="font-label text-sm font-semibold text-steel-600">
                     Company / Organization
                   </label>
                   <input
@@ -161,7 +161,7 @@ export default function ContactPageClient() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="message" className="font-mono text-xs font-medium uppercase tracking-[0.05em] text-steel-600">
+                  <label htmlFor="message" className="font-label text-sm font-semibold text-steel-600">
                     Message
                   </label>
                   <textarea
@@ -176,7 +176,7 @@ export default function ContactPageClient() {
                 </div>
                 <button
                   type="submit"
-                  className="w-full rounded border border-ink-900 bg-ink-900 px-7 py-3 font-mono text-xs font-medium uppercase tracking-[0.06em] text-paper-50 transition-colors hover:bg-ink-700 sm:w-auto"
+                  className="w-full rounded border border-ink-900 bg-ink-900 px-7 py-3 font-label text-sm font-semibold text-paper-50 transition-colors hover:bg-ink-700 sm:w-auto"
                 >
                   Send Message
                 </button>

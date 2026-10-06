@@ -25,7 +25,7 @@ export default function TeamCard({ member }: { member: TeamMember }) {
               className="object-cover grayscale-[10%]"
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-ink-900 font-mono text-lg font-medium text-paper-50">
+            <div className="flex h-full w-full items-center justify-center bg-ink-900 font-label text-lg font-semibold text-paper-50">
               {initials(member.name)}
             </div>
           )}
@@ -34,7 +34,7 @@ export default function TeamCard({ member }: { member: TeamMember }) {
           <h3 className="font-display text-balance text-base font-semibold text-ink-900">
             {member.name}
           </h3>
-          <p className="mt-0.5 font-mono text-xs font-medium uppercase tracking-[0.05em] text-accent-600">
+          <p className="mt-0.5 font-label text-sm font-semibold text-accent-600">
             {member.role}
           </p>
           {member.profession && (

@@ -54,11 +54,11 @@ export default function ServiceList({ services }: { services: Service[] }) {
               dimmed ? "opacity-35" : "opacity-100"
             }`}
           >
-            <span className="font-mono text-sm tabular-nums text-accent-600">
+            <span className="font-label text-sm tabular-nums text-accent-600">
               §{String(i + 1).padStart(2, "0")}
             </span>
 
-            <h3 className="font-statement text-[clamp(2.1rem,4.1vw,3.9rem)] font-semibold text-ink-900 transition-transform duration-500 ease-out group-hover:translate-x-3 group-hover:text-accent-600">
+            <h3 className="font-statement text-[clamp(1.7rem,3vw,2.6rem)] font-semibold text-ink-900 transition-transform duration-500 ease-out group-hover:translate-x-3 group-hover:text-accent-600">
               {service.title}
             </h3>
 
