@@ -191,11 +191,11 @@ header[data-scrolled="true"] {
 .rays-layer {
   transform-origin: 100% 0;
   mix-blend-mode: screen;
-  -webkit-mask-image: radial-gradient(circle at 100% 0%, #000 0%, rgba(0,0,0,0.65) 42%, transparent 80%);
-  mask-image: radial-gradient(circle at 100% 0%, #000 0%, rgba(0,0,0,0.65) 42%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle 33rem at 100% 0%, #000 0%, rgba(0,0,0,0.6) 40%, transparent 100%);
+  mask-image: radial-gradient(circle 33rem at 100% 0%, #000 0%, rgba(0,0,0,0.6) 40%, transparent 100%);
 }
-.rays-a { background: conic-gradient(from 180deg at 100% 0%, transparent 4.5deg, rgba(170,230,255,0.3) 8deg, transparent 11.5deg, transparent 12deg, rgba(170,230,255,0.14) 17deg, transparent 22deg, transparent 26.8deg, rgba(170,230,255,0.36) 29deg, transparent 31.2deg, transparent 34deg, rgba(170,230,255,0.12) 40deg, transparent 46deg, transparent 50.4deg, rgba(170,230,255,0.28) 53deg, transparent 55.6deg, transparent 61deg, rgba(170,230,255,0.15) 66deg, transparent 71deg, transparent 75.8deg, rgba(170,230,255,0.22) 78deg, transparent 80.2deg, transparent 90deg); }
-.rays-b { background: conic-gradient(from 180deg at 100% 0%, transparent 8deg, rgba(170,230,255,0.2) 12deg, transparent 16deg, transparent 21deg, rgba(170,230,255,0.32) 23deg, transparent 25deg, transparent 29deg, rgba(170,230,255,0.12) 35deg, transparent 41deg, transparent 45deg, rgba(170,230,255,0.32) 47deg, transparent 49deg, transparent 54.5deg, rgba(170,230,255,0.14) 59deg, transparent 63.5deg, transparent 69.4deg, rgba(170,230,255,0.24) 72deg, transparent 74.6deg, transparent 80.5deg, rgba(170,230,255,0.12) 84deg, transparent 87.5deg, transparent 90deg); }
+.rays-a { background: conic-gradient(from 180deg at 100% 0%, transparent 10.8deg, rgba(170,230,255,0.3) 14deg, transparent 17.2deg, transparent 31.8deg, rgba(170,230,255,0.34) 34deg, transparent 36.2deg, transparent 55deg, rgba(170,230,255,0.22) 58deg, transparent 61deg, transparent 90deg); }
+.rays-b { background: conic-gradient(from 180deg at 100% 0%, transparent 22deg, rgba(170,230,255,0.26) 24deg, transparent 26deg, transparent 43.5deg, rgba(170,230,255,0.14) 47deg, transparent 50.5deg, transparent 90deg); }
 .rays-core {
   background: radial-gradient(circle at 100% 0%, rgba(170, 230, 255, 0.4) 0%, rgba(170, 230, 255, 0.1) 18%, transparent 36%);
   mix-blend-mode: screen;
