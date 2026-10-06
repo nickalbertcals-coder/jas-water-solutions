@@ -268,6 +268,67 @@ function Card({
   );
 }
 
+/** Open-topped glass tank with live water: a bobbing surface, shimmering waves, ripples and rising bubbles. */
+function WaterTank({
+  P, cx, cy, r, h, level, id, bubbles = 5,
+}: { P: PF; cx: number; cy: number; r: number; h: number; level: number; id: string; bubbles?: number }) {
+  const [sx, sy] = P(cx, cy, 0);
+  const rx = r * DX * SQ2, ry = r * DY * SQ2;
+  const top = sy - h * U;
+  const wy = sy - level * h * U;
+  const body = `M${f(sx - rx)} ${f(top)}L${f(sx - rx)} ${f(sy)}A${f(rx)} ${f(ry)} 0 0 0 ${f(sx + rx)} ${f(sy)}L${f(sx + rx)} ${f(top)}Z`;
+  const rise = -(level * h * U - 8);
+  const wave = (k: number, amp: number) => {
+    let d = "";
+    for (let i = 0; i <= 24; i++) {
+      const t = i / 24;
+      const x = sx - rx * 0.8 + t * rx * 1.6;
+      const y = wy + ry * 0.35 * Math.sin(t * Math.PI * 3 + k) * 0 + Math.sin(t * Math.PI * 3 + k) * amp;
+      d += `${i ? "L" : "M"}${f(x)} ${f(y)}`;
+    }
+    return d;
+  };
+  return (
+    <g>
+      <clipPath id={id}>
+        <path d={body} />
+        <ellipse cx={sx} cy={top} rx={rx} ry={ry} />
+      </clipPath>
+      <path d={body} fill="#0a2d48" fillOpacity="0.5" />
+      <ellipse cx={sx} cy={top} rx={rx} ry={ry} fill="#06233a" />
+      <g clipPath={`url(#${id})`}>
+        <g className="jlevel">
+          <rect x={sx - rx} y={wy} width={rx * 2} height={sy - wy + ry + 40} fill="url(#jg-water)" />
+          <ellipse cx={sx} cy={wy} rx={rx} ry={ry} fill="#8fe8f8" fillOpacity="0.9" stroke="#fff" strokeOpacity="0.75" />
+          <ellipse cx={sx - rx * 0.3} cy={wy - 1} rx={rx * 0.42} ry={ry * 0.3} fill="#fff" fillOpacity="0.22" />
+          <path d={wave(0, 1.6)} stroke="#fff" strokeOpacity="0.75" strokeWidth="1.4" fill="none" className="jshimmer-a" transform={`translate(0 ${f(ry * 0.25)})`} />
+          <path d={wave(2.2, 1.6)} stroke="#d8f6ff" strokeOpacity="0.6" strokeWidth="1.2" fill="none" className="jshimmer-b" transform={`translate(0 ${f(-ry * 0.2)})`} />
+          <Ripples sx={sx + rx * 0.05} sy={wy} rx={rx * 0.62} ry={ry * 0.62} />
+        </g>
+        {Array.from({ length: bubbles }, (_, i) => (
+          <circle
+            key={i}
+            cx={sx - rx * 0.62 + ((i * 0.37 + 0.12) % 1) * rx * 1.24}
+            cy={sy - 2}
+            r={1.8 + (i % 3) * 0.9}
+            fill="#fff"
+            fillOpacity="0.8"
+            className="jbub"
+            style={{ ["--rise" as string]: `${f(rise)}px`, animationDelay: `${-i * 0.9}s`, animationDuration: `${3.4 + (i % 3) * 0.7}s` }}
+          />
+        ))}
+      </g>
+      <path d={body} fill="url(#jg-glass)" stroke={EDGE_SOFT} />
+      {[0.45, 0.78].map((t) => (
+        <path key={t} d={`M${f(sx - rx)} ${f(top + (sy - top) * t)}A${f(rx)} ${f(ry)} 0 0 0 ${f(sx + rx)} ${f(top + (sy - top) * t)}`} stroke="#fff" strokeOpacity="0.14" fill="none" />
+      ))}
+      <rect x={sx - rx * 0.68} y={top + 6} width={Math.max(4, rx * 0.075)} height={Math.max(4, h * U - 14)} rx="3" fill="#fff" fillOpacity="0.2" />
+      <ellipse cx={sx} cy={top} rx={rx} ry={ry} fill="none" stroke="#4aa0cf" strokeWidth="5" />
+      <ellipse cx={sx} cy={top} rx={rx} ry={ry} fill="none" stroke="#fff" strokeOpacity="0.5" />
+    </g>
+  );
+}
+
 function GabledRoof({ P, x, y, w, d, h, r, over = 0.18 }: { P: PF; x: number; y: number; w: number; d: number; h: number; r: number; over?: number }) {
   return (
     <g strokeLinejoin="round">
@@ -288,27 +349,16 @@ function GabledRoof({ P, x, y, w, d, h, r, over = 0.18 }: { P: PF; x: number; y:
 /* ───────────────────────── scenes ───────────────────────── */
 
 function TreatmentScene() {
+  const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const P = mk(300, 108);
-  const tank = (cx: number, cy: number) => {
-    const [sx, sy] = P(cx, cy, 0);
-    const rx = 0.95 * DX * SQ2, ry = 0.95 * DY * SQ2;
-    const top = sy - 1.35 * U;
-    return (
-      <g>
-        <Cyl P={P} cx={cx} cy={cy} r={0.95} h={1.35} />
-        <ellipse cx={sx} cy={top} rx={rx * 0.74} ry={ry * 0.74} fill="url(#jg-water)" />
-        <Ripples sx={sx} sy={top} rx={rx * 0.5} ry={ry * 0.5} />
-      </g>
-    );
-  };
   return (
     <>
       <Slab P={P} w={6} d={6} />
       <Pipe P={P} path={[[0, 3.2], [6, 3.2]]} w={12} />
       <Pipe P={P} path={[[1.5, 1.5], [1.5, 3.2]]} w={8} />
       <Pipe P={P} path={[[4.2, 1.5], [4.2, 3.2]]} w={8} />
-      {tank(1.5, 1.5)}
-      {tank(4.2, 1.5)}
+      <WaterTank P={P} cx={1.5} cy={1.5} r={0.95} h={1.35} level={0.8} id={`tt1-${uid}`} bubbles={4} />
+      <WaterTank P={P} cx={4.2} cy={1.5} r={0.95} h={1.35} level={0.72} id={`tt2-${uid}`} bubbles={4} />
       <Box P={P} x={2.4} y={3.9} w={2.4} d={1.5} h={0.95} win={{ cols: 4, rows: 1 }} />
       <Card x={26} y={30} w={196} label="Treated water" delay="0s" />
       <Card x={376} y={324} w={196} label="Quality-assured" delay="-2s" />
@@ -319,38 +369,12 @@ function TreatmentScene() {
 function ReservoirScene() {
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const P = mk(300, 126);
-  const [sx, sy] = P(3, 3, 0);
-  const R = 1.7;
-  const rx = R * DX * SQ2, ry = R * DY * SQ2;
-  const H = 2.3;
-  const top = sy - H * U;
-  const body = `M${f(sx - rx)} ${f(top)}L${f(sx - rx)} ${f(sy)}A${f(rx)} ${f(ry)} 0 0 0 ${f(sx + rx)} ${f(sy)}L${f(sx + rx)} ${f(top)}Z`;
-  const wy = top + H * U * 0.34;
   return (
     <>
       <Slab P={P} w={6} d={6} />
       <Pipe P={P} path={[[0, 3], [1.4, 3]]} w={12} />
       <Pipe P={P} path={[[4.6, 3], [6, 3]]} w={12} />
-      <clipPath id={`rc-${uid}`}>
-        <path d={body} />
-      </clipPath>
-      <path d={body} fill="url(#jg-cyl)" stroke={EDGE_SOFT} />
-      <g clipPath={`url(#rc-${uid})`}>
-        <g className="jlevel">
-          <rect x={sx - rx} y={wy} width={rx * 2} height={sy - wy + ry + 24} fill="url(#jg-water)" fillOpacity="0.9" />
-          <ellipse cx={sx} cy={wy} rx={rx} ry={ry} fill="#8fe8f8" fillOpacity="0.85" stroke="#fff" strokeOpacity="0.7" />
-          <ellipse cx={sx - rx * 0.3} cy={wy - 1} rx={rx * 0.4} ry={ry * 0.32} fill="#fff" fillOpacity="0.2" />
-          <Ripples sx={sx + rx * 0.1} sy={wy} rx={rx * 0.5} ry={ry * 0.5} />
-        </g>
-      </g>
-      <path d={body} fill="url(#jg-glass)" />
-      {[0.3, 0.62].map((t) => (
-        <path key={t} d={`M${f(sx - rx)} ${f(top + (sy - top) * t)}A${f(rx)} ${f(ry)} 0 0 0 ${f(sx + rx)} ${f(top + (sy - top) * t)}`} stroke="#fff" strokeOpacity="0.16" fill="none" />
-      ))}
-      <rect x={sx - rx * 0.66} y={top + 6} width="9" height={H * U - 14} rx="4" fill="#fff" fillOpacity="0.2" />
-      <ellipse cx={sx} cy={top} rx={rx} ry={ry} fill="url(#jg-cyltop)" stroke={EDGE} />
-      <ellipse cx={sx} cy={top} rx={rx * 0.8} ry={ry * 0.8} fill="#06233a" stroke={EDGE_SOFT} />
-      <ellipse cx={sx} cy={top} rx={rx * 0.8} ry={ry * 0.8} fill="url(#jg-water)" fillOpacity="0.55" />
+      <WaterTank P={P} cx={3} cy={3} r={1.7} h={2.3} level={0.82} id={`rc-${uid}`} bubbles={9} />
       {/* level tower */}
       <Box P={P} x={5.0} y={0.7} w={0.4} d={0.4} h={2.3} />
       {Array.from({ length: 8 }, (_, i) => {
