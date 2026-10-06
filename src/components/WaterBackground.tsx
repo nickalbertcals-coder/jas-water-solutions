@@ -13,7 +13,7 @@ void main() {
 /*
  * Sunlight through moving water: an ocean gradient (deep navy → blue → teal)
  * lit by drifting caustic networks — the bright, shifting web you see on a
- * pool floor. The cursor gently parts the surface and picks up a soft glow.
+ * pool floor.
  */
 const FRAG = `
 #ifdef GL_FRAGMENT_PRECISION_HIGH
@@ -24,8 +24,6 @@ precision mediump float;
 varying vec2 vUv;
 uniform vec2 uRes;
 uniform float uTime;
-uniform vec2 uMouse;
-uniform float uMouseK;
 
 #define TAU 6.28318530718
 
@@ -49,12 +47,6 @@ void main() {
   vec2 uv = vUv;
   vec2 p = vec2(uv.x * asp, uv.y);
 
-  // the cursor parts the surface
-  vec2 m = vec2(uMouse.x * asp, uMouse.y);
-  vec2 d = p - m;
-  float md2 = dot(d, d);
-  p += d / (sqrt(md2) + 1e-3) * exp(-md2 * 16.0) * 0.05 * uMouseK;
-
   // ocean gradient, light from the lower right
   vec3 deep = vec3(0.008, 0.075, 0.13);
   vec3 mid  = vec3(0.02, 0.20, 0.34);
@@ -76,8 +68,7 @@ void main() {
   float sh = sin((p.x * 1.7 - p.y * 1.1) * 3.2 + uTime * 0.18) * 0.5 + 0.5;
   col += vec3(0.08, 0.32, 0.46) * pow(sh, 7.0) * 0.07 * (1.0 - uv.y * 0.7);
 
-  // cursor glow + vignette
-  col += vec3(0.18, 0.6, 0.8) * exp(-md2 * 26.0) * 0.12 * uMouseK;
+  // vignette
   col *= 1.0 - 0.38 * pow(length(uv - vec2(0.5, 0.55)) * 1.15, 2.2);
 
   gl_FragColor = vec4(col, 1.0);
@@ -127,18 +118,13 @@ export default function WaterBackground() {
 
     const uRes = gl.getUniformLocation(prog, "uRes");
     const uTime = gl.getUniformLocation(prog, "uTime");
-    const uMouse = gl.getUniformLocation(prog, "uMouse");
-    const uMouseK = gl.getUniformLocation(prog, "uMouseK");
 
     let shown = false;
     let time = 14; // start part-way in so the first frame already has structure
-    const mouse = { x: 0.7, y: 0.5, tx: 0.7, ty: 0.5, k: 0, tk: 0 };
 
     const draw = () => {
       gl.uniform2f(uRes, canvas.width, canvas.height);
       gl.uniform1f(uTime, time);
-      gl.uniform2f(uMouse, mouse.x, mouse.y);
-      gl.uniform1f(uMouseK, mouse.k);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       if (!shown) {
         shown = true;
@@ -164,17 +150,6 @@ export default function WaterBackground() {
       };
     }
 
-    const onMove = (e: PointerEvent) => {
-      const r = canvas.getBoundingClientRect();
-      const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
-      mouse.tk = inside ? 1 : 0;
-      if (inside) {
-        mouse.tx = (e.clientX - r.left) / r.width;
-        mouse.ty = 1 - (e.clientY - r.top) / r.height;
-      }
-    };
-    window.addEventListener("pointermove", onMove, { passive: true });
-
     let raf = 0;
     let visible = true;
     let last = performance.now();
@@ -184,10 +159,6 @@ export default function WaterBackground() {
       last = now;
       if (!visible) return;
       time += dt;
-      const ease = 1 - Math.exp(-dt * 4);
-      mouse.x += (mouse.tx - mouse.x) * ease;
-      mouse.y += (mouse.ty - mouse.y) * ease;
-      mouse.k += (mouse.tk - mouse.k) * ease;
       draw();
     };
     raf = requestAnimationFrame(frame);
@@ -201,7 +172,6 @@ export default function WaterBackground() {
       cancelAnimationFrame(raf);
       io.disconnect();
       ro.disconnect();
-      window.removeEventListener("pointermove", onMove);
       gl.getExtension("WEBGL_lose_context")?.loseContext();
     };
   }, []);
