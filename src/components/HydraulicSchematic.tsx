@@ -32,20 +32,27 @@ const C = {
 
 /* ───────────────────────── scene data ───────────────────────── */
 
-const TANK = { cx: 1.5, cy: 1.4, r: 0.95, h: 1.7 };
-const PUMP = { x: 3.3, y: 1.1, w: 1.2, d: 1.0, h: 0.85 };
+// three floating tiers, stacked top → bottom: reservoir, pump house, supply areas
+const TIER_Y = { a: 0, b: 190, c: 380 }; // screen-px offset of each tier
+const SIZE = { a: 3.4, b: 3.4, c: 4.8 }; // square platform edge, in grid units
 
-// pipe routes in grid space, source → destination (so flow moves outward)
-const PIPES: Pt[][] = [
-  [[2.3, 1.6], [3.3, 1.6]],
-  [[4.5, 1.6], [6.0, 1.6]],
-  [[6.0, 1.6], [7.2, 1.6]],
-  [[6.0, 1.6], [6.0, 3.5]],
-  [[6.0, 3.5], [6.0, 4.9]],
-  [[6.0, 3.5], [2.6, 3.5]],
-  [[2.6, 3.5], [2.6, 4.8]],
+const TANK = { cx: 1.7, cy: 1.7, r: 0.95, h: 1.7 };
+const PUMP = { x: 1.1, y: 1.2, w: 1.2, d: 1.0, h: 0.85 };
+const HUB: Pt = [2.4, 2.4];
+
+// pipe routes in grid space, source → destination (so flow moves outward / downward)
+const PIPES_A: Pt[][] = [[[1.7, 1.7], [3.4, 3.4]]];
+const PIPES_B: Pt[][] = [
+  [[0, 0], [1.7, 1.7]],
+  [[1.7, 1.7], [3.4, 3.4]],
 ];
-const VALVES: Pt[] = [[6.0, 1.6], [6.0, 3.5], [2.6, 3.5]];
+const PIPES_C: Pt[][] = [
+  [[0, 0], [2.4, 2.4]],
+  [HUB, [3.8, 2.4], [3.8, 1.0]],
+  [HUB, [1.0, 2.4], [1.0, 3.8]],
+  [HUB, [2.4, 3.6], [3.6, 3.6]],
+];
+const VALVES_C: Pt[] = [[3.1, 2.4], [1.7, 2.4], [2.4, 3.0]];
 
 type BoxDef = [dx: number, dy: number, w: number, d: number, h: number];
 const CLUSTER_A: BoxDef[] = [
@@ -62,9 +69,9 @@ const CLUSTER_B: BoxDef[] = [
 ];
 
 const DISTRICTS = [
-  { id: "dma1", cx: 7.2, cy: 1.6, boxes: CLUSTER_A, live: false },
-  { id: "dma2", cx: 6.0, cy: 4.9, boxes: CLUSTER_B, live: true },
-  { id: "dma3", cx: 2.6, cy: 4.8, boxes: CLUSTER_A, live: false },
+  { id: "dma1", cx: 3.8, cy: 1.0, boxes: CLUSTER_A, live: false },
+  { id: "dma2", cx: 3.6, cy: 3.6, boxes: CLUSTER_B, live: true },
+  { id: "dma3", cx: 1.0, cy: 3.8, boxes: CLUSTER_A, live: false },
 ];
 
 const TIPS = {
@@ -244,20 +251,16 @@ export default function HydraulicSchematic({ className, interactive = false }: P
   const live = DISTRICTS.find((d) => d.live)!;
   const [lx, ly] = P(live.cx, live.cy, 0);
 
-  const platform = {
-    top: poly(P(0, 0), P(8, 0), P(8, 6), P(0, 6)),
-    left: poly(P(0, 6), P(8, 6), P(8, 6, -0.38), P(0, 6, -0.38)),
-    right: poly(P(8, 0), P(8, 6), P(8, 6, -0.38), P(8, 0, -0.38)),
-  };
-  const gridPath =
-    Array.from({ length: 9 }, (_, i) => `M${P(i, 0).map(f1).join(" ")}L${P(i, 6).map(f1).join(" ")}`).join("") +
-    Array.from({ length: 7 }, (_, j) => `M${P(0, j).map(f1).join(" ")}L${P(8, j).map(f1).join(" ")}`).join("");
+  const platformOf = (n: number) => ({
+    top: poly(P(0, 0), P(n, 0), P(n, n), P(0, n)),
+    left: poly(P(0, n), P(n, n), P(n, n, -0.38), P(0, n, -0.38)),
+    right: poly(P(n, 0), P(n, n), P(n, n, -0.38), P(n, 0, -0.38)),
+    grid:
+      Array.from({ length: Math.floor(n) + 1 }, (_, i) => `M${P(i, 0).map(f1).join(" ")}L${P(i, n).map(f1).join(" ")}`).join("") +
+      Array.from({ length: Math.floor(n) + 1 }, (_, j) => `M${P(0, j).map(f1).join(" ")}L${P(n, j).map(f1).join(" ")}`).join(""),
+  });
 
-  const objectsInOrder = [
-    { key: "tank", order: TANK.cx + TANK.cy },
-    { key: "pump", order: PUMP.x + PUMP.y + 1 },
-    ...DISTRICTS.map((d) => ({ key: d.id, order: d.cx + d.cy })),
-  ].sort((a, b) => a.order - b.order);
+  const objectsC = DISTRICTS.map((d) => ({ key: d.id, order: d.cx + d.cy })).sort((a, b) => a.order - b.order);
 
   const label = (
     x: number,
@@ -272,14 +275,63 @@ export default function HydraulicSchematic({ className, interactive = false }: P
       {lx2 !== undefined && ly2 !== undefined && (
         <line x1={anchor === "start" ? lx2 : x} y1={y + 6} x2={lx2} y2={ly2} stroke={color} strokeOpacity="0.5" strokeWidth="1" />
       )}
-      <text x={x} y={y} textAnchor={anchor} fontSize="14" fontWeight="600" letterSpacing="0.01em" fill={color}>
+      <text x={x} y={y} textAnchor={anchor} fontSize="15" fontWeight="600" letterSpacing="0.01em" fill={color}>
         {text}
       </text>
     </g>
   );
 
-  const d1 = P(7.2, 1.6, 0);
-  const d3 = P(2.6, 4.8, 0);
+  const d1 = P(3.8, 1.0, 0);
+  const d3 = P(1.0, 3.8, 0);
+
+  const platformGroup = (n: number, shadows: React.ReactNode) => {
+    const pl = platformOf(n);
+    return (
+      <>
+        <g className="sc-platform" strokeLinejoin="round">
+          <polygon points={pl.left} fill="#051624" stroke={C.edgeSoft} />
+          <polygon points={pl.right} fill="#030f19" stroke={C.edgeSoft} />
+          <polygon points={pl.top} fill={`url(#plat-${uid})`} stroke={C.edge} />
+          <path className="sc-grid" d={pl.grid} stroke="rgba(255,255,255,0.075)" strokeWidth="1" />
+        </g>
+        <g filter={`url(#soft-${uid})`} opacity="0.65">
+          {shadows}
+        </g>
+      </>
+    );
+  };
+
+  const pipe = (pts: Pt[], key: string) => {
+    const d = pathOf(pts);
+    return (
+      <g className="sc-pipe" key={key} strokeLinecap="round" strokeLinejoin="round">
+        <path className="sc-pipe-body" d={d} stroke="#2a6a92" strokeWidth="9.5" />
+        <path className="sc-pipe-body" d={d} stroke="#03111d" strokeWidth="6" />
+        <path d={d} stroke={C.aqua} strokeOpacity="0.16" strokeWidth="2" />
+        <g filter={`url(#glow-${uid})`}>
+          <path className="sc-flow" d={d} stroke={C.aqua} strokeWidth="2.6" />
+        </g>
+      </g>
+    );
+  };
+
+  /** straight pipe in screen space, used for the risers that drop between tiers */
+  const riser = (x: number, y1: number, y2: number, key: string) => {
+    const d = `M${f1(x)} ${f1(y1)}L${f1(x)} ${f1(y2)}`;
+    return (
+      <g className="sc-pipe" key={key} strokeLinecap="round">
+        <path className="sc-pipe-body" d={d} stroke="#2a6a92" strokeWidth="9.5" />
+        <path className="sc-pipe-body" d={d} stroke="#03111d" strokeWidth="6" />
+        <path d={d} stroke={C.aqua} strokeOpacity="0.16" strokeWidth="2" />
+        <g filter={`url(#glow-${uid})`}>
+          <path className="sc-flow" d={d} stroke={C.aqua} strokeWidth="2.6" />
+        </g>
+      </g>
+    );
+  };
+
+  const cornerY = (n: number) => P(n, n, 0.1)[1];
+  const topCornerY = P(0, 0, 0.1)[1];
 
   return (
     <div
@@ -292,11 +344,11 @@ export default function HydraulicSchematic({ className, interactive = false }: P
     >
       <svg
         ref={svgRef}
-        viewBox="50 30 540 392"
+        viewBox="105 52 400 676"
         fill="none"
         className="h-full w-full overflow-visible"
         role="img"
-        aria-label="Isometric illustration of a water distribution system: a reservoir, booster pump house, glowing supply mains and metered districts, with one district reporting live"
+        aria-label="Illustration of a water distribution system in three stacked layers: a reservoir on top, a booster pump house in the middle, and metered supply areas below, joined by glowing mains, with one area reporting live"
       >
         <style>{`
           text { font-family: var(--font-figtree), sans-serif; }
@@ -343,133 +395,122 @@ export default function HydraulicSchematic({ className, interactive = false }: P
         </defs>
 
         <g className="sc-float">
-          {/* platform */}
-          <g className="sc-platform" strokeLinejoin="round">
-            <polygon points={platform.left} fill="#051624" stroke={C.edgeSoft} />
-            <polygon points={platform.right} fill="#030f19" stroke={C.edgeSoft} />
-            <polygon points={platform.top} fill={`url(#plat-${uid})`} stroke={C.edge} />
-            <path className="sc-grid" d={gridPath} stroke="rgba(255,255,255,0.075)" strokeWidth="1" />
+          {/* ── tier A: reservoir ── */}
+          <g transform={`translate(0 ${TIER_Y.a})`}>
+            {platformGroup(SIZE.a, <ellipse cx={tx + 34} cy={ty + 14} rx="70" ry="30" fill="#000" />)}
+            {PIPES_A.map((pts, i) => pipe(pts, `a${i}`))}
+            <g className="sc-obj">
+              <g {...hot} data-tip={TIPS.tank} aria-label={TIPS.tank}>
+                <path d={tankBody} fill={`url(#tank-${uid})`} stroke={C.edgeSoft} />
+                <g clipPath={`url(#tankclip-${uid})`}>
+                  <g className="sc-water">
+                    <rect x={tx - trx} y={waterY} width={trx * 2} height={ty - waterY + try_ + 6} fill={C.aqua} fillOpacity="0.34" />
+                    <ellipse cx={tx} cy={waterY} rx={trx} ry={try_} fill="#2f9fc4" stroke={C.aqua} strokeOpacity="0.95" />
+                    <ellipse cx={tx - trx * 0.28} cy={waterY - 1} rx={trx * 0.42} ry={try_ * 0.34} fill="#fff" fillOpacity="0.12" />
+                  </g>
+                </g>
+                {[0.28, 0.58].map((t) => (
+                  <path
+                    key={t}
+                    d={`M${f1(tx - trx)} ${f1(tTop + (ty - tTop) * t)}A${f1(trx)} ${f1(try_)} 0 0 0 ${f1(tx + trx)} ${f1(tTop + (ty - tTop) * t)}`}
+                    stroke="rgba(255,255,255,0.13)"
+                  />
+                ))}
+                <rect x={tx - trx * 0.55} y={tTop + 10} width="7" height={ty - tTop - 14} fill="#fff" fillOpacity="0.07" />
+                <ellipse cx={tx} cy={tTop} rx={trx} ry={try_} fill="#235f86" stroke={C.edge} />
+                <ellipse cx={tx} cy={tTop} rx={trx * 0.62} ry={try_ * 0.62} fill="#071e33" stroke={C.edgeSoft} />
+                <ellipse cx={tx} cy={tTop} rx={trx * 0.2} ry={try_ * 0.2} fill={C.aqua} fillOpacity="0.8" />
+                <ellipse className="sc-hit" cx={tx} cy={(tTop + ty) / 2} rx={trx + 6} ry={(ty - tTop) / 2 + try_ + 4} fill="transparent" />
+              </g>
+            </g>
+            {label(tx, tTop - 40, "Reservoir", undefined, "middle", tx, tTop - 22)}
           </g>
 
-          {/* contact shadows */}
-          <g filter={`url(#soft-${uid})`} opacity="0.65">
-            <ellipse cx={tx + 34} cy={ty + 14} rx="70" ry="30" fill="#000" />
-            <ellipse cx={pumpTop[0] + 26} cy={pumpTop[1] + 44} rx="58" ry="22" fill="#000" />
-            {DISTRICTS.map((d) => {
-              const [sx, sy] = P(d.cx + 0.3, d.cy + 0.3, 0);
-              return <ellipse key={d.id} cx={sx} cy={sy + 4} rx="62" ry="26" fill="#000" />;
+          {/* riser: reservoir → pump house */}
+          {riser(OX, TIER_Y.a + cornerY(SIZE.a), TIER_Y.b + topCornerY, "r1")}
+
+          {/* ── tier B: pump house ── */}
+          <g transform={`translate(0 ${TIER_Y.b})`}>
+            {platformGroup(SIZE.b, <ellipse cx={pumpTop[0] + 26} cy={pumpTop[1] + 44} rx="58" ry="22" fill="#000" />)}
+            {PIPES_B.map((pts, i) => pipe(pts, `b${i}`))}
+            <g className="sc-obj">
+              <g {...hot} data-tip={TIPS.pump} aria-label={TIPS.pump}>
+                <Box x={PUMP.x} y={PUMP.y} w={PUMP.w} d={PUMP.d} h={PUMP.h} win={C.window} seed={5} />
+                {/* rooftop motor */}
+                <path
+                  d={`M${f1(pumpTop[0] - 14)} ${f1(pumpTop[1] - 12)}L${f1(pumpTop[0] - 14)} ${f1(pumpTop[1])}A14 8 0 0 0 ${f1(pumpTop[0] + 14)} ${f1(pumpTop[1])}L${f1(pumpTop[0] + 14)} ${f1(pumpTop[1] - 12)}Z`}
+                  fill="#13405e"
+                  stroke={C.edgeSoft}
+                />
+                <ellipse cx={pumpTop[0]} cy={pumpTop[1] - 12} rx="14" ry="8" fill="#2c6a92" stroke={C.edge} />
+                <ellipse cx={pumpTop[0]} cy={pumpTop[1] - 12} rx="5" ry="2.8" fill={C.aqua} fillOpacity="0.75" />
+                <circle className="sc-led" cx={led[0]} cy={led[1]} r="2.6" fill={C.live} />
+                {/* telemetry mast — the "digitized monitoring" in one glance */}
+                <line x1={mast[0]} y1={mast[1]} x2={mast[0]} y2={mast[1] - 46} stroke="rgba(255,255,255,0.7)" strokeWidth="1.6" />
+                <line x1={mast[0] - 6} y1={mast[1] - 30} x2={mast[0] + 6} y2={mast[1] - 30} stroke="rgba(255,255,255,0.5)" strokeWidth="1.3" />
+                <circle cx={mast[0]} cy={mast[1] - 47} r="2.8" fill={C.aqua} />
+                {[0, 1].map((i) => (
+                  <circle key={i} className="sc-ping" cx={mast[0]} cy={mast[1] - 47} r="5" stroke={C.aqua} strokeWidth="1.2" style={{ animationDelay: `${i * 1.3}s` }} />
+                ))}
+                <polygon
+                  className="sc-hit"
+                  points={poly(P(PUMP.x, PUMP.y, PUMP.h + 0.45), P(PUMP.x + PUMP.w, PUMP.y, PUMP.h + 0.45), P(PUMP.x + PUMP.w, PUMP.y + PUMP.d, 0), P(PUMP.x, PUMP.y + PUMP.d, 0))}
+                  fill="transparent"
+                />
+              </g>
+            </g>
+            {label(pumpTop[0] + 20, pumpTop[1] - 52, "Booster pump", undefined, "start")}
+          </g>
+
+          {/* riser: pump house → supply areas */}
+          {riser(OX, TIER_Y.b + cornerY(SIZE.b), TIER_Y.c + topCornerY, "r2")}
+
+          {/* ── tier C: supply areas ── */}
+          <g transform={`translate(0 ${TIER_Y.c})`}>
+            {platformGroup(
+              SIZE.c,
+              DISTRICTS.map((d) => {
+                const [sx, sy] = P(d.cx + 0.3, d.cy + 0.3, 0);
+                return <ellipse key={d.id} cx={sx} cy={sy + 4} rx="62" ry="26" fill="#000" />;
+              })
+            )}
+
+            {/* live-area pressure rings (on the ground) */}
+            <ellipse cx={lx} cy={ly} rx="88" ry="50" fill={`url(#ring-${uid})`} />
+            {[0, 1, 2].map((i) => (
+              <ellipse key={i} className="sc-ring" cx={lx} cy={ly} rx="84" ry="48" stroke={C.live} strokeWidth="1.8" strokeOpacity="0.95" />
+            ))}
+
+            {PIPES_C.map((pts, i) => pipe(pts, `c${i}`))}
+            {VALVES_C.map(([vx, vy], i) => {
+              const [sx, sy] = P(vx, vy, 0.1);
+              return (
+                <g className="sc-valve" key={i}>
+                  <ellipse cx={sx} cy={sy + 2.5} rx="11" ry="6.4" fill="#07213a" stroke={C.edge} />
+                  <ellipse cx={sx} cy={sy} rx="11" ry="6.4" fill="#1d4d6e" stroke={C.edge} />
+                  <ellipse cx={sx} cy={sy} rx="4.2" ry="2.4" fill={C.aqua} fillOpacity="0.85" />
+                </g>
+              );
             })}
+
+            {objectsC.map(({ key }) => {
+              const dist = DISTRICTS.find((d) => d.id === key)!;
+              const [sx, sy] = P(dist.cx, dist.cy, 0.4);
+              const tip = dist.live ? TIPS.live : TIPS.dma;
+              return (
+                <g className="sc-obj" key={key}>
+                  <g {...hot} data-tip={tip} aria-label={tip}>
+                    <District cx={dist.cx} cy={dist.cy} boxes={dist.boxes} live={dist.live} />
+                    <ellipse className="sc-hit" cx={sx} cy={sy - 6} rx="58" ry="40" fill="transparent" />
+                  </g>
+                </g>
+              );
+            })}
+
+            {label(d1[0], d1[1] - 78, "Area A", undefined, "middle", d1[0], d1[1] - 52)}
+            {label(d3[0], d3[1] - 78, "Area C", undefined, "middle", d3[0], d3[1] - 52)}
+            {label(lx + 62, ly - 2, "Area B — live", C.live, "start", lx + 40, ly - 8)}
           </g>
-
-          {/* live-district pressure rings (on the ground) */}
-          <ellipse cx={lx} cy={ly} rx="88" ry="50" fill={`url(#ring-${uid})`} />
-          {[0, 1, 2].map((i) => (
-            <ellipse key={i} className="sc-ring" cx={lx} cy={ly} rx="84" ry="48" stroke={C.live} strokeWidth="1.8" strokeOpacity="0.95" />
-          ))}
-
-          {/* mains */}
-          {PIPES.map((pts, i) => {
-            const d = pathOf(pts);
-            return (
-              <g className="sc-pipe" key={i} strokeLinecap="round" strokeLinejoin="round">
-                <path className="sc-pipe-body" d={d} stroke="#2a6a92" strokeWidth="9.5" />
-                <path className="sc-pipe-body" d={d} stroke="#03111d" strokeWidth="6" />
-                <path d={d} stroke={C.aqua} strokeOpacity="0.16" strokeWidth="2" />
-                <g filter={`url(#glow-${uid})`}>
-                  <path className="sc-flow" d={d} stroke={C.aqua} strokeWidth="2.6" />
-                </g>
-              </g>
-            );
-          })}
-          {VALVES.map(([vx, vy], i) => {
-            const [sx, sy] = P(vx, vy, 0.1);
-            return (
-              <g className="sc-valve" key={i}>
-                <ellipse cx={sx} cy={sy + 2.5} rx="11" ry="6.4" fill="#07213a" stroke={C.edge} />
-                <ellipse cx={sx} cy={sy} rx="11" ry="6.4" fill="#1d4d6e" stroke={C.edge} />
-                <ellipse cx={sx} cy={sy} rx="4.2" ry="2.4" fill={C.aqua} fillOpacity="0.85" />
-              </g>
-            );
-          })}
-
-          {/* structures, back to front */}
-          {objectsInOrder.map(({ key }) => {
-            if (key === "tank")
-              return (
-                <g className="sc-obj" key={key}>
-                  <g {...hot} data-tip={TIPS.tank} aria-label={TIPS.tank}>
-                    <path d={tankBody} fill={`url(#tank-${uid})`} stroke={C.edgeSoft} />
-                    <g clipPath={`url(#tankclip-${uid})`}>
-                      <g className="sc-water">
-                        <rect x={tx - trx} y={waterY} width={trx * 2} height={ty - waterY + try_ + 6} fill={C.aqua} fillOpacity="0.34" />
-                        <ellipse cx={tx} cy={waterY} rx={trx} ry={try_} fill="#2f9fc4" stroke={C.aqua} strokeOpacity="0.95" />
-                        <ellipse cx={tx - trx * 0.28} cy={waterY - 1} rx={trx * 0.42} ry={try_ * 0.34} fill="#fff" fillOpacity="0.12" />
-                      </g>
-                    </g>
-                    {[0.28, 0.58].map((t) => (
-                      <path
-                        key={t}
-                        d={`M${f1(tx - trx)} ${f1(tTop + (ty - tTop) * t)}A${f1(trx)} ${f1(try_)} 0 0 0 ${f1(tx + trx)} ${f1(tTop + (ty - tTop) * t)}`}
-                        stroke="rgba(255,255,255,0.13)"
-                      />
-                    ))}
-                    <rect x={tx - trx * 0.55} y={tTop + 10} width="7" height={ty - tTop - 14} fill="#fff" fillOpacity="0.07" />
-                    <ellipse cx={tx} cy={tTop} rx={trx} ry={try_} fill="#235f86" stroke={C.edge} />
-                    <ellipse cx={tx} cy={tTop} rx={trx * 0.62} ry={try_ * 0.62} fill="#071e33" stroke={C.edgeSoft} />
-                    <ellipse cx={tx} cy={tTop} rx={trx * 0.2} ry={try_ * 0.2} fill={C.aqua} fillOpacity="0.8" />
-                    <ellipse className="sc-hit" cx={tx} cy={(tTop + ty) / 2} rx={trx + 6} ry={(ty - tTop) / 2 + try_ + 4} fill="transparent" />
-                  </g>
-                </g>
-              );
-            if (key === "pump")
-              return (
-                <g className="sc-obj" key={key}>
-                  <g {...hot} data-tip={TIPS.pump} aria-label={TIPS.pump}>
-                    <Box x={PUMP.x} y={PUMP.y} w={PUMP.w} d={PUMP.d} h={PUMP.h} win={C.window} seed={5} />
-                    {/* rooftop motor */}
-                    <path
-                      d={`M${f1(pumpTop[0] - 14)} ${f1(pumpTop[1] - 12)}L${f1(pumpTop[0] - 14)} ${f1(pumpTop[1])}A14 8 0 0 0 ${f1(pumpTop[0] + 14)} ${f1(pumpTop[1])}L${f1(pumpTop[0] + 14)} ${f1(pumpTop[1] - 12)}Z`}
-                      fill="#13405e"
-                      stroke={C.edgeSoft}
-                    />
-                    <ellipse cx={pumpTop[0]} cy={pumpTop[1] - 12} rx="14" ry="8" fill="#2c6a92" stroke={C.edge} />
-                    <ellipse cx={pumpTop[0]} cy={pumpTop[1] - 12} rx="5" ry="2.8" fill={C.aqua} fillOpacity="0.75" />
-                    <circle className="sc-led" cx={led[0]} cy={led[1]} r="2.6" fill={C.live} />
-                    {/* telemetry mast — the "digitized monitoring" in one glance */}
-                    <line x1={mast[0]} y1={mast[1]} x2={mast[0]} y2={mast[1] - 46} stroke="rgba(255,255,255,0.7)" strokeWidth="1.6" />
-                    <line x1={mast[0] - 6} y1={mast[1] - 30} x2={mast[0] + 6} y2={mast[1] - 30} stroke="rgba(255,255,255,0.5)" strokeWidth="1.3" />
-                    <circle cx={mast[0]} cy={mast[1] - 47} r="2.8" fill={C.aqua} />
-                    {[0, 1].map((i) => (
-                      <circle key={i} className="sc-ping" cx={mast[0]} cy={mast[1] - 47} r="5" stroke={C.aqua} strokeWidth="1.2" style={{ animationDelay: `${i * 1.3}s` }} />
-                    ))}
-
-                    <polygon
-                      className="sc-hit"
-                      points={poly(P(PUMP.x, PUMP.y, PUMP.h + 0.45), P(PUMP.x + PUMP.w, PUMP.y, PUMP.h + 0.45), P(PUMP.x + PUMP.w, PUMP.y + PUMP.d, 0), P(PUMP.x, PUMP.y + PUMP.d, 0))}
-                      fill="transparent"
-                    />
-                  </g>
-                </g>
-              );
-            const dist = DISTRICTS.find((d) => d.id === key)!;
-            const [sx, sy] = P(dist.cx, dist.cy, 0.4);
-            const tip = dist.live ? TIPS.live : TIPS.dma;
-            return (
-              <g className="sc-obj" key={key}>
-                <g {...hot} data-tip={tip} aria-label={tip}>
-                  <District cx={dist.cx} cy={dist.cy} boxes={dist.boxes} live={dist.live} />
-                  <ellipse className="sc-hit" cx={sx} cy={sy - 6} rx="58" ry="40" fill="transparent" />
-                </g>
-              </g>
-            );
-          })}
-
-          {/* labels */}
-          {label(tx, tTop - 40, "Reservoir", undefined, "middle", tx, tTop - 22)}
-          {label(pumpTop[0] + 16, pumpTop[1] - 66, "Booster pump", undefined, "start")}
-          {label(d1[0], d1[1] - 78, "Area A", undefined, "middle", d1[0], d1[1] - 52)}
-          {label(d3[0], d3[1] - 78, "Area C", undefined, "middle", d3[0], d3[1] - 52)}
-          {label(lx + 62, ly - 2, "Area B — live", C.live, "start", lx + 40, ly - 8)}
         </g>
       </svg>
 
