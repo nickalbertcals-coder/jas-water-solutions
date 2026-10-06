@@ -1,5 +1,6 @@
 "use client";
 
+import BubblesBackground from "@/components/BubblesBackground";
 import Eyebrow from "@/components/Eyebrow";
 import { JourneyDefs, JourneyScene } from "@/components/JourneyScenes";
 import { useLayoutEffect, useRef, useSyncExternalStore } from "react";
@@ -177,11 +178,10 @@ export default function WaterJourney() {
       className="relative overflow-hidden bg-[linear-gradient(180deg,#041526_0%,#06223a_100%)] text-paper-50"
     >
       <JourneyDefs />
-      {/* blueprint dot grid, fading toward the edges */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-70 [background-image:radial-gradient(rgba(160,215,240,0.42)_1.2px,transparent_1.6px)] [background-size:30px_30px] [mask-image:radial-gradient(ellipse_at_55%_45%,black_25%,transparent_85%)]"
-      />
+      {/* aquarium-style air bubbles rising behind everything (desktop only) */}
+      {!staticMode && (
+        <BubblesBackground className="pointer-events-none absolute inset-0 hidden h-full w-full lg:block" />
+      )}
       {/* soft light that travels along with the water drop */}
       <div
         data-glow
