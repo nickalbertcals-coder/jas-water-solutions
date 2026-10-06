@@ -187,6 +187,30 @@ header[data-scrolled="true"] {
 @keyframes jchip { 0%, 8% { opacity: 0; transform: translateY(10px); } 22%, 80% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(0); } }
 @keyframes jrise { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: 0.9; } 100% { transform: translateY(-70px); opacity: 0; } }
 
+/* Journey: slow shafts of light fanning out from the top-right corner */
+.rays-layer {
+  transform-origin: 100% 0;
+  mix-blend-mode: screen;
+  -webkit-mask-image: radial-gradient(circle at 100% 0%, #000 0%, rgba(0,0,0,0.65) 42%, transparent 80%);
+  mask-image: radial-gradient(circle at 100% 0%, #000 0%, rgba(0,0,0,0.65) 42%, transparent 80%);
+}
+.rays-a { background: conic-gradient(from 180deg at 100% 0%, transparent 4.5deg, rgba(170,230,255,0.3) 8deg, transparent 11.5deg, transparent 12deg, rgba(170,230,255,0.14) 17deg, transparent 22deg, transparent 26.8deg, rgba(170,230,255,0.36) 29deg, transparent 31.2deg, transparent 34deg, rgba(170,230,255,0.12) 40deg, transparent 46deg, transparent 50.4deg, rgba(170,230,255,0.28) 53deg, transparent 55.6deg, transparent 61deg, rgba(170,230,255,0.15) 66deg, transparent 71deg, transparent 75.8deg, rgba(170,230,255,0.22) 78deg, transparent 80.2deg, transparent 90deg); }
+.rays-b { background: conic-gradient(from 180deg at 100% 0%, transparent 8deg, rgba(170,230,255,0.2) 12deg, transparent 16deg, transparent 21deg, rgba(170,230,255,0.32) 23deg, transparent 25deg, transparent 29deg, rgba(170,230,255,0.12) 35deg, transparent 41deg, transparent 45deg, rgba(170,230,255,0.32) 47deg, transparent 49deg, transparent 54.5deg, rgba(170,230,255,0.14) 59deg, transparent 63.5deg, transparent 69.4deg, rgba(170,230,255,0.24) 72deg, transparent 74.6deg, transparent 80.5deg, rgba(170,230,255,0.12) 84deg, transparent 87.5deg, transparent 90deg); }
+.rays-core {
+  background: radial-gradient(circle at 100% 0%, rgba(170, 230, 255, 0.4) 0%, rgba(170, 230, 255, 0.1) 18%, transparent 36%);
+  mix-blend-mode: screen;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rays-a { animation: rays-sway-a 17s ease-in-out infinite alternate, rays-glow 7s ease-in-out infinite alternate; }
+  .rays-b { animation: rays-sway-b 25s ease-in-out infinite alternate, rays-glow 9s ease-in-out -4s infinite alternate; }
+  .rays-core { animation: rays-glow 6s ease-in-out infinite alternate; }
+}
+
+@keyframes rays-sway-a { from { transform: rotate(-3deg); } to { transform: rotate(3.5deg); } }
+@keyframes rays-sway-b { from { transform: rotate(3.5deg); } to { transform: rotate(-4deg); } }
+@keyframes rays-glow { from { opacity: 0.45; } to { opacity: 1; } }
+
 /* Draws a hairline left-to-right; driven by GSAP scaleX on scroll */
 .rule-draw {
   transform-origin: left center;
