@@ -45,7 +45,7 @@ export default function Home() {
 
         <div className="relative mx-auto flex min-h-[calc(100svh-4.3rem)] max-w-7xl flex-col px-5 pb-8 pt-8 sm:px-8 lg:pt-10">
           {/* top row: intro + live schematic/video */}
-          <div className="order-2 grid gap-10 lg:order-1 lg:grid-cols-[minmax(0,26rem)_1fr] lg:items-start">
+          <div className="order-2 grid gap-10 lg:order-1 lg:grid-cols-[minmax(0,26rem)_1fr] lg:items-center">
             <ScrollReveal selector=":scope > *" y={18} stagger={0.1}>
               <span className="hidden lg:block">
                 <Eyebrow tone="light">Water utility operations &amp; maintenance</Eyebrow>
