@@ -84,7 +84,7 @@ export default function Home() {
               </dl>
             </ScrollReveal>
 
-            <HeroVideo className="hidden aspect-[3/2] w-full max-w-[36rem] justify-self-end lg:block" />
+            <HeroVideo className="hidden aspect-[540/392] w-full max-w-[35rem] justify-self-end lg:block [@media(min-height:1000px)]:max-w-[43rem]" />
           </div>
 
           {/* headline + stats */}

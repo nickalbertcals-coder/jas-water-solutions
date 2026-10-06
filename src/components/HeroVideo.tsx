@@ -1,11 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import HydraulicSchematic from "./HydraulicSchematic";
 
 const EDGE_FADE =
   "radial-gradient(ellipse at center, black 55%, transparent 88%)";
 const VIDEO_SRC = "/videos/hero.mp4";
+
+const REDUCED_QUERY = "(prefers-reduced-motion: reduce)";
+const subscribeReducedMotion = (onChange: () => void) => {
+  const mq = window.matchMedia(REDUCED_QUERY);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+};
+const getReducedMotion = () => window.matchMedia(REDUCED_QUERY).matches;
+const getReducedMotionServer = () => false;
 
 /**
  * Hero background video: an ambient, muted, looping clip meant to
@@ -25,12 +34,10 @@ const VIDEO_SRC = "/videos/hero.mp4";
  * rendering an empty box with no fallback.
  */
 export default function HeroVideo({ className }: { className?: string }) {
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const reducedMotion = useSyncExternalStore(subscribeReducedMotion, getReducedMotion, getReducedMotionServer);
   const [videoAvailable, setVideoAvailable] = useState(false);
 
   useEffect(() => {
-    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-
     let cancelled = false;
     fetch(VIDEO_SRC, { method: "HEAD" })
       .then((res) => {
@@ -63,7 +70,7 @@ export default function HeroVideo({ className }: { className?: string }) {
         </video>
       ) : (
         <>
-          <HydraulicSchematic tone="paper" interactive className="h-full w-full" />
+          <HydraulicSchematic interactive className="h-full w-full" />
           <p className="pointer-events-none absolute bottom-0 right-1 font-mono text-[10px] uppercase tracking-[0.06em] text-paper-50/40">
             Hover the network to explore
           </p>
