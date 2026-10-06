@@ -236,15 +236,15 @@ export default function WaterJourney() {
 
         {/* the pipe */}
         <div className="relative mx-12 pb-9 pt-4">
-          <div className="absolute inset-x-0 top-[1.375rem] h-2.5 -translate-y-1/2 rounded-full bg-white/12 ring-1 ring-white/10" />
+          <div className="absolute inset-x-0 top-[1.625rem] h-2.5 -translate-y-1/2 rounded-full bg-white/12 ring-1 ring-white/10" />
           <div
             data-fill
-            className="absolute inset-x-0 top-[1.375rem] h-2.5 -translate-y-1/2 rounded-full bg-[linear-gradient(90deg,#4cc9e8,#3ee0b4)] shadow-[0_0_18px_2px_rgba(76,201,232,0.55)]"
+            className="absolute inset-x-0 top-[1.625rem] h-2.5 -translate-y-1/2 rounded-full bg-[linear-gradient(90deg,#4cc9e8,#3ee0b4)] shadow-[0_0_18px_2px_rgba(76,201,232,0.55)]"
           />
           <span
             data-drop
             aria-hidden
-            className="absolute top-[1.375rem] z-10 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white shadow-[0_0_22px_6px_rgba(76,201,232,0.75)]"
+            className="absolute top-[1.625rem] z-10 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white shadow-[0_0_22px_6px_rgba(76,201,232,0.75)]"
             style={{ left: "0%" }}
           />
           <ol className="relative flex justify-between">
