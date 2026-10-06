@@ -396,8 +396,16 @@ export default function Home() {
       </section>
 
       {/* ───────── Leadership ───────── */}
-      <section className="section-pad bg-paper-100">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+      <section className="section-pad relative overflow-hidden bg-paper-100">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-40 top-10 h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.2),transparent)]"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-52 -right-32 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(closest-side,rgba(62,224,180,0.14),transparent)]"
+        />
+        <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
           <ScrollReveal
             as="div"
             className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end"
@@ -409,16 +417,17 @@ export default function Home() {
             />
             <Link
               href="/team"
-              className="inline-flex shrink-0 items-center gap-3 border-b border-ink-900 pb-1 font-label text-sm font-semibold text-ink-900 transition-colors hover:border-accent-600 hover:text-accent-600"
+              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-ink-900 px-7 py-3.5 font-label text-base font-semibold text-paper-50 transition-colors hover:bg-accent-600"
             >
               Meet the full team <span aria-hidden>→</span>
             </Link>
           </ScrollReveal>
           <ScrollReveal
             as="div"
-            selector=":scope > div"
-            stagger={0.1}
-            className="mt-14 border-t border-ink-900/20"
+            selector=":scope > article"
+            y={34}
+            stagger={0.12}
+            className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8"
           >
             {leadershipPreview.map((member) => (
               <TeamRow member={member} key={member.slug} />
