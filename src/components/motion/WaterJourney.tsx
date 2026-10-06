@@ -1,6 +1,8 @@
 "use client";
 
 import Eyebrow from "@/components/Eyebrow";
+import { JourneyDefs, JourneyScene } from "@/components/JourneyScenes";
+import WaterBackground from "@/components/WaterBackground";
 import { useLayoutEffect, useRef, useSyncExternalStore } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { processStages } from "@/lib/data";
@@ -16,19 +18,37 @@ const subscribeReducedMotion = (onChange: () => void) => {
 const getReducedMotion = () => window.matchMedia(REDUCED_QUERY).matches;
 const getReducedMotionServer = () => false;
 
+function PointChips({ points }: { points: string[] }) {
+  return (
+    <ul className="mt-7 flex flex-wrap gap-2.5">
+      {points.map((point) => (
+        <li
+          key={point}
+          className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.07] px-4 py-2 font-label text-sm font-semibold text-paper-50/90"
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-live-500" />
+          {point}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 /**
  * The journey of one cubic meter, driven by scroll.
  *
- * On desktop the section pins to the viewport and scrolling carries a
- * drop of water down the line through each real operating stage: the
- * headline, description and ghost numeral change per stage, the line
- * fills, passed nodes light up and the current one glows seafoam.
+ * On desktop the section pins to the viewport and scrolling carries a drop of
+ * water down a pipe through each real operating stage. Every stop has its own
+ * live illustration (reservoir level rising, pumps spinning, a meter reading
+ * being validated…), the copy hands off in step with it, and the stops along
+ * the pipe are clickable to jump straight to one.
  *
- * On small screens, and for visitors who prefer reduced motion, it
- * renders as a plain stacked list — same content, no pinning.
+ * On small screens, and for visitors who prefer reduced motion, it renders as
+ * a stack of cards — same illustrations and copy, no pinning.
  */
 export default function WaterJourney() {
   const rootRef = useRef<HTMLElement>(null);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
   // reduced motion → render the stacked list for everyone, no pinning
   const staticMode = useSyncExternalStore(subscribeReducedMotion, getReducedMotion, getReducedMotionServer);
 
@@ -40,17 +60,17 @@ export default function WaterJourney() {
     mm.add("(min-width: 1024px)", () => {
       const n = processStages.length;
       const blocks = gsap.utils.toArray<HTMLElement>("[data-stage-block]", root);
+      const scenes = gsap.utils.toArray<HTMLElement>("[data-stage-scene]", root);
       const nodes = gsap.utils.toArray<HTMLElement>("[data-stage-node]", root);
       const fill = root.querySelector<HTMLElement>("[data-fill]");
       const drop = root.querySelector<HTMLElement>("[data-drop]");
       const counter = root.querySelector<HTMLElement>("[data-counter]");
-      const ghost = gsap.utils.toArray<HTMLElement>("[data-ghost]", root);
       if (!fill || !drop) return;
 
       gsap.set(blocks, { autoAlpha: 0, y: 36 });
       gsap.set(blocks[0], { autoAlpha: 1, y: 0 });
-      gsap.set(ghost, { autoAlpha: 0 });
-      gsap.set(ghost[0], { autoAlpha: 1 });
+      gsap.set(scenes, { autoAlpha: 0, x: 70, scale: 0.95 });
+      gsap.set(scenes[0], { autoAlpha: 1, x: 0, scale: 1 });
       gsap.set(fill, { scaleX: 0, transformOrigin: "left center" });
 
       let lastIndex = -1;
@@ -69,7 +89,7 @@ export default function WaterJourney() {
         scrollTrigger: {
           trigger: root,
           start: "top top",
-          end: () => `+=${Math.round(window.innerHeight * 4.2)}`,
+          end: () => `+=${Math.round(window.innerHeight * 4.6)}`,
           pin: true,
           scrub: 0.7,
           anticipatePin: 1,
@@ -79,29 +99,36 @@ export default function WaterJourney() {
           onUpdate: () => setActive(Math.min(n - 1, Math.floor(tl.time() + 0.25))),
         },
       });
+      tlRef.current = tl;
 
-      // water moves along the line for the whole scroll distance
+      // water moves along the pipe for the whole scroll distance
       tl.to(fill, { scaleX: 1, duration: n - 1 }, 0);
       tl.to(drop, { left: "100%", duration: n - 1 }, 0);
 
-      // stage copy hands off at each node
+      // copy and illustration hand off at each node
       for (let i = 0; i < n - 1; i++) {
         const t = i + 0.5;
         tl.to(blocks[i], { autoAlpha: 0, y: -36, duration: 0.35, ease: "power2.in" }, t - 0.2);
-        tl.to(ghost[i], { autoAlpha: 0, duration: 0.3 }, t - 0.2);
+        tl.to(scenes[i], { autoAlpha: 0, x: -70, scale: 0.95, duration: 0.35, ease: "power2.in" }, t - 0.2);
         tl.fromTo(
           blocks[i + 1],
           { autoAlpha: 0, y: 36 },
           { autoAlpha: 1, y: 0, duration: 0.45, ease: "power2.out", immediateRender: false },
           t + 0.1
         );
-        tl.fromTo(ghost[i + 1], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.4, immediateRender: false }, t + 0.1);
+        tl.fromTo(
+          scenes[i + 1],
+          { autoAlpha: 0, x: 70, scale: 0.95 },
+          { autoAlpha: 1, x: 0, scale: 1, duration: 0.5, ease: "power2.out", immediateRender: false },
+          t + 0.1
+        );
       }
       // a beat of rest on the last stage
       tl.to({}, { duration: 0.4 });
 
       document.fonts?.ready.then(() => ScrollTrigger.refresh());
       return () => {
+        tlRef.current = null;
         tl.scrollTrigger?.kill();
         tl.kill();
       };
@@ -110,95 +137,106 @@ export default function WaterJourney() {
     return () => mm.revert();
   }, [staticMode]);
 
+  /** Scroll so the timeline rests on a given stop. */
+  const goTo = (index: number) => {
+    const tl = tlRef.current;
+    const st = tl?.scrollTrigger;
+    if (!tl || !st) return;
+    const total = tl.duration();
+    const time = Math.min(total, index + 0.05);
+    window.scrollTo({ top: st.start + (time / total) * (st.end - st.start), behavior: "smooth" });
+  };
+
   return (
     <section
       ref={rootRef}
       aria-labelledby="journey-heading"
-      className="relative overflow-hidden bg-void text-paper-50"
+      className="relative overflow-hidden bg-[linear-gradient(135deg,#02111c_0%,#052a44_60%,#06404f_100%)] text-paper-50"
     >
-      <div className="contours" aria-hidden />
+      <JourneyDefs />
+      <WaterBackground intensity={0.5} />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,transparent_35%,rgba(3,18,31,0.8)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,17,28,0.7)_0%,rgba(2,17,28,0.25)_45%,transparent_75%)]"
       />
 
       {/* ── Pinned, scroll-driven version (desktop) ── */}
       <div
-        className={`relative mx-auto h-[100svh] max-w-7xl flex-col justify-between px-8 pb-14 pt-28 ${
+        className={`relative mx-auto h-[100svh] max-w-7xl flex-col justify-between px-8 pb-10 pt-24 ${
           staticMode ? "hidden" : "hidden lg:flex"
         }`}
       >
-        <div className="flex items-start justify-between">
+        <div className="flex items-center justify-between">
           <div>
             <Eyebrow tone="light">The journey of one cubic meter</Eyebrow>
             <h2 id="journey-heading" className="sr-only">
               From bulk supply to every customer
             </h2>
           </div>
-          <p data-counter className="font-label text-sm tabular-nums text-paper-50/70">
+          <p data-counter className="font-label text-sm font-semibold tabular-nums text-paper-50/75">
             01 / {pad(processStages.length)}
           </p>
         </div>
 
-        <div className="relative flex-1">
-          {/* ghost numerals */}
-          {processStages.map((stage, i) => (
-            <span
-              key={`ghost-${stage.key}`}
-              data-ghost
-              aria-hidden
-              className="font-statement pointer-events-none absolute -right-2 top-1/2 -translate-y-1/2 select-none text-[clamp(11rem,26vw,24rem)] font-bold"
-              style={{
-                color: "transparent",
-                WebkitTextStroke: "1px rgba(255,255,255,0.2)",
-              }}
-            >
-              {pad(i + 1)}
-            </span>
-          ))}
-
+        <div className="grid min-h-0 flex-1 grid-cols-12 items-center gap-10 py-6">
           {/* stage copy */}
-          {processStages.map((stage) => (
-            <div
-              key={stage.key}
-              data-stage-block
-              className="absolute inset-y-0 left-0 flex max-w-3xl flex-col justify-center"
-            >
-              <h3 className="font-statement text-[clamp(2.8rem,6.5vw,6rem)] font-semibold">
-                {stage.label}
-              </h3>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-paper-50/70 sm:text-xl">
-                {stage.description}
-              </p>
-            </div>
-          ))}
+          <div className="relative col-span-5 h-full">
+            {processStages.map((stage, i) => (
+              <div key={stage.key} data-stage-block className="absolute inset-0 flex flex-col justify-center">
+                <span className="font-label text-sm font-bold text-accent-500">
+                  Stop {pad(i + 1)} of {pad(processStages.length)}
+                </span>
+                <h3 className="font-statement mt-3 text-balance text-[clamp(2.3rem,4.2vw,3.9rem)] text-paper-50">
+                  {stage.label}
+                </h3>
+                <p className="mt-5 max-w-md text-lg leading-relaxed text-paper-50/80">{stage.description}</p>
+                <PointChips points={stage.points} />
+              </div>
+            ))}
+          </div>
+
+          {/* stage illustration */}
+          <div className="relative col-span-7 aspect-[600/400] w-full self-center overflow-hidden rounded-[2rem] border border-white/15 bg-white/[0.045] shadow-[0_40px_90px_-40px_rgba(0,0,0,0.7)] backdrop-blur-sm">
+            {processStages.map((stage) => (
+              <div key={stage.key} data-stage-scene className="absolute inset-0 px-4 py-3">
+                <JourneyScene stageKey={stage.key} label={stage.label} />
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* the line */}
-        <div className="relative pb-10 pt-6">
-          <div className="absolute inset-x-0 top-[1.875rem] h-px bg-white/15" />
+        {/* the pipe */}
+        <div className="relative mx-12 pb-9 pt-4">
+          <div className="absolute inset-x-0 top-[1.375rem] h-2.5 -translate-y-1/2 rounded-full bg-white/12 ring-1 ring-white/10" />
           <div
             data-fill
-            className="absolute inset-x-0 top-[1.875rem] h-px bg-aqua-400 shadow-[0_0_14px_2px_rgba(76,201,232,0.55)]"
+            className="absolute inset-x-0 top-[1.375rem] h-2.5 -translate-y-1/2 rounded-full bg-[linear-gradient(90deg,#4cc9e8,#3ee0b4)] shadow-[0_0_18px_2px_rgba(76,201,232,0.55)]"
           />
           <span
             data-drop
             aria-hidden
-            className="absolute top-[1.875rem] z-10 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-aqua-400 shadow-[0_0_18px_4px_rgba(76,201,232,0.7)]"
+            className="absolute top-[1.375rem] z-10 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white shadow-[0_0_22px_6px_rgba(76,201,232,0.75)]"
             style={{ left: "0%" }}
           />
           <ol className="relative flex justify-between">
-            {processStages.map((stage) => (
+            {processStages.map((stage, i) => (
               <li
                 key={stage.key}
                 data-stage-node
                 data-state="idle"
                 className="group flex w-0 flex-col items-center"
               >
-                <span className="h-3 w-3 rounded-full border border-white/40 bg-void transition-all duration-300 group-data-[state=passed]:border-aqua-400 group-data-[state=passed]:bg-aqua-400 group-data-[state=active]:scale-150 group-data-[state=active]:border-live-500 group-data-[state=active]:bg-live-500" />
-                <span className="mt-4 whitespace-nowrap font-label text-[0.8125rem] text-paper-50/70 transition-colors duration-300 group-data-[state=active]:text-paper-50 group-data-[state=passed]:text-paper-50/70">
-                  {stage.label}
-                </span>
+                <button
+                  type="button"
+                  onClick={() => goTo(i)}
+                  aria-label={`Go to stop ${i + 1}: ${stage.label}`}
+                  className="flex cursor-pointer flex-col items-center gap-3 rounded-lg px-2 pb-1 pt-0.5 focus-visible:outline-offset-2"
+                >
+                  <span className="relative z-20 h-4 w-4 rounded-full border-2 border-white/50 bg-[#052a44] transition-all duration-300 group-hover:border-white group-data-[state=passed]:border-accent-500 group-data-[state=passed]:bg-accent-500 group-data-[state=active]:scale-[1.6] group-data-[state=active]:border-live-500 group-data-[state=active]:bg-live-500" />
+                  <span className="whitespace-nowrap font-label text-[0.8125rem] font-semibold text-paper-50/60 transition-colors duration-300 group-hover:text-paper-50 group-data-[state=active]:text-paper-50 group-data-[state=passed]:text-paper-50/80">
+                    {stage.label}
+                  </span>
+                </button>
               </li>
             ))}
           </ol>
@@ -208,15 +246,22 @@ export default function WaterJourney() {
       {/* ── Static version (mobile, tablet, reduced motion) ── */}
       <div className={`relative mx-auto max-w-7xl px-5 py-20 sm:px-8 ${staticMode ? "block" : "lg:hidden"}`}>
         <Eyebrow tone="light">The journey of one cubic meter</Eyebrow>
-        <ol className="mt-10 divide-y divide-white/10 border-y border-white/10">
+        <ol className="mt-10 grid gap-6">
           {processStages.map((stage, i) => (
-            <li key={stage.key} className="grid grid-cols-[3rem_1fr] gap-4 py-6 sm:grid-cols-[5rem_1fr]">
-              <span className="font-label text-sm tabular-nums text-accent-500">{pad(i + 1)}</span>
+            <li
+              key={stage.key}
+              className="grid items-center gap-6 rounded-[1.75rem] border border-white/15 bg-white/[0.05] p-5 backdrop-blur-sm sm:p-7 md:grid-cols-2 md:gap-10"
+            >
+              <div className={`aspect-[600/400] w-full overflow-hidden rounded-2xl bg-white/[0.03] ${i % 2 ? "md:order-2" : ""}`}>
+                <JourneyScene stageKey={stage.key} label={stage.label} />
+              </div>
               <div>
-                <h3 className="font-statement text-3xl font-semibold sm:text-4xl">{stage.label}</h3>
-                <p className="mt-3 max-w-xl text-base leading-relaxed text-paper-50/78">
-                  {stage.description}
-                </p>
+                <span className="font-label text-sm font-bold text-accent-500">
+                  Stop {pad(i + 1)} of {pad(processStages.length)}
+                </span>
+                <h3 className="font-statement mt-2 text-3xl text-paper-50 sm:text-4xl">{stage.label}</h3>
+                <p className="mt-3 max-w-xl text-base leading-relaxed text-paper-50/80">{stage.description}</p>
+                <PointChips points={stage.points} />
               </div>
             </li>
           ))}

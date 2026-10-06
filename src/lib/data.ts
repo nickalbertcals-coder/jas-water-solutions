@@ -202,7 +202,7 @@ export const operations = {
     "To deliver safe, reliable and affordable water to our customers 24/7 through efficient operations, sound management and excellent customer service.",
 };
 
-export type ProcessStage = { key: string; label: string; description: string };
+export type ProcessStage = { key: string; label: string; description: string; points: string[] };
 
 export const processStages: ProcessStage[] = [
   {
@@ -210,42 +210,49 @@ export const processStages: ProcessStage[] = [
     label: "Bulk Water Supply",
     description:
       "Treated water arrives from the water treatment plant — the start of every cubic meter we manage.",
+    points: ["Treated at the plant", "Delivered in bulk", "Quality-assured"],
   },
   {
     key: "reservoir",
     label: "Reservoir",
     description:
       "Reservoir operation and level control keep supply buffered and pressure steady through the day.",
+    points: ["Level control", "Buffered supply", "Steady pressure"],
   },
   {
     key: "pumping",
     label: "Pumping Station",
     description:
       "Pumps are scheduled and operated to reach every pressure zone, with status and energy monitored in real time.",
+    points: ["Scheduled pumping", "Real-time status", "Energy monitored"],
   },
   {
     key: "network",
     label: "Distribution Network",
     description:
       "Pressure management, valve isolation and daily system monitoring carry water across the network.",
+    points: ["Pressure management", "Valve isolation", "Daily monitoring"],
   },
   {
     key: "connection",
     label: "Service Connection",
     description:
       "New applications are inspected and connections installed, with accurate customer connection records kept.",
+    points: ["Application inspection", "Proper installation", "Accurate records"],
   },
   {
     key: "meter",
     label: "Meter",
     description:
       "Meters are installed, tested and calibrated — and every reading is validated before it reaches a bill.",
+    points: ["Installed & tested", "Calibrated", "Readings validated"],
   },
   {
     key: "customer",
     label: "Customer",
     description:
       "Read, billed and collected — and any low-pressure or no-water report is answered and restored with Operations.",
+    points: ["Read", "Billed & collected", "Quick response to complaints"],
   },
 ];
 
