@@ -175,7 +175,7 @@ export default function WaterJourney() {
     <section
       ref={rootRef}
       aria-labelledby="journey-heading"
-      className="relative overflow-hidden bg-[linear-gradient(180deg,#041526_0%,#06223a_100%)] text-paper-50"
+      className="relative overflow-hidden bg-[linear-gradient(180deg,#2c3238_0%,#32465a_45%,#3b78a0_100%)] text-paper-50"
     >
       <JourneyDefs />
       {/* aquarium-style air bubbles rising behind everything (desktop only) */}
@@ -262,7 +262,7 @@ export default function WaterJourney() {
                   className="flex cursor-pointer flex-col items-center gap-3 rounded-lg px-2 pb-1 pt-0.5 focus-visible:outline-offset-2"
                 >
                   <span className="relative z-20 h-4 w-4 rounded-full border-2 border-[#ffd23f]/80 bg-[#052a44] transition-all duration-300 group-hover:border-[#ffd23f] group-data-[state=passed]:border-[#ffd23f] group-data-[state=passed]:bg-[#ffd23f] group-data-[state=active]:scale-[1.6] group-data-[state=active]:border-[#ffd23f] group-data-[state=active]:bg-[#ffd23f] group-data-[state=active]:shadow-[0_0_14px_3px_rgba(255,210,63,0.6)]" />
-                  <span className="whitespace-nowrap font-label text-[0.8125rem] font-semibold text-paper-50/60 transition-colors duration-300 group-hover:text-paper-50 group-data-[state=active]:text-paper-50 group-data-[state=passed]:text-paper-50/80">
+                  <span className="whitespace-nowrap font-label text-[0.8125rem] font-semibold text-paper-50/80 transition-colors duration-300 group-hover:text-paper-50 group-data-[state=active]:text-paper-50 group-data-[state=passed]:text-paper-50/80">
                     {stage.label}
                   </span>
                 </button>
