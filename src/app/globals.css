@@ -141,6 +141,20 @@ header[data-scrolled="true"] {
   to   { transform: translate3d(-50%, 0, 0); }
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .float-y {
+    animation: float-y 7s ease-in-out infinite alternate;
+  }
+  .float-y-slow {
+    animation: float-y 9s ease-in-out -3s infinite alternate;
+  }
+}
+
+@keyframes float-y {
+  from { transform: translate3d(0, -6px, 0); }
+  to   { transform: translate3d(0, 8px, 0); }
+}
+
 /* Draws a hairline left-to-right; driven by GSAP scaleX on scroll */
 .rule-draw {
   transform-origin: left center;

@@ -11,12 +11,47 @@ import ServiceList from "@/components/ServiceList";
 import ScrollReveal from "@/components/motion/ScrollReveal";
 import ScrambleText from "@/components/motion/ScrambleText";
 import WaterJourney from "@/components/motion/WaterJourney";
-import { about, differentiators, services, team, vision, mission } from "@/lib/data";
+import { differentiators, services, team, vision, mission } from "@/lib/data";
 
 const HERO_STATS = [
   { value: "LEVEL III", label: "Distribution systems operated" },
   { value: "24 / 7", label: "Digitized monitoring" },
   { value: "14", label: "Operating departments" },
+];
+
+const WHO_POINTS = [
+  {
+    title: "Network operations & maintenance",
+    text: "Daily distribution operations and preventive maintenance, so water keeps flowing.",
+    icon: (
+      <>
+        <path d="M3 8h9a3 3 0 0 1 3 3v2a3 3 0 0 0 3 3h3" />
+        <path d="M3 8V5M21 16v3" />
+        <circle cx="12" cy="12" r="0.8" fill="currentColor" />
+      </>
+    ),
+  },
+  {
+    title: "Meter reading, billing & collection",
+    text: "Computerized, accurate and transparent — from the meter to the payment.",
+    icon: (
+      <>
+        <circle cx="12" cy="13" r="8" />
+        <path d="M12 13l3.5-3.5" />
+        <path d="M8 4.5h8" />
+      </>
+    ),
+  },
+  {
+    title: "Fewer losses, steadier service",
+    text: "We track and reduce water losses so the utility stays financially sustainable.",
+    icon: (
+      <>
+        <path d="M12 3c-.3 0-.5.2-.7.4C9 6 5.5 10 5.5 13.8a6.5 6.5 0 0 0 13 0C18.5 10 15 6 12.7 3.4c-.2-.2-.4-.4-.7-.4Z" />
+        <path d="M9.5 14.5l1.7 1.7 3.3-3.4" />
+      </>
+    ),
+  },
 ];
 
 const leadershipPreview = team.slice(0, 3);
@@ -103,32 +138,102 @@ export default function Home() {
       </section>
 
       {/* ───────── Who we are ───────── */}
-      <section className="section-pad bg-paper-50">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
-            <ScrollReveal as="div" y={28} className="lg:col-span-7">
+      <section className="section-pad relative overflow-hidden bg-paper-50">
+        {/* soft depth: faint aqua light in the corners */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-40 -top-40 h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.18),transparent)]"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-52 -left-40 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(closest-side,rgba(62,224,180,0.12),transparent)]"
+        />
+
+        <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="grid items-center gap-16 lg:grid-cols-12 lg:gap-14">
+            <ScrollReveal as="div" selector=":scope > *" y={26} stagger={0.1} className="lg:col-span-6">
               <Eyebrow>Who we are</Eyebrow>
-              <p className="font-display mt-7 text-balance text-[clamp(1.7rem,2.8vw,2.6rem)] font-bold leading-[1.22] tracking-tight text-ink-900">
-                JAS runs <span className={highlight}>Level III water distribution systems</span> end to
-                end — from network operations and preventive maintenance to computerized meter
-                reading, billing and collection.
+              <h2 className="font-statement mt-6 text-balance text-[clamp(2.1rem,3.8vw,3.4rem)] text-ink-900">
+                We run water distribution systems{" "}
+                <span className={highlight}>end to end.</span>
+              </h2>
+              <p className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-steel-600">
+                JAS Water Solutions is a professional water utility operations company. We keep safe
+                water flowing to the communities we serve — and we back it with digital monitoring and
+                transparent, measurable performance.
               </p>
-              <p className="mt-8 max-w-2xl text-pretty text-lg leading-relaxed text-steel-600">
-                {about.paragraphs[3]}
-              </p>
+
+              <ul className="mt-9 grid gap-5">
+                {WHO_POINTS.map((point) => (
+                  <li key={point.title} className="flex gap-4">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent-tint text-accent-600">
+                      <svg
+                        aria-hidden
+                        viewBox="0 0 24 24"
+                        className="h-6 w-6"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.7"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        {point.icon}
+                      </svg>
+                    </span>
+                    <span>
+                      <span className="block font-display text-lg font-bold text-ink-900">{point.title}</span>
+                      <span className="mt-0.5 block text-base leading-relaxed text-steel-600">{point.text}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
               <Link
                 href="/about"
-                className="mt-9 inline-flex items-center gap-3 border-b border-ink-900 pb-1 font-label text-sm font-semibold text-ink-900 transition-colors hover:border-accent-600 hover:text-accent-600"
+                className="mt-10 inline-flex items-center gap-2 rounded-full bg-ink-900 px-7 py-3.5 font-label text-base font-semibold text-paper-50 transition-colors hover:bg-accent-600"
               >
                 More about JAS Water Solutions
                 <span aria-hidden>→</span>
               </Link>
             </ScrollReveal>
 
-            <ScrollReveal as="div" y={28} delay={0.1} className="lg:col-span-5">
-              <div className="relative isolate aspect-square overflow-hidden bg-void">
-                <div className="contours" aria-hidden />
-                <RotatingCube />
+            <ScrollReveal as="div" y={30} delay={0.1} className="lg:col-span-6">
+              <div className="relative mx-auto w-full max-w-[34rem]">
+                <div className="relative isolate aspect-square overflow-hidden rounded-[2.25rem] bg-[linear-gradient(160deg,#eaf7fc_0%,#cdeaf5_55%,#b4dff0_100%)] shadow-[0_40px_90px_-40px_rgba(10,114,154,0.55)] ring-1 ring-accent-600/10">
+                  {/* ripple rings radiating from where the cube sits */}
+                  <svg
+                    aria-hidden
+                    viewBox="0 0 100 100"
+                    className="absolute inset-0 h-full w-full"
+                    fill="none"
+                    stroke="#0a729a"
+                  >
+                    {[16, 27, 38, 49, 60, 71].map((r, i) => (
+                      <circle key={r} cx="50" cy="56" r={r} strokeWidth="0.25" strokeOpacity={0.3 - i * 0.04} />
+                    ))}
+                  </svg>
+                  <RotatingCube />
+                </div>
+
+                <div className="float-y absolute -left-3 bottom-12 flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-[0_18px_40px_-14px_rgba(10,39,64,0.35)] ring-1 ring-ink-900/5 sm:-left-8">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent-tint text-accent-600">
+                    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+                      <path d="M12 2.5c-.3 0-.6.2-.8.4C9 5.6 5 10.2 5 14.5a7 7 0 0 0 14 0c0-4.3-4-8.9-6.2-11.6-.2-.2-.5-.4-.8-.4Z" />
+                    </svg>
+                  </span>
+                  <span className="text-sm leading-tight">
+                    <span className="block font-semibold text-ink-900">Serving</span>
+                    <span className="text-steel-600">Water districts, LGUs &amp; industry</span>
+                  </span>
+                </div>
+
+                <div className="float-y-slow absolute -right-2 top-10 flex items-center gap-2.5 rounded-full bg-white px-4 py-2.5 shadow-[0_18px_40px_-14px_rgba(10,39,64,0.35)] ring-1 ring-ink-900/5 sm:-right-6">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-live-500 opacity-70" />
+                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-live-500" />
+                  </span>
+                  <span className="text-sm font-semibold text-ink-900">24/7 digitized monitoring</span>
+                </div>
               </div>
             </ScrollReveal>
           </div>
@@ -136,21 +241,36 @@ export default function Home() {
           <ScrollReveal
             as="div"
             selector=":scope > div"
-            stagger={0.12}
-            className="mt-20 grid gap-12 border-t border-ink-900/20 pt-10 md:grid-cols-2 md:gap-20"
+            y={30}
+            stagger={0.14}
+            className="mt-20 grid gap-6 md:grid-cols-2 lg:mt-24 lg:gap-8"
           >
-            <div>
-              <Eyebrow as="p">Vision</Eyebrow>
-              <p className="font-display mt-5 text-pretty text-xl leading-snug text-ink-900 sm:text-2xl">
-                {vision}
-              </p>
-            </div>
-            <div>
-              <Eyebrow as="p">Mission</Eyebrow>
-              <p className="font-display mt-5 text-pretty text-xl leading-snug text-ink-900 sm:text-2xl">
-                {mission}
-              </p>
-            </div>
+            <article className="relative overflow-hidden rounded-[1.75rem] bg-[linear-gradient(150deg,#0a2740_0%,#0f3f66_100%)] p-8 text-paper-50 shadow-[0_30px_70px_-35px_rgba(10,39,64,0.8)] sm:p-10">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.35),transparent)]"
+              />
+              <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-accent-500 ring-1 ring-white/15">
+                <svg aria-hidden viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </span>
+              <h3 className="relative mt-6 font-display text-2xl font-bold">Our vision</h3>
+              <p className="relative mt-3 text-pretty text-lg leading-relaxed text-paper-50/85">{vision}</p>
+            </article>
+
+            <article className="relative overflow-hidden rounded-[1.75rem] bg-white p-8 shadow-[0_30px_70px_-40px_rgba(10,114,154,0.5)] ring-1 ring-accent-600/15 sm:p-10">
+              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-tint text-accent-600">
+                <svg aria-hidden viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="9" />
+                  <circle cx="12" cy="12" r="5" />
+                  <circle cx="12" cy="12" r="1.2" fill="currentColor" />
+                </svg>
+              </span>
+              <h3 className="mt-6 font-display text-2xl font-bold text-ink-900">Our mission</h3>
+              <p className="mt-3 text-pretty text-lg leading-relaxed text-steel-600">{mission}</p>
+            </article>
           </ScrollReveal>
         </div>
       </section>
