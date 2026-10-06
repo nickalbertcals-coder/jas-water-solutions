@@ -275,7 +275,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
       {lx2 !== undefined && ly2 !== undefined && (
         <line x1={anchor === "start" ? lx2 : x} y1={y + 6} x2={lx2} y2={ly2} stroke={color} strokeOpacity="0.5" strokeWidth="1" />
       )}
-      <text x={x} y={y} textAnchor={anchor} fontSize="15" fontWeight="600" letterSpacing="0.01em" fill={color}>
+      <text x={x} y={y} textAnchor={anchor} fontSize="17" fontWeight="600" letterSpacing="0.01em" fill={color}>
         {text}
       </text>
     </g>

@@ -72,9 +72,9 @@ export default function Home() {
         />
 
         <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col px-5 pb-24 pt-10 sm:px-8 sm:pb-28 lg:pb-32 lg:pt-12">
-          <div className="relative flex flex-1 flex-col justify-center">
+          <div className="flex flex-1 flex-col justify-center">
             {/* illustration: beside the text on desktop (allowed to run large), below it on tablets, hidden on phones */}
-            <div className="pointer-events-none relative order-2 mx-auto mt-12 hidden aspect-[400/676] w-full max-w-[22rem] md:block lg:absolute lg:right-2 lg:top-[54%] lg:mx-0 lg:mt-0 lg:h-[min(72vh,41rem)] lg:w-auto lg:max-w-none lg:-translate-y-1/2 xl:right-10">
+            <div className="pointer-events-none relative order-2 mx-auto mt-12 hidden aspect-[400/676] w-full max-w-[22rem] md:block lg:absolute lg:right-2 lg:top-[47%] lg:mx-0 lg:mt-0 lg:h-[min(80vh,50rem)] lg:w-auto lg:max-w-none lg:-translate-y-1/2 xl:right-10">
               <div
                 aria-hidden
                 className="absolute inset-[6%] rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.28),transparent)] blur-2xl"
