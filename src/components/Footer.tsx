@@ -4,10 +4,10 @@ import { company, contact } from "@/lib/data";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
+  { href: "/about", label: "About Us" },
   { href: "/services", label: "Services" },
-  { href: "/operations", label: "Operations" },
-  { href: "/team", label: "Leadership" },
+  { href: "/operations", label: "How We Work" },
+  { href: "/team", label: "Our Team" },
   { href: "/contact", label: "Contact" },
 ];
 

@@ -8,10 +8,10 @@ import { ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
+  { href: "/about", label: "About Us" },
   { href: "/services", label: "Services" },
-  { href: "/operations", label: "Operations" },
-  { href: "/team", label: "Leadership" },
+  { href: "/operations", label: "How We Work" },
+  { href: "/team", label: "Our Team" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -52,11 +52,11 @@ export default function Header() {
             width={168}
             height={78}
             priority
-            className="h-10 w-auto brightness-0 invert sm:h-11"
+            className="h-11 w-auto brightness-0 invert sm:h-12"
           />
         </Link>
 
-        <nav className="hidden items-center gap-5 lg:flex lg:gap-6">
+        <nav className="hidden items-center gap-1 lg:flex">
           {NAV_LINKS.map((link) => {
             const active =
               link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
@@ -64,10 +64,11 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`font-label text-sm font-semibold transition-colors ${
+                aria-current={active ? "page" : undefined}
+                className={`relative px-3 py-2 font-label text-base font-semibold transition-colors after:absolute after:inset-x-3 after:-bottom-0.5 after:h-0.5 after:origin-left after:rounded-full after:bg-accent-500 after:transition-transform ${
                   active
-                    ? "text-accent-500"
-                    : "text-paper-50/78 hover:text-paper-50"
+                    ? "text-paper-50 after:scale-x-100"
+                    : "text-paper-50/85 after:scale-x-0 hover:text-paper-50 hover:after:scale-x-100"
                 }`}
               >
                 {link.label}
@@ -79,9 +80,9 @@ export default function Header() {
         <div className="hidden lg:block">
           <Link
             href="/contact"
-            className="border border-paper-50 bg-paper-50 px-5 py-2.5 font-label text-sm font-semibold text-ink-900 transition-colors hover:border-accent-500 hover:bg-accent-500"
+            className="rounded-full bg-accent-500 px-6 py-3 font-label text-base font-bold text-void transition-colors hover:bg-paper-50"
           >
-            Get in Touch
+            Get in touch
           </Link>
         </div>
 
@@ -122,10 +123,10 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`rounded px-3 py-2.5 font-label text-sm font-semibold ${
+                  className={`rounded px-3 py-3 font-label text-lg font-semibold ${
                     active
                       ? "bg-white/5 text-accent-500"
-                      : "text-paper-50/75 hover:bg-white/5"
+                      : "text-paper-50/90 hover:bg-white/5"
                   }`}
                 >
                   {link.label}
@@ -134,9 +135,9 @@ export default function Header() {
             })}
             <Link
               href="/contact"
-              className="mt-2 border border-paper-50 bg-paper-50 px-5 py-2.5 text-center font-label text-sm font-semibold text-ink-900"
+              className="mt-3 rounded-full bg-accent-500 px-6 py-3.5 text-center font-label text-lg font-bold text-void"
             >
-              Get in Touch
+              Get in touch
             </Link>
           </nav>
         </div>
