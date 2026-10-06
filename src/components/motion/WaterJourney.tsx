@@ -175,7 +175,7 @@ export default function WaterJourney() {
     <section
       ref={rootRef}
       aria-labelledby="journey-heading"
-      className="relative overflow-hidden bg-[linear-gradient(180deg,#05182b_0%,#0b5a85_100%)] text-paper-50"
+      className="relative overflow-hidden bg-[linear-gradient(180deg,#05182b_0%,#000000_100%)] text-paper-50"
     >
       <JourneyDefs />
       {/* aquarium-style air bubbles rising behind everything (desktop only) */}
