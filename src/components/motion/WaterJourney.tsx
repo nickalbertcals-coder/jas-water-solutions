@@ -261,7 +261,7 @@ export default function WaterJourney() {
                   aria-label={`Go to stop ${i + 1}: ${stage.label}`}
                   className="flex cursor-pointer flex-col items-center gap-3 rounded-lg px-2 pb-1 pt-0.5 focus-visible:outline-offset-2"
                 >
-                  <span className="relative z-20 h-4 w-4 rounded-full border-2 border-white/50 bg-[#052a44] transition-all duration-300 group-hover:border-white group-data-[state=passed]:border-accent-500 group-data-[state=passed]:bg-accent-500 group-data-[state=active]:scale-[1.6] group-data-[state=active]:border-live-500 group-data-[state=active]:bg-live-500" />
+                  <span className="relative z-20 h-4 w-4 rounded-full border-2 border-[#ffd23f]/80 bg-[#052a44] transition-all duration-300 group-hover:border-[#ffd23f] group-data-[state=passed]:border-[#ffd23f] group-data-[state=passed]:bg-[#ffd23f] group-data-[state=active]:scale-[1.6] group-data-[state=active]:border-[#ffd23f] group-data-[state=active]:bg-[#ffd23f] group-data-[state=active]:shadow-[0_0_14px_3px_rgba(255,210,63,0.6)]" />
                   <span className="whitespace-nowrap font-label text-[0.8125rem] font-semibold text-paper-50/60 transition-colors duration-300 group-hover:text-paper-50 group-data-[state=active]:text-paper-50 group-data-[state=passed]:text-paper-50/80">
                     {stage.label}
                   </span>

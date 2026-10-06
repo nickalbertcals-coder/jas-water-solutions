@@ -13,7 +13,7 @@ type Bubble = {
   freq: number;
   sway: number; // px
   born: number; // y at spawn, to measure travel for growth
-  dieY: number; // where it ends: somewhere in the upper-middle of the section
+  dieY: number; // where it ends: the vertical middle of the section at the highest
   pops: boolean; // pops with a little spray, or just fades away
   popT: number; // seconds into the pop, -1 while still rising
 };
@@ -61,9 +61,9 @@ function makeSprite() {
 /**
  * Aquarium-style air bubbles rising through the section — and nothing else.
  * Small bubbles drifting up in lazy S-curves, swelling slightly as they rise,
- * a few streams from fixed "air stone" spots plus random strays. None reach the
- * top: each one either pops with a little spray or fades away somewhere in the
- * upper-middle of the section. Drawn on a
+ * a few streams from fixed "air stone" spots plus random strays. None rise past
+ * the vertical middle of the section: each one either pops with a little spray
+ * or fades away before it gets there. Drawn on a
  * 2D canvas from one pre-rendered sprite, so it stays cheap. Pauses when the
  * section is off screen. Not rendered at all for reduced motion.
  */
@@ -86,7 +86,7 @@ export default function BubblesBackground({ className }: { className?: string })
 
     const spawn = (anywhere: boolean): Bubble => {
       const r = 1.4 + Math.pow(Math.random(), 3) * 7;
-      const dieY = h * (0.18 + Math.random() * 0.5);
+      const dieY = h * (0.5 + Math.random() * 0.3); // never above the vertical middle
       const fromStream = Math.random() < 0.6;
       const x = fromStream
         ? STREAMS[Math.floor(Math.random() * STREAMS.length)] * w + (Math.random() + Math.random() - 1) * 22
@@ -176,15 +176,13 @@ export default function BubblesBackground({ className }: { className?: string })
             b.popT = 0;
             continue;
           }
-          // a fader dissolves over the last stretch instead
-          if (b.y < b.dieY - 90) {
-            bubbles[i] = spawn(false);
-            continue;
-          }
+          // a fader has fully dissolved by now
+          bubbles[i] = spawn(false);
+          continue;
         }
 
         const fadeIn = Math.min(1, Math.max(0, (h + r - b.y) / 60));
-        const fadeOut = b.pops ? 1 : Math.min(1, Math.max(0, (b.y - (b.dieY - 90)) / 90));
+        const fadeOut = b.pops ? 1 : Math.min(1, Math.max(0, (b.y - b.dieY) / 90));
         const a = Math.min(fadeIn, fadeOut) * (0.7 + Math.min(r, 9) / 22);
         if (a <= 0.01) continue;
         ctx.globalAlpha = a;
