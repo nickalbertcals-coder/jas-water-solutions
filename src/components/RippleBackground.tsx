@@ -6,7 +6,8 @@ const CONTOUR_SRC = "/images/contours.svg";
 const CONTOUR_W = 1600;
 const CONTOUR_H = 900;
 const GRID_W = 256; // simulation columns; rows follow the hero's aspect ratio
-const DAMPING = 0.985;
+const STEP_MS = 33.3; // simulation tick; larger = slower waves (16.7 ≈ real-time)
+const DAMPING = 0.978;
 const GRADIENT_GAIN = 1.1;
 
 const VERT = `
@@ -29,7 +30,7 @@ void main() {
   float mag = length(g);
 
   // slow drift of the contour layer, then refract it through the surface
-  vec2 drift = vec2(sin(uTime * 0.045), cos(uTime * 0.037)) * 0.012;
+  vec2 drift = vec2(sin(uTime * 0.025), cos(uTime * 0.02)) * 0.012;
   vec2 uv = (vUv - 0.5) * 0.94 + 0.5 + drift + g * 0.05;
   vec3 col = texture2D(uBg, uv).rgb;
 
@@ -278,14 +279,14 @@ export default function RippleBackground() {
       lastT = now;
       clock += dt;
       acc += dt;
-      while (acc >= 16.67) {
+      while (acc >= STEP_MS) {
         step();
-        acc -= 16.67;
+        acc -= STEP_MS;
       }
       nextIdle -= dt;
       if (nextIdle <= 0) {
         drop(8 + Math.random() * (cols - 16), 8 + Math.random() * (rows - 16), 4 + Math.random() * 2, 0.55);
-        nextIdle = 1400 + Math.random() * 2200;
+        nextIdle = 2200 + Math.random() * 3000;
       }
       encode();
       gl.activeTexture(gl.TEXTURE1);
