@@ -4,7 +4,8 @@ import SectionHeading from "@/components/SectionHeading";
 import TeamRow from "@/components/TeamRow";
 import CTASection from "@/components/CTASection";
 import HeroVideo from "@/components/HeroVideo";
-import RippleBackground from "@/components/RippleBackground";
+import WaterBackground from "@/components/WaterBackground";
+import WaveEdge from "@/components/WaveEdge";
 import RotatingCube from "@/components/RotatingCube";
 import ServiceList from "@/components/ServiceList";
 import ScrollReveal from "@/components/motion/ScrollReveal";
@@ -27,76 +28,78 @@ export default function Home() {
   return (
     <>
       {/* ───────── Hero ───────── */}
-      <section className="relative isolate overflow-hidden bg-void">
-        <RippleBackground />
+      <section className="relative isolate flex flex-col lg:min-h-[calc(100svh-4.5rem)] overflow-hidden bg-[linear-gradient(135deg,#02131f_0%,#06304d_55%,#0a5a6c_100%)]">
+        <WaterBackground />
+        {/* keep the left (text) side calm and legible */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_72%_22%,rgba(23,75,114,0.32)_0%,transparent_46%),radial-gradient(ellipse_at_72%_22%,transparent_22%,rgba(3,18,31,0.9)_100%)]"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,19,31,0.72)_0%,rgba(2,19,31,0.35)_42%,transparent_70%)]"
         />
 
-        <div className="relative mx-auto flex min-h-[calc(100svh-4.3rem)] max-w-7xl flex-col px-5 pb-8 pt-8 sm:px-8 lg:pt-10">
-          {/* top row: intro + live schematic/video */}
-          <div className="order-2 grid gap-10 lg:order-1 lg:grid-cols-[minmax(0,26rem)_1fr] lg:items-center">
-            <ScrollReveal selector=":scope > *" y={18} stagger={0.1}>
-              <span className="hidden lg:block">
-                <Eyebrow tone="light">Water utility operations &amp; maintenance</Eyebrow>
-              </span>
-              <p className="mt-0 text-pretty text-[1.05rem] leading-relaxed text-paper-50/70 lg:mt-5">
-                JAS Water Solutions delivers end-to-end Operation &amp; Maintenance of Level III water
-                distribution systems — from network operations and preventive maintenance to
-                computerized billing, collection, and Non-Revenue Water reduction.
+        <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col px-5 pb-24 pt-10 sm:px-8 sm:pb-28 lg:pb-32 lg:pt-12">
+          <div className="relative flex flex-1 flex-col justify-center">
+            {/* illustration: beside the text on desktop (allowed to run large), below it on tablets, hidden on phones */}
+            <div className="pointer-events-none relative order-2 mx-auto mt-12 hidden w-full max-w-2xl md:block lg:absolute lg:-right-4 lg:top-1/2 lg:mx-0 lg:mt-0 lg:w-[54%] lg:max-w-none lg:-translate-y-1/2 xl:-right-6 xl:w-[56%]">
+              <div
+                aria-hidden
+                className="absolute inset-[8%] rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.28),transparent)] blur-2xl"
+              />
+              <HeroVideo className="pointer-events-auto relative aspect-[540/392] w-full" />
+            </div>
+
+            <ScrollReveal as="div" selector=":scope > *" y={20} stagger={0.12} className="relative z-10 order-1 max-w-[44rem]">
+              <Eyebrow tone="light">Water utility operations &amp; maintenance</Eyebrow>
+              <h1 className="font-statement mt-6 text-[clamp(2.3rem,3.9vw,3.4rem)] text-paper-50">
+                <span className="block">Digitized water systems.</span>
+                <span className="block">Managed with precision.</span>
+                <span className="text-water block w-fit">Built for sustainability.</span>
+              </h1>
+              <p className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-paper-50/80">
+                JAS Water Solutions runs and maintains water distribution systems from the reservoir to
+                your tap — network operations, preventive maintenance, and computerized billing and
+                collection.
               </p>
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/contact"
-                  className="border border-paper-50 bg-paper-50 px-7 py-3.5 text-center font-label text-sm font-semibold text-ink-900 transition-colors hover:border-accent-500 hover:bg-accent-500"
+                  className="rounded-full bg-accent-500 px-8 py-3.5 text-center font-label text-base font-bold text-void transition-colors hover:bg-paper-50"
                 >
                   Get in touch
                 </Link>
                 <Link
                   href="/services"
-                  className="border border-white/25 px-7 py-3.5 text-center font-label text-sm font-semibold text-paper-50 transition-colors hover:border-paper-50"
+                  className="rounded-full border border-white/30 px-8 py-3.5 text-center font-label text-base font-semibold text-paper-50 transition-colors hover:border-paper-50 hover:bg-white/10"
                 >
                   Our core services
                 </Link>
               </div>
-              <dl className="mt-8 grid grid-cols-3 border-t border-white/15 pt-5">
-                {HERO_STATS.map((stat) => (
-                  <div key={stat.label} className="pr-3">
-                    <dt className="sr-only">{stat.label}</dt>
-                    <dd className="font-statement whitespace-nowrap text-2xl font-semibold text-paper-50 sm:text-[1.75rem]">
-                      <ScrambleText text={stat.value} />
-                    </dd>
-                    <p className="mt-1.5 font-label text-[0.8125rem] leading-snug text-paper-50/70">
-                      {stat.label}
-                    </p>
-                  </div>
-                ))}
-              </dl>
             </ScrollReveal>
-
-            <HeroVideo className="hidden aspect-[540/392] w-full max-w-none justify-self-end lg:-mr-10 lg:block xl:-mr-16 xl:w-[calc(100%+2rem)]" />
           </div>
 
-          {/* headline + stats */}
           <ScrollReveal
-            as="div"
-            selector="h1 > span"
-            y={56}
-            stagger={0.14}
-            className="order-1 mb-10 mt-0 lg:order-2 lg:mb-0 lg:mt-auto lg:pt-8"
+            as="dl"
+            selector=":scope > div"
+            y={16}
+            stagger={0.1}
+            delay={0.3}
+            className="relative z-10 mt-10 grid grid-cols-3 gap-3 sm:gap-4 lg:max-w-[44rem]"
           >
-            <div className="mb-6 lg:hidden">
-              <Eyebrow tone="light">Water utility operations &amp; maintenance</Eyebrow>
-            </div>
-            <h1 className="font-statement text-[clamp(2.2rem,4.4vw,4.7rem)] font-semibold text-paper-50">
-              <span className="block">Digitized water systems.</span>
-              <span className="block">Managed with precision.</span>
-              <span className="text-water block w-fit">Built for sustainability.</span>
-            </h1>
+            {HERO_STATS.map((stat) => (
+              <div
+                key={stat.label}
+                className="rounded-2xl border border-white/15 bg-white/[0.07] px-3 py-3.5 backdrop-blur-md sm:px-5 sm:py-4"
+              >
+                <dt className="sr-only">{stat.label}</dt>
+                <dd className="font-statement whitespace-nowrap text-xl text-paper-50 sm:text-2xl">
+                  <ScrambleText text={stat.value} />
+                </dd>
+                <p className="mt-1 font-label text-xs leading-snug text-paper-50/75 sm:text-sm">{stat.label}</p>
+              </div>
+            ))}
           </ScrollReveal>
-
         </div>
+
+        <WaveEdge />
       </section>
 
       {/* ───────── Who we are ───────── */}
