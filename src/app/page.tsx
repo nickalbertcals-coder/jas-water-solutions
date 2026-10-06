@@ -316,8 +316,8 @@ export default function Home() {
             className="divide-y divide-white/15 border-y border-white/15"
           >
             {differentiators.map((item) => (
-              <div key={item.title} className="grid gap-4 py-10 sm:grid-cols-[minmax(0,13rem)_1fr] sm:gap-10">
-                <h3 className="font-statement text-4xl font-semibold text-paper-50 sm:text-[2.6rem]">
+              <div key={item.title} className="grid gap-4 py-10 sm:grid-cols-[minmax(0,18rem)_1fr] sm:gap-10">
+                <h3 className="font-statement text-balance text-2xl text-paper-50 sm:text-[1.9rem]">
                   {item.title}
                 </h3>
                 <p className="text-pretty text-lg leading-relaxed text-paper-50/78">{item.description}</p>

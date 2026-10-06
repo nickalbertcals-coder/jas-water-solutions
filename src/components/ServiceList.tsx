@@ -1,103 +1,75 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { gsap } from "@/lib/gsap";
+import ScrollReveal from "@/components/motion/ScrollReveal";
 import type { Service } from "@/lib/data";
 
+/** Column spans on the 12-col desktop grid: 7+5, 5+7, then one full-width card. */
+const SPANS = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-5", "lg:col-span-7", "lg:col-span-12"];
+
 /**
- * Services as an editorial index: oversized signage-style rows instead of
- * a grid of cards. On hover-capable screens a photo of the service follows
- * the cursor; other rows recede so the one you're on reads clearly. On
- * touch screens the rows simply link through with a thumbnail.
+ * Core services as a bento of photo cards. Every card shows its photo and
+ * copy all the time — nothing appears on hover except a gentle lift, a slow
+ * photo zoom and the arrow lighting up — so it reads the same on a laptop,
+ * a tablet and a phone.
  */
 export default function ServiceList({ services }: { services: Service[] }) {
-  const listRef = useRef<HTMLDivElement>(null);
-  const previewRef = useRef<HTMLDivElement>(null);
-  const moveX = useRef<((v: number) => void) | null>(null);
-  const moveY = useRef<((v: number) => void) | null>(null);
-  const [active, setActive] = useState<number | null>(null);
-
-  useEffect(() => {
-    const preview = previewRef.current;
-    if (!preview) return;
-    moveX.current = gsap.quickTo(preview, "x", { duration: 0.55, ease: "power3.out" });
-    moveY.current = gsap.quickTo(preview, "y", { duration: 0.55, ease: "power3.out" });
-  }, []);
-
-  function handleMove(e: React.MouseEvent) {
-    const list = listRef.current;
-    if (!list) return;
-    const rect = list.getBoundingClientRect();
-    moveX.current?.(e.clientX - rect.left + 28);
-    moveY.current?.(e.clientY - rect.top - 120);
-  }
-
   return (
-    <div
-      ref={listRef}
-      className="relative border-t border-ink-900/20"
-      onMouseMove={handleMove}
-      onMouseLeave={() => setActive(null)}
-    >
+    <ScrollReveal as="div" selector=":scope > a" y={34} stagger={0.1} className="grid gap-5 lg:grid-cols-12 lg:gap-6">
       {services.map((service, i) => {
-        const dimmed = active !== null && active !== i;
+        const wide = service.subItems && SPANS[i] === "lg:col-span-12";
         return (
           <Link
             key={service.slug}
             href={`/services#${service.slug}`}
-            onMouseEnter={() => setActive(i)}
-            onFocus={() => setActive(i)}
-            onBlur={() => setActive(null)}
-            className={`group grid grid-cols-[2.75rem_1fr] items-center gap-x-4 gap-y-3 border-b border-ink-900/20 py-7 transition-opacity duration-300 sm:grid-cols-[4rem_1fr_auto] sm:py-9 lg:grid-cols-[5rem_minmax(0,1.9fr)_minmax(0,1fr)_2.5rem] ${
-              dimmed ? "opacity-35" : "opacity-100"
-            }`}
+            className={`group relative isolate flex min-h-[22rem] overflow-hidden rounded-[1.75rem] bg-ink-900 shadow-[0_30px_60px_-34px_rgba(10,39,64,0.7)] ring-1 ring-ink-900/10 transition-[transform,box-shadow] duration-500 hover:-translate-y-1.5 hover:shadow-[0_40px_70px_-30px_rgba(10,114,154,0.55)] focus-visible:-translate-y-1.5 lg:min-h-[26rem] ${SPANS[i] ?? "lg:col-span-6"} ${wide ? "lg:min-h-[19rem]" : ""}`}
           >
-            <span className="font-label text-sm tabular-nums text-accent-600">
-              §{String(i + 1).padStart(2, "0")}
+            <Image
+              src={service.image}
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 60vw, 100vw"
+              className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06]"
+            />
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,24,43,0.2)_0%,rgba(5,24,43,0.5)_42%,rgba(3,14,26,0.95)_100%)]"
+            />
+            <div aria-hidden className="absolute inset-0 bg-accent-600/10 mix-blend-multiply" />
+
+            <span className="absolute left-6 top-6 inline-flex h-10 items-center rounded-full border border-white/25 bg-white/10 px-4 font-label text-sm font-bold text-paper-50 backdrop-blur-md sm:left-8 sm:top-8">
+              {String(i + 1).padStart(2, "0")}
             </span>
 
-            <h3 className="font-statement text-[clamp(1.7rem,3vw,2.6rem)] font-semibold text-ink-900 transition-transform duration-500 ease-out group-hover:translate-x-3 group-hover:text-accent-600">
-              {service.title}
-            </h3>
-
-            <p className="col-span-2 col-start-2 max-w-md text-base leading-relaxed text-steel-600 sm:col-span-1 sm:col-start-auto sm:max-w-xs lg:max-w-none">
-              {service.summary}
-            </p>
-
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 28 28"
-              fill="none"
-              className="hidden justify-self-end text-ink-900 transition-transform duration-500 ease-out group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-accent-600 lg:block"
+            <span
               aria-hidden
+              className="absolute right-6 top-6 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/10 text-paper-50 backdrop-blur-md transition-all duration-500 group-hover:rotate-45 group-hover:border-accent-500 group-hover:bg-accent-500 group-hover:text-void sm:right-8 sm:top-8"
             >
-              <path d="M7 21 21 7M10 7h11v11" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" />
-            </svg>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M4 14 14 4M6 4h8v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+
+            <div className={`relative mt-auto w-full p-6 pt-28 text-paper-50 sm:p-8 sm:pt-28 ${wide ? "lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end lg:gap-12" : ""}`}>
+              <div>
+                <h3 className="font-display text-balance text-2xl font-bold leading-tight sm:text-[1.75rem]">{service.title}</h3>
+                <p className="mt-3 max-w-lg text-pretty text-base leading-relaxed text-paper-50/85">{service.summary}</p>
+              </div>
+              {service.subItems && (
+                <ul className="mt-5 flex flex-wrap gap-2 lg:mt-0 lg:justify-end">
+                  {service.subItems.map((item) => (
+                    <li
+                      key={item}
+                      className="rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 font-label text-[0.8125rem] font-semibold text-paper-50 backdrop-blur-md"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </Link>
         );
       })}
-
-      {/* cursor-following preview — only on devices that can hover */}
-      <div
-        ref={previewRef}
-        aria-hidden
-        className="pointer-events-none absolute left-0 top-0 z-20 hidden aspect-[4/3] w-[22rem] overflow-hidden shadow-[0_30px_60px_-20px_rgba(3,18,31,0.55)] [@media(hover:hover)]:block"
-        style={{ opacity: active === null ? 0 : 1, transition: "opacity 0.25s ease" }}
-      >
-        {services.map((service, i) => (
-          <Image
-            key={service.slug}
-            src={service.image}
-            alt=""
-            fill
-            sizes="352px"
-            className={`object-cover transition-opacity duration-300 ${active === i ? "opacity-100" : "opacity-0"}`}
-          />
-        ))}
-      </div>
-    </div>
+    </ScrollReveal>
   );
 }
