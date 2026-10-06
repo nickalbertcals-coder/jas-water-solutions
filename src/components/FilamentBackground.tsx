@@ -11,9 +11,10 @@ void main() {
 }`;
 
 /*
- * Sunlight through moving water: an ocean gradient (deep navy → blue → teal)
- * lit by drifting caustic networks — the bright, shifting web you see on a
- * pool floor. The cursor gently parts the surface and picks up a soft glow.
+ * A field of luminous filaments: the contour lines of a slowly flowing,
+ * domain-warped noise field, drawn as thin glowing threads in aqua and
+ * seafoam over deep navy. The cursor bends the threads around it. The left
+ * side is kept dim so the headline stays easy to read.
  */
 const FRAG = `
 #ifdef GL_FRAGMENT_PRECISION_HIGH
@@ -27,58 +28,74 @@ uniform float uTime;
 uniform vec2 uMouse;
 uniform float uMouseK;
 
-#define TAU 6.28318530718
+float hash(vec2 p) {
+  p = fract(p * vec2(123.34, 456.21));
+  p += dot(p, p + 45.32);
+  return fract(p.x * p.y);
+}
 
-float caustic(vec2 uv, float t) {
-  vec2 p = mod(uv * TAU, TAU) - 250.0;
-  vec2 i = p;
-  float c = 1.0;
-  float inten = 0.005;
-  for (int n = 0; n < 5; n++) {
-    float tt = t * (1.0 - (3.5 / float(n + 1)));
-    i = p + vec2(cos(tt - i.x) + sin(tt + i.y), sin(tt - i.y) + cos(tt + i.x));
-    c += 1.0 / length(vec2(p.x / (sin(i.x + tt) / inten), p.y / (cos(i.y + tt) / inten)));
+float noise(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  float a = hash(i);
+  float b = hash(i + vec2(1.0, 0.0));
+  float c = hash(i + vec2(0.0, 1.0));
+  float d = hash(i + vec2(1.0, 1.0));
+  return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+}
+
+float fbm(vec2 p) {
+  float v = 0.0;
+  float a = 0.5;
+  mat2 m = mat2(1.6, 1.2, -1.2, 1.6);
+  for (int i = 0; i < 4; i++) {
+    v += a * noise(p);
+    p = m * p;
+    a *= 0.5;
   }
-  c /= 5.0;
-  c = 1.17 - pow(c, 1.4);
-  return pow(abs(c), 8.0);
+  return v;
+}
+
+// thin bright line wherever the field crosses a whole number of "levels"
+float filament(float f, float levels, float sharp) {
+  float d = abs(fract(f * levels) - 0.5);
+  return exp(-d * d * sharp);
 }
 
 void main() {
   float asp = uRes.x / uRes.y;
   vec2 uv = vUv;
-  vec2 p = vec2(uv.x * asp, uv.y);
+  vec2 p = vec2(uv.x * asp, uv.y) * 1.5;
 
-  // the cursor parts the surface
-  vec2 m = vec2(uMouse.x * asp, uMouse.y);
+  // the cursor bends the field
+  vec2 m = vec2(uMouse.x * asp, uMouse.y) * 1.5;
   vec2 d = p - m;
   float md2 = dot(d, d);
-  p += d / (sqrt(md2) + 1e-3) * exp(-md2 * 16.0) * 0.05 * uMouseK;
+  p += d / (sqrt(md2) + 1e-3) * exp(-md2 * 7.0) * 0.18 * uMouseK;
 
-  // ocean gradient, light from the lower right
-  vec3 deep = vec3(0.008, 0.075, 0.13);
-  vec3 mid  = vec3(0.02, 0.20, 0.34);
-  vec3 teal = vec3(0.03, 0.40, 0.50);
-  float g = clamp(dot(uv - vec2(0.1, 1.0), normalize(vec2(1.0, -0.85))) / 1.25, 0.0, 1.0);
-  vec3 col = mix(deep, mid, smoothstep(0.05, 0.7, g));
-  col = mix(col, teal, smoothstep(0.55, 1.0, g) * 0.75);
+  float t = uTime;
+  vec2 q = vec2(fbm(p + vec2(0.0, t * 0.05)), fbm(p + vec2(5.2, 1.3) - vec2(t * 0.04, 0.0)));
+  float f1 = fbm(p + 2.2 * q + vec2(t * 0.03, 0.0));
+  vec2 p2 = p * 1.7 + vec2(8.3, 2.1);
+  vec2 q2 = vec2(fbm(p2 + vec2(t * 0.06, 3.0)), fbm(p2 + vec2(1.7, 9.2) - vec2(0.0, t * 0.05)));
+  float f2 = fbm(p2 + 2.0 * q2 - vec2(t * 0.04, 0.0));
 
-  // two caustic layers at different scales/speeds for depth
-  float c1 = caustic(p * 0.5, uTime * 0.30);
-  float c2 = caustic(p * 0.85 + 3.7, uTime * 0.45 + 7.0);
-  float c = c1 * 0.95 + c2 * 0.5;
+  float l1 = filament(f1, 7.0, 2600.0) + 0.16 * filament(f1, 7.0, 90.0);
+  float l2 = filament(f2, 10.0, 3200.0) * 0.4;
 
-  // keep the light away from the headline (left), richer to the right and low
-  float w = mix(0.28, 1.0, smoothstep(0.2, 0.85, uv.x)) * mix(1.0, 0.7, uv.y);
-  col += vec3(0.38, 0.88, 1.0) * c * 1.05 * w;
+  vec3 aqua = vec3(0.30, 0.79, 0.91);
+  vec3 foam = vec3(0.24, 0.88, 0.71);
+  vec3 col1 = mix(aqua, foam, smoothstep(0.35, 0.75, f1));
+  vec3 col2 = mix(vec3(0.20, 0.55, 0.85), aqua, smoothstep(0.3, 0.7, f2));
 
-  // faint slanting light shafts
-  float sh = sin((p.x * 1.7 - p.y * 1.1) * 3.2 + uTime * 0.18) * 0.5 + 0.5;
-  col += vec3(0.08, 0.32, 0.46) * pow(sh, 7.0) * 0.12 * (1.0 - uv.y * 0.7);
+  // dim on the left (text), brightest toward the right and the middle band
+  float w = mix(0.08, 1.0, smoothstep(0.2, 0.85, uv.x)) * (0.6 + 0.4 * sin(uv.y * 3.14159));
 
-  // cursor glow + vignette
-  col += vec3(0.18, 0.6, 0.8) * exp(-md2 * 26.0) * 0.12 * uMouseK;
-  col *= 1.0 - 0.38 * pow(length(uv - vec2(0.5, 0.55)) * 1.15, 2.2);
+  vec3 base = mix(vec3(0.008, 0.07, 0.12), vec3(0.016, 0.16, 0.25), clamp(uv.x * 0.7 + (1.0 - uv.y) * 0.4, 0.0, 1.0));
+  vec3 col = base + (col1 * l1 + col2 * l2) * w * 0.62;
+  col += vec3(0.15, 0.55, 0.75) * exp(-md2 * 14.0) * 0.1 * uMouseK;
+  col *= 1.0 - 0.4 * pow(length(uv - vec2(0.55, 0.5)) * 1.1, 2.2);
 
   gl_FragColor = vec4(col, 1.0);
 }`;
@@ -95,10 +112,10 @@ function compile(gl: WebGLRenderingContext, type: number, src: string) {
  * Hero backdrop. The section's own CSS gradient sits underneath as the
  * fallback (no WebGL / loading); the canvas fades in over it. With
  * reduced-motion preferred, a single still frame is drawn and nothing animates.
- * The canvas renders at half resolution — caustics are soft, and it keeps the
- * shader cheap on laptops and phones.
+ * Rendered at 0.6 scale: filaments stay crisp enough while the shader stays
+ * cheap on laptops and phones.
  */
-export default function WaterBackground() {
+export default function FilamentBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -131,7 +148,7 @@ export default function WaterBackground() {
     const uMouseK = gl.getUniformLocation(prog, "uMouseK");
 
     let shown = false;
-    let time = 14; // start part-way in so the first frame already has structure
+    let time = 30; // start part-way in so the first frame already has structure
     const mouse = { x: 0.7, y: 0.5, tx: 0.7, ty: 0.5, k: 0, tk: 0 };
 
     const draw = () => {
@@ -148,7 +165,7 @@ export default function WaterBackground() {
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      const scale = 0.5;
+      const scale = 0.6;
       canvas.width = Math.max(2, Math.round(rect.width * scale));
       canvas.height = Math.max(2, Math.round(rect.height * scale));
       gl.viewport(0, 0, canvas.width, canvas.height);

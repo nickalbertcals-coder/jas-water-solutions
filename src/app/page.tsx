@@ -4,7 +4,7 @@ import SectionHeading from "@/components/SectionHeading";
 import TeamRow from "@/components/TeamRow";
 import CTASection from "@/components/CTASection";
 import HeroVideo from "@/components/HeroVideo";
-import WaterBackground from "@/components/WaterBackground";
+import FilamentBackground from "@/components/FilamentBackground";
 import WaveEdge from "@/components/WaveEdge";
 import RotatingCube from "@/components/RotatingCube";
 import ServiceList from "@/components/ServiceList";
@@ -63,8 +63,8 @@ export default function Home() {
   return (
     <>
       {/* ───────── Hero ───────── */}
-      <section className="relative isolate flex flex-col lg:min-h-[calc(100svh-4.5rem)] overflow-hidden bg-[linear-gradient(135deg,#02131f_0%,#06304d_55%,#0a5a6c_100%)]">
-        <WaterBackground />
+      <section className="relative isolate flex flex-col lg:min-h-[calc(100svh-4.5rem)] overflow-hidden bg-[linear-gradient(135deg,#02121e_0%,#04223a_60%,#063247_100%)]">
+        <FilamentBackground />
         {/* keep the left (text) side calm and legible */}
         <div
           aria-hidden
@@ -83,7 +83,13 @@ export default function Home() {
             </div>
 
             <ScrollReveal as="div" selector=":scope > *" y={20} stagger={0.12} className="relative z-10 order-1 max-w-[44rem]">
-              <Eyebrow tone="light">Water utility operations &amp; maintenance</Eyebrow>
+              <span className="inline-flex items-center gap-2.5 rounded-full border border-accent-500/35 bg-accent-500/10 py-1.5 pl-3 pr-4 font-label text-sm font-semibold text-accent-500">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-live-500 opacity-70" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-live-500" />
+                </span>
+                Water utility operations &amp; maintenance
+              </span>
               <h1 className="font-statement mt-6 text-[clamp(2.3rem,3.9vw,3.4rem)] text-paper-50">
                 <span className="block">Digitized water systems.</span>
                 <span className="block">Managed with precision.</span>
@@ -107,6 +113,17 @@ export default function Home() {
                 >
                   Our core services
                 </Link>
+              </div>
+              <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 font-label text-sm text-paper-50/75">
+                <span className="font-semibold text-paper-50/55">Serving</span>
+                {["Water districts", "Local governments", "Industry"].map((who) => (
+                  <span key={who} className="inline-flex items-center gap-2 font-semibold text-paper-50/90">
+                    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4 text-accent-500" fill="currentColor">
+                      <path d="M12 2.5c-.3 0-.6.2-.8.4C9 5.6 5 10.2 5 14.5a7 7 0 0 0 14 0c0-4.3-4-8.9-6.2-11.6-.2-.2-.5-.4-.8-.4Z" />
+                    </svg>
+                    {who}
+                  </span>
+                ))}
               </div>
             </ScrollReveal>
           </div>
