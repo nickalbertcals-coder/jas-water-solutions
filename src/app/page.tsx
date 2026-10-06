@@ -3,6 +3,7 @@ import SectionHeading from "@/components/SectionHeading";
 import TeamRow from "@/components/TeamRow";
 import CTASection from "@/components/CTASection";
 import HeroVideo from "@/components/HeroVideo";
+import RippleBackground from "@/components/RippleBackground";
 import RotatingCube from "@/components/RotatingCube";
 import ServiceList from "@/components/ServiceList";
 import ScrollReveal from "@/components/motion/ScrollReveal";
@@ -37,7 +38,7 @@ export default function Home() {
     <>
       {/* ───────── Hero ───────── */}
       <section className="relative isolate overflow-hidden bg-void">
-        <div className="contours" aria-hidden />
+        <RippleBackground />
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_72%_22%,rgba(23,75,114,0.32)_0%,transparent_46%),radial-gradient(ellipse_at_72%_22%,transparent_22%,rgba(3,18,31,0.9)_100%)]"
