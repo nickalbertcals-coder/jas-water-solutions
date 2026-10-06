@@ -178,11 +178,13 @@ export default function WaterJourney() {
       className="relative overflow-hidden bg-[linear-gradient(180deg,#05182b_0%,#000000_100%)] text-paper-50"
     >
       <JourneyDefs />
-      {/* shafts of light fanning out from the top-right corner */}
-      <div aria-hidden className="pointer-events-none absolute right-0 top-0 h-[72rem] w-[110rem] max-w-none">
-        <div className="rays-layer rays-a absolute inset-0" />
-        <div className="rays-layer rays-b absolute inset-0" />
-        <div className="rays-core absolute inset-0" />
+      {/* soft light filtering down from the top-right corner */}
+      <div aria-hidden className="pointer-events-none absolute right-0 top-0 h-[40rem] w-[40rem] max-w-none">
+        <div className="ray ray-1" />
+        <div className="ray ray-2" />
+        <div className="ray ray-3" />
+        <div className="ray ray-4" />
+        <div className="ray-glow absolute inset-0" />
       </div>
 
       {/* aquarium-style air bubbles rising behind everything (desktop only) */}
