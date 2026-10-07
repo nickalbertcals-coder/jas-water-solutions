@@ -285,10 +285,10 @@ export default function HydraulicSchematic({ className, interactive = false }: P
     return (
       <>
         <g className="sc-platform" strokeLinejoin="round">
-          <polygon points={pl.left} fill="#051624" stroke={C.edgeSoft} />
-          <polygon points={pl.right} fill="#030f19" stroke={C.edgeSoft} />
+          <polygon points={pl.left} fill="#1f6a97" stroke={C.edgeSoft} />
+          <polygon points={pl.right} fill="#154f75" stroke={C.edgeSoft} />
           <polygon points={pl.top} fill={`url(#plat-${uid})`} stroke={C.edge} />
-          <path className="sc-grid" d={pl.grid} stroke="rgba(255,255,255,0.075)" strokeWidth="1" />
+          <path className="sc-grid" d={pl.grid} stroke="rgba(255,255,255,0.32)" strokeWidth="1" />
         </g>
         <g filter={`url(#soft-${uid})`} opacity="0.65">
           {shadows}
@@ -378,12 +378,12 @@ export default function HydraulicSchematic({ className, interactive = false }: P
             <stop offset="1" stopColor="#051a2b" />
           </linearGradient>
           <linearGradient id={`plat-${uid}`} x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0" stopColor="#0b2c47" />
-            <stop offset="1" stopColor="#04131f" />
+            <stop offset="0" stopColor="#6db4da" />
+            <stop offset="1" stopColor="#3b88b6" />
           </linearGradient>
           <radialGradient id={`pad-${uid}`}>
-            <stop offset="0" stopColor={C.live} stopOpacity="0.42" />
-            <stop offset="1" stopColor={C.live} stopOpacity="0.1" />
+            <stop offset="0" stopColor="#12c394" stopOpacity="0.7" />
+            <stop offset="1" stopColor="#12c394" stopOpacity="0.28" />
           </radialGradient>
           <clipPath id={`tankclip-${uid}`}>
             <path d={tankBody} />
@@ -534,7 +534,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
             {/* live-area beacon: a glowing disc on the ground (a circle seen in isometric is a 1.73:1 ellipse) with wide circular pulses spreading from its centre */}
             <ellipse cx={lc[0]} cy={lc[1]} rx="86" ry="49.7" fill={`url(#pad-${uid})`} />
             {[0, 1, 2].map((i) => (
-              <ellipse key={i} className="sc-ring" cx={lc[0]} cy={lc[1]} rx="96" ry="55.4" fill="none" stroke={C.live} strokeWidth="2" strokeOpacity="0.95" style={{ animationDelay: `${2.2 + i * 0.87}s` }} />
+              <ellipse key={i} className="sc-ring" cx={lc[0]} cy={lc[1]} rx="96" ry="55.4" fill="none" stroke="#12d6a2" strokeWidth="2.6" strokeOpacity="1" style={{ animationDelay: `${2.2 + i * 0.87}s` }} />
             ))}
 
             {PIPES_C.map((pts, i) => pipe(pts, `c${i}`))}
