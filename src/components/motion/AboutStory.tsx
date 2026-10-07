@@ -7,266 +7,316 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-/** Labels for the three middle paragraphs (the company's own text follows each one). */
+/** Labels for the three middle paragraphs (the company's own text sits under each). */
 const CHAPTER_LABELS = ["What we do", "Who does the work", "How we stay accountable"];
 
-/** The phrase in the opening line that gets the accent colour. */
+/** The phrase in the opening line that takes the accent colour. */
 const EMPHASIS = "Level III Water Distribution Systems.";
 
+/** Photo capsules set inside the opening sentence, placed after these words (first match). */
+const PILLS: Record<string, { src: string; pos: string }> = {
+  "Inc.": { src: "/images/photos/workers_orange.jpg", pos: "66% 50%" },
+  company: { src: "/images/photos/treatment_aerial.jpg", pos: "40% 50%" },
+  of: { src: "/images/photos/meter_reading.jpg", pos: "50% 50%" },
+};
+
+/** Phrases picked out in the closing statement. */
+const CLOSING_EMPHASIS = ["technical excellence", "disciplined revenue management"];
+
+type Token = { kind: "word"; text: string; accent: boolean } | { kind: "pill"; src: string; pos: string };
+
+function tokenize(lead: string): Token[] {
+  const emphasisStart = lead.indexOf(EMPHASIS);
+  const used = new Set<string>();
+  const out: Token[] = [];
+  let offset = 0;
+  lead.split(" ").forEach((w) => {
+    const start = offset;
+    offset += w.length + 1;
+    const accent = emphasisStart >= 0 && start >= emphasisStart && start < emphasisStart + EMPHASIS.length;
+    out.push({ kind: "word", text: w, accent });
+    if (PILLS[w] && !used.has(w)) {
+      used.add(w);
+      out.push({ kind: "pill", ...PILLS[w] });
+    }
+  });
+  return out;
+}
+
+function emphasise(text: string) {
+  const parts: React.ReactNode[] = [];
+  let rest = text;
+  let key = 0;
+  while (rest.length) {
+    let hit = -1;
+    let phrase = "";
+    for (const p of CLOSING_EMPHASIS) {
+      const i = rest.indexOf(p);
+      if (i >= 0 && (hit < 0 || i < hit)) {
+        hit = i;
+        phrase = p;
+      }
+    }
+    if (hit < 0) {
+      parts.push(rest);
+      break;
+    }
+    if (hit > 0) parts.push(rest.slice(0, hit));
+    parts.push(
+      <span key={key++} className="bg-[linear-gradient(90deg,#1f9fd6,#5ccbf2)] bg-clip-text text-transparent">
+        {phrase}
+      </span>
+    );
+    rest = rest.slice(hit + phrase.length);
+  }
+  return parts;
+}
+
 /**
- * "Our story", set as an editorial spread rather than a wall of paragraphs:
- *  - a sticky photo that drifts inside its frame;
- *  - the opening sentence at display size, whose words light up as you scroll;
- *  - three numbered chapters hung on a thread that fills as you read;
- *  - the closing paragraph as a dark pull-quote card.
- * With reduced motion everything is simply visible and static.
+ * "Our story" as a brand manifesto:
+ *  1. the opening sentence at poster size, its words lighting up as you scroll
+ *     while three photo capsules open up inside the line;
+ *  2. a slow outlined marquee;
+ *  3. a wide photograph that drifts as you pass;
+ *  4. the three working paragraphs as clean typographic columns;
+ *  5. the closing paragraph set large and centred.
+ * Reduced motion: everything is simply visible.
  */
 export default function AboutStory({ paragraphs }: { paragraphs: string[] }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [lead, ...rest] = paragraphs;
   const chapters = rest.slice(0, 3);
   const closing = rest[3];
-
-  /* split the lead into words, marking those inside the emphasised phrase */
-  const emphasisStart = lead.indexOf(EMPHASIS);
-  const wordMeta = lead.split(" ").map((w, i, arr) => {
-    const start = arr.slice(0, i).reduce((n, x) => n + x.length + 1, 0);
-    const inEmphasis = emphasisStart >= 0 && start >= emphasisStart && start < emphasisStart + EMPHASIS.length;
-    return { w, inEmphasis };
-  });
+  const tokens = tokenize(lead);
 
   useLayoutEffect(() => {
     const root = rootRef.current;
     if (!root) return;
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      const ctxEls = {
-        words: gsap.utils.toArray<HTMLElement>("[data-lead-word]", root),
-        lead: root.querySelector<HTMLElement>("[data-lead]"),
-        fill: root.querySelector<HTMLElement>("[data-thread-fill]"),
-        list: root.querySelector<HTMLElement>("[data-chapters]"),
-        chapters: gsap.utils.toArray<HTMLElement>("[data-chapter]", root),
-        photo: root.querySelector<HTMLElement>("[data-story-photo]"),
-        img: root.querySelector<HTMLElement>("[data-story-img]"),
-        inset: root.querySelector<HTMLElement>("[data-story-inset]"),
-        quote: root.querySelector<HTMLElement>("[data-quote]"),
-      };
-      const triggers: ScrollTrigger[] = [];
-      const tweens: gsap.core.Animation[] = [];
+      const anims: gsap.core.Animation[] = [];
+      const cleanEls: Element[] = [];
+      const q = <T extends HTMLElement>(sel: string) => gsap.utils.toArray<T>(sel, root);
 
-      /* opening line: words brighten in sequence, tied to scroll */
-      if (ctxEls.lead && ctxEls.words.length) {
-        gsap.set(ctxEls.words, { opacity: 0.16 });
-        const t = gsap.to(ctxEls.words, {
-          opacity: 1,
-          ease: "none",
-          stagger: 0.1,
-          scrollTrigger: { trigger: ctxEls.lead, start: "top 82%", end: "bottom 48%", scrub: 0.4 },
+      /* 1. the manifesto: words brighten and capsules open, in order, tied to scroll */
+      const lineEl = root.querySelector<HTMLElement>("[data-manifesto]");
+      const parts = q("[data-token]");
+      if (lineEl && parts.length) {
+        cleanEls.push(...parts);
+        const tl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: { trigger: lineEl, start: "top 82%", end: "bottom 42%", scrub: 0.5 },
         });
-        tweens.push(t);
+        parts.forEach((el, i) => {
+          if (el.dataset.token === "pill") {
+            gsap.set(el, { width: 0, opacity: 0, marginInline: 0 });
+            tl.to(el, { width: "1.95em", opacity: 1, marginInline: "0.14em", duration: 0.9, ease: "power2.out" }, i * 0.1);
+          } else {
+            gsap.set(el, { opacity: 0.14 });
+            tl.to(el, { opacity: 1, duration: 0.45 }, i * 0.1);
+          }
+        });
+        anims.push(tl);
       }
 
-      /* thread fill */
-      if (ctxEls.fill && ctxEls.list) {
-        gsap.set(ctxEls.fill, { scaleY: 0, transformOrigin: "top center" });
-        tweens.push(
-          gsap.to(ctxEls.fill, {
-            scaleY: 1,
-            ease: "none",
-            scrollTrigger: { trigger: ctxEls.list, start: "top 70%", end: "bottom 62%", scrub: 0.4 },
+      /* 3. the wide photo: opens from the centre, then drifts */
+      const band = root.querySelector<HTMLElement>("[data-band]");
+      const bandImg = root.querySelector<HTMLElement>("[data-band-img]");
+      if (band && bandImg) {
+        cleanEls.push(band, bandImg);
+        gsap.set(band, { clipPath: "inset(14% 8% 14% 8% round 40px)" });
+        anims.push(
+          gsap.to(band, {
+            clipPath: "inset(0% 0% 0% 0% round 40px)",
+            ease: "power3.inOut",
+            duration: 1.5,
+            scrollTrigger: { trigger: band, start: "top 88%", once: true },
           })
+        );
+        gsap.set(bandImg, { scale: 1.14 });
+        anims.push(
+          gsap.fromTo(
+            bandImg,
+            { yPercent: -5 },
+            { yPercent: 5, ease: "none", scrollTrigger: { trigger: band, start: "top bottom", end: "bottom top", scrub: 0.6 } }
+          )
         );
       }
 
-      /* chapters: rise in, and the node lights up when reached */
-      ctxEls.chapters.forEach((ch) => {
-        const body = ch.querySelectorAll<HTMLElement>("[data-chapter-body]");
-        gsap.set(body, { autoAlpha: 0, y: 34 });
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: ch,
-            start: "top 78%",
-            once: true,
-            onEnter: () => ch.setAttribute("data-on", "true"),
-          },
-        });
-        tl.to(body, { autoAlpha: 1, y: 0, duration: 0.9, ease: "power3.out", stagger: 0.1 });
-        tweens.push(tl);
+      /* 4. columns: the hairline draws, then numeral and text rise */
+      q("[data-col]").forEach((col) => {
+        const rule = col.querySelector<HTMLElement>("[data-rule]");
+        const items = col.querySelectorAll<HTMLElement>("[data-col-item]");
+        cleanEls.push(...Array.from(items));
+        if (rule) {
+          cleanEls.push(rule);
+          gsap.set(rule, { scaleX: 0, transformOrigin: "left center" });
+        }
+        gsap.set(items, { autoAlpha: 0, y: 36 });
+        const tl = gsap.timeline({ scrollTrigger: { trigger: col, start: "top 82%", once: true } });
+        if (rule) tl.to(rule, { scaleX: 1, duration: 1.2, ease: "power3.inOut" }, 0);
+        tl.to(items, { autoAlpha: 1, y: 0, duration: 0.95, ease: "power3.out", stagger: 0.12 }, 0.15);
+        anims.push(tl);
       });
 
-      /* photo: opens from the centre, then drifts slowly inside the frame */
-      if (ctxEls.photo) {
-        gsap.set(ctxEls.photo, { clipPath: "inset(10% 10% 10% 10% round 36px)" });
-        tweens.push(
-          gsap.to(ctxEls.photo, {
-            clipPath: "inset(0% 0% 0% 0% round 36px)",
-            duration: 1.4,
-            ease: "power3.inOut",
-            scrollTrigger: { trigger: ctxEls.photo, start: "top 85%", once: true },
-          })
-        );
-      }
-      if (ctxEls.img && ctxEls.photo) {
-        gsap.set(ctxEls.img, { scale: 1.2 });
-        tweens.push(
-          gsap.fromTo(
-            ctxEls.img,
-            { yPercent: -7 },
-            { yPercent: 7, ease: "none", scrollTrigger: { trigger: root, start: "top bottom", end: "bottom top", scrub: 0.6 } }
-          )
-        );
-      }
-      if (ctxEls.inset) {
-        tweens.push(
-          gsap.fromTo(
-            ctxEls.inset,
-            { y: 36 },
-            { y: -36, ease: "none", scrollTrigger: { trigger: root, start: "top bottom", end: "bottom top", scrub: 0.8 } }
-          )
-        );
-      }
-
-      /* closing quote card */
-      if (ctxEls.quote) {
-        gsap.set(ctxEls.quote, { autoAlpha: 0, y: 50 });
-        tweens.push(
-          gsap.to(ctxEls.quote, {
+      /* 5. closing statement */
+      const closeItems = q("[data-close]");
+      if (closeItems.length) {
+        cleanEls.push(...closeItems);
+        gsap.set(closeItems, { autoAlpha: 0, y: 40 });
+        anims.push(
+          gsap.to(closeItems, {
             autoAlpha: 1,
             y: 0,
             duration: 1.1,
             ease: "power3.out",
-            scrollTrigger: { trigger: ctxEls.quote, start: "top 88%", once: true },
+            stagger: 0.14,
+            scrollTrigger: { trigger: closeItems[0], start: "top 86%", once: true },
           })
         );
       }
 
       document.fonts?.ready.then(() => ScrollTrigger.refresh());
       return () => {
-        tweens.forEach((t) => t.kill());
-        triggers.forEach((t) => t.kill());
-        gsap.set(
-          [...ctxEls.words, ...ctxEls.chapters.flatMap((c) => Array.from(c.querySelectorAll("[data-chapter-body]"))), ctxEls.photo, ctxEls.img, ctxEls.inset, ctxEls.quote, ctxEls.fill].filter(Boolean) as Element[],
-          { clearProps: "all" }
-        );
+        anims.forEach((a) => a.kill());
+        gsap.set(cleanEls, { clearProps: "all" });
       };
     });
     return () => mm.revert();
   }, []);
 
   return (
-    <section className="relative overflow-x-clip bg-paper-50 py-20 sm:py-28 lg:py-32">
-      <div aria-hidden className="pointer-events-none absolute -right-40 -top-32 h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.18),transparent)]" />
-      <div aria-hidden className="pointer-events-none absolute -bottom-40 -left-40 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.12),transparent)]" />
+    <section className="relative overflow-x-clip bg-paper-50">
+      <div aria-hidden className="pointer-events-none absolute -right-48 -top-40 h-[40rem] w-[40rem] rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.2),transparent)]" />
+      <div aria-hidden className="pointer-events-none absolute -left-48 top-[55%] h-[36rem] w-[36rem] rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.12),transparent)]" />
 
-      <div ref={rootRef} className="relative mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-12 lg:gap-16">
-        {/* ───────── photo column ───────── */}
-        <div className="lg:col-span-5">
-          <div className="relative mx-auto max-w-md pb-14 lg:sticky lg:top-28 lg:max-w-none">
-            <div
-              data-story-photo
-              className="relative aspect-[4/5] overflow-hidden rounded-[2.25rem] shadow-[0_60px_110px_-50px_rgba(5,24,43,0.85)] ring-1 ring-ink-900/10"
-            >
-              <div data-story-img className="absolute inset-0 will-change-transform">
-                <Image
-                  src="/images/photos/workers_orange.jpg"
-                  alt="JAS Water Solutions engineers at a water facility"
-                  fill
-                  sizes="(min-width: 1024px) 520px, 90vw"
-                  className="object-cover"
-                  style={{ objectPosition: "62% 50%" }}
-                />
-              </div>
-              <div aria-hidden className="absolute inset-0 bg-[#0a3d63]/10 mix-blend-multiply" />
-              <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,transparent_55%,rgba(5,24,43,0.78)_100%)]" />
-
-              {/* caption on the photo */}
-              <div className="absolute inset-x-5 bottom-5 flex items-center gap-4 rounded-2xl border border-white/20 bg-[#05182b]/55 p-4 backdrop-blur-xl">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white text-accent-600">
-                  <svg aria-hidden viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 2.8c-.3 0-.5.2-.7.4C9 5.8 5.5 9.8 5.5 13.8a6.5 6.5 0 0 0 13 0c0-4-3.5-8-5.8-10.6-.2-.2-.4-.4-.7-.4Z" />
-                    <path d="M9 14l2.2 2.2 4-4.4" />
-                  </svg>
-                </span>
-                <p className="font-display text-[0.98rem] font-bold leading-snug text-paper-50">
-                  Reliable, efficient, and financially sustainable water supply
-                </p>
-              </div>
-            </div>
-
-            {/* inset photo */}
-            <div data-story-inset className="absolute -right-3 top-12 w-[40%] sm:-right-8">
-              <div className="float-y relative aspect-[4/3] overflow-hidden rounded-2xl shadow-[0_30px_60px_-24px_rgba(5,24,43,0.7)] ring-[5px] ring-paper-50">
-                <Image src="/images/photos/meter_reading.jpg" alt="" fill sizes="220px" className="scale-[1.12] object-cover" />
-              </div>
-            </div>
+      <div ref={rootRef} className="relative">
+        {/* ───────── 1. manifesto ───────── */}
+        <div className="mx-auto max-w-7xl px-5 pb-16 pt-24 sm:px-8 sm:pb-24 sm:pt-32 lg:pt-40">
+          <div className="flex items-center gap-5">
+            <Eyebrow>Our story</Eyebrow>
+            <span aria-hidden className="h-px flex-1 bg-ink-900/15" />
           </div>
+
+          <p
+            data-manifesto
+            className="font-display mt-10 max-w-[68rem] text-[clamp(2rem,5.1vw,4.9rem)] font-bold leading-[1.1] tracking-[-0.025em] text-ink-900 sm:mt-14"
+          >
+            {tokens.map((t, i) =>
+              t.kind === "word" ? (
+                <span key={i} data-token="word" className={t.accent ? "text-accent-600" : undefined}>
+                  {t.text}{" "}
+                </span>
+              ) : (
+                <span
+                  key={i}
+                  data-token="pill"
+                  aria-hidden
+                  className="relative mx-[0.14em] inline-block h-[0.82em] w-[1.95em] -translate-y-[0.06em] overflow-hidden rounded-full align-middle shadow-[0_14px_30px_-14px_rgba(5,24,43,0.7)] ring-1 ring-ink-900/10"
+                >
+                  <Image src={t.src} alt="" fill sizes="260px" className="scale-[1.25] object-cover" style={{ objectPosition: t.pos }} />
+                  <span className="absolute inset-0 bg-[#0a3d63]/18 mix-blend-multiply" />
+                </span>
+              )
+            )}
+          </p>
         </div>
 
-        {/* ───────── story column ───────── */}
-        <div className="min-w-0 lg:col-span-7">
-          <Eyebrow>Our story</Eyebrow>
-
-          {/* opening line, lights up word by word */}
-          <p data-lead className="font-display mt-7 text-[clamp(1.65rem,2.9vw,2.65rem)] font-bold leading-[1.22] tracking-tight text-ink-900">
-            {wordMeta.map(({ w, inEmphasis }, i) => (
-              <span key={i} data-lead-word className={inEmphasis ? "text-accent-600" : undefined}>
-                {w}{" "}
+        {/* ───────── 2. marquee ───────── */}
+        <div aria-hidden className="select-none overflow-hidden py-4 [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]">
+          <div className="team-marquee-a flex w-max whitespace-nowrap">
+            {[0, 1].map((n) => (
+              <span
+                key={n}
+                className="font-display flex items-center text-[clamp(4.5rem,11vw,10rem)] font-extrabold leading-none"
+                style={{ color: "transparent", WebkitTextStroke: "1.5px rgba(10,114,154,0.34)" }}
+              >
+                {["Reliable", "Efficient", "Financially sustainable"].map((w) => (
+                  <span key={w} className="flex items-center">
+                    {w}
+                    <svg viewBox="0 0 24 24" className="mx-[0.35em] h-[0.5em] w-[0.5em] text-accent-500/70" fill="currentColor" style={{ WebkitTextStroke: 0 }}>
+                      <path d="M12 2.5c-.3 0-.6.2-.8.4C9 5.6 5 10.2 5 14.5a7 7 0 0 0 14 0c0-4.3-4-8.9-6.2-11.6-.2-.2-.5-.4-.8-.4Z" />
+                    </svg>
+                  </span>
+                ))}
               </span>
             ))}
-          </p>
-
-          {/* chapters on a thread */}
-          <div data-chapters className="relative mt-14 lg:mt-20">
-            <span aria-hidden className="absolute bottom-3 left-[1.15rem] top-3 w-px bg-ink-900/12" />
-            <span
-              aria-hidden
-              data-thread-fill
-              className="absolute bottom-3 left-[1.15rem] top-3 w-px bg-[linear-gradient(180deg,#27b6ee,#8fdcff)] shadow-[0_0_10px_rgba(76,201,232,0.7)]"
-            />
-
-            <ol className="space-y-12 lg:space-y-14">
-              {chapters.map((text, i) => (
-                <li key={i} data-chapter data-on="false" className="group relative grid grid-cols-[2.4rem_1fr] gap-x-6 sm:gap-x-8">
-                  <span className="relative z-10 flex h-[2.4rem] w-[2.4rem] items-center justify-center rounded-full border border-ink-900/15 bg-paper-50 font-label text-[0.8rem] font-bold tabular-nums text-ink-900/50 transition-all duration-700 group-data-[on=true]:scale-110 group-data-[on=true]:border-accent-500 group-data-[on=true]:bg-accent-500 group-data-[on=true]:text-void group-data-[on=true]:shadow-[0_0_0_6px_rgba(76,201,232,0.2)]">
-                    {pad(i + 1)}
-                  </span>
-                  <div>
-                    <p data-chapter-body className="font-label text-sm font-bold text-accent-600">
-                      {CHAPTER_LABELS[i] ?? ""}
-                    </p>
-                    <p data-chapter-body className="mt-2 max-w-2xl text-pretty text-[1.1rem] leading-[1.75] text-steel-600">
-                      {text}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ol>
           </div>
-
-          {/* closing paragraph as a pull-quote card */}
-          {closing && (
-            <figure
-              data-quote
-              className="relative mt-16 overflow-hidden rounded-[2rem] bg-[linear-gradient(135deg,#05182b_0%,#0b4f78_100%)] p-8 text-paper-50 shadow-[0_50px_90px_-44px_rgba(5,24,43,0.9)] sm:p-12 lg:mt-20"
-            >
-              <svg aria-hidden viewBox="0 0 800 800" className="pointer-events-none absolute -right-40 -top-40 h-[28rem] w-[28rem] text-accent-500">
-                {[100, 170, 240, 310].map((r, i) => (
-                  <circle key={r} cx="400" cy="400" r={r} fill="none" stroke="currentColor" strokeOpacity={0.28 - i * 0.06} />
-                ))}
-              </svg>
-              <svg aria-hidden viewBox="0 0 48 40" className="relative h-10 w-12 text-accent-500" fill="currentColor">
-                <path d="M0 40V22C0 9 7 2 20 0l2 6C14 8 11 13 11 18h9v22H0Zm26 0V22c0-13 7-20 20-22l2 6c-8 2-11 7-11 12h9v22H26Z" />
-              </svg>
-              <blockquote className="font-display relative mt-6 text-balance text-[clamp(1.35rem,2.2vw,1.95rem)] font-bold leading-[1.35]">
-                {closing}
-              </blockquote>
-              <figcaption className="relative mt-7 flex items-center gap-3 font-label text-sm font-bold text-paper-50/75">
-                <span aria-hidden className="h-px w-10 bg-accent-500" />
-                JAS Water Solutions Inc.
-              </figcaption>
-            </figure>
-          )}
         </div>
+
+        {/* ───────── 3. wide photograph ───────── */}
+        <div className="mx-auto max-w-7xl px-5 pb-20 pt-10 sm:px-8 sm:pb-28 sm:pt-14">
+          <div
+            data-band
+            className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-[0_70px_120px_-60px_rgba(5,24,43,0.9)] ring-1 ring-ink-900/10 sm:aspect-[16/9] sm:rounded-[2.5rem] lg:aspect-[21/9]"
+          >
+            <div data-band-img className="absolute inset-0 will-change-transform">
+              <Image
+                src="/images/photos/workers_orange.jpg"
+                alt="JAS Water Solutions engineers at a water facility"
+                fill
+                sizes="(min-width: 1280px) 1200px, 94vw"
+                className="object-cover object-[76%_50%] sm:object-[62%_84%]"
+              />
+            </div>
+            <div aria-hidden className="absolute inset-0 bg-[#0a3d63]/22 mix-blend-multiply" />
+            <div aria-hidden className="absolute inset-0 bg-[linear-gradient(0deg,rgba(5,24,43,0.88)_0%,rgba(5,24,43,0.35)_42%,transparent_70%)] sm:bg-[linear-gradient(90deg,rgba(5,24,43,0.72)_0%,rgba(5,24,43,0.12)_55%,transparent_100%)]" />
+            <div className="absolute bottom-6 left-6 right-6 flex flex-wrap items-end justify-between gap-4 sm:bottom-9 sm:left-10 sm:right-10">
+              <p className="font-display max-w-md text-balance text-[clamp(1.2rem,2.1vw,1.9rem)] font-bold leading-snug text-paper-50">
+                Reliable, efficient, and financially sustainable water supply for the communities we serve.
+              </p>
+              <span className="flex items-center gap-2.5 rounded-full border border-white/25 bg-[#05182b]/55 px-4 py-2.5 backdrop-blur-xl">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-live-500 opacity-70" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-live-500" />
+                </span>
+                <span className="font-label text-sm font-bold text-paper-50">24/7 digitized monitoring</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* ───────── 4. three columns ───────── */}
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="grid gap-14 md:grid-cols-3 md:gap-10 lg:gap-16">
+            {chapters.map((text, i) => (
+              <div key={i} data-col>
+                <span data-rule aria-hidden className="block h-px w-full bg-ink-900/30" />
+                <p
+                  data-col-item
+                  className="font-display mt-6 text-[clamp(3.4rem,6vw,5.4rem)] font-extrabold leading-none"
+                  style={{ color: "transparent", WebkitTextStroke: "1.6px rgba(10,114,154,0.5)" }}
+                >
+                  {pad(i + 1)}
+                </p>
+                <p data-col-item className="font-display mt-6 text-xl font-bold text-ink-900">
+                  {CHAPTER_LABELS[i] ?? ""}
+                </p>
+                <p data-col-item className="mt-3 text-pretty text-[1.05rem] leading-[1.8] text-steel-600">
+                  {text}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ───────── 5. closing statement ───────── */}
+        {closing && (
+          <div className="mx-auto max-w-5xl px-5 pb-28 pt-24 text-center sm:px-8 sm:pb-36 sm:pt-32">
+            <span data-close className="relative mx-auto flex h-16 w-16 items-center justify-center">
+              <span aria-hidden className="ring-pulse absolute inset-0 rounded-full border border-accent-600/50" />
+              <span aria-hidden className="ring-pulse absolute inset-0 rounded-full border border-accent-600/50 [animation-delay:1.3s]" />
+              <span className="relative flex h-16 w-16 items-center justify-center rounded-full bg-[linear-gradient(135deg,#05182b,#0f4468)] text-accent-500 shadow-[0_20px_40px_-14px_rgba(5,24,43,0.8)]">
+                <svg aria-hidden viewBox="0 0 24 24" className="h-7 w-7" fill="currentColor">
+                  <path d="M12 2.5c-.3 0-.6.2-.8.4C9 5.6 5 10.2 5 14.5a7 7 0 0 0 14 0c0-4.3-4-8.9-6.2-11.6-.2-.2-.5-.4-.8-.4Z" />
+                </svg>
+              </span>
+            </span>
+            <p data-close className="font-display mt-10 text-balance text-[clamp(1.7rem,3.6vw,3.3rem)] font-bold leading-[1.2] tracking-[-0.02em] text-ink-900">
+              {emphasise(closing)}
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );
