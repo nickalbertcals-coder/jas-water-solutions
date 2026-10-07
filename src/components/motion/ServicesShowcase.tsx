@@ -51,7 +51,7 @@ function LearnMore({ service }: { service: Service }) {
   return (
     <Link
       href={service.learnMore.href}
-      className="group mt-7 inline-flex items-center gap-3 rounded-full bg-ink-900 py-2.5 pl-6 pr-2.5 font-label text-base font-semibold text-paper-50 transition-colors hover:bg-accent-600"
+      className="group mt-7 inline-flex w-fit items-center gap-3 self-start rounded-full bg-ink-900 py-2.5 pl-6 pr-2.5 font-label text-base font-semibold text-paper-50 transition-colors hover:bg-accent-600"
     >
       {service.learnMore.label}
       <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent-500 text-void transition-transform duration-500 group-hover:rotate-45">
