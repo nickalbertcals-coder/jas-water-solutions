@@ -83,12 +83,12 @@ export default function Header() {
       <header
         ref={barRef}
         data-scrolled="false"
-        className="sticky top-0 z-50 h-20 border-b border-white/10 bg-[#05182b] transition-shadow duration-300 data-[scrolled=true]:shadow-[0_14px_34px_-18px_rgba(0,0,0,0.8)]"
+        className="sticky top-0 z-50 h-[5.5rem] border-b border-white/10 bg-[#05182b] transition-shadow duration-300 data-[scrolled=true]:shadow-[0_14px_34px_-18px_rgba(0,0,0,0.8)]"
         onPointerLeave={(e) => isMouse(e) && closeMega()}
       >
         <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center justify-between px-5 sm:px-8">
           <Link href="/" className="flex items-center" onClick={() => { setOpen(false); setMega(false); }} aria-label="JAS Water Solutions — home">
-            <Image src="/images/logo.png" alt="JAS Water Solutions Inc." width={168} height={78} priority className="h-[3.9rem] w-auto brightness-0 invert" />
+            <Image src="/images/logo.png" alt="JAS Water Solutions Inc." width={168} height={78} priority className="h-[4.5rem] w-auto brightness-0 invert" />
           </Link>
 
           <div className="flex h-full items-center gap-2 lg:gap-6">
@@ -207,7 +207,7 @@ export default function Header() {
         <div
           aria-hidden={!open}
           inert={!open}
-          className={`fixed inset-0 -z-10 flex flex-col overflow-y-auto bg-[linear-gradient(180deg,#02131f_0%,#05263f_100%)] px-6 pb-10 pt-28 transition-[opacity,visibility] duration-500 lg:hidden ${
+          className={`fixed inset-0 -z-10 flex flex-col overflow-y-auto bg-[linear-gradient(180deg,#02131f_0%,#05263f_100%)] px-6 pb-10 pt-32 transition-[opacity,visibility] duration-500 lg:hidden ${
             open ? "visible opacity-100" : "invisible opacity-0"
           }`}
         >

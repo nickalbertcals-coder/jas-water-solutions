@@ -211,38 +211,6 @@ body {
 @keyframes jdialflat { from { transform: rotate(-125deg); } to { transform: rotate(100deg); } }
 @keyframes jrise { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: 0.9; } 100% { transform: translateY(-70px); opacity: 0; } }
 
-/* Journey: soft light filtering down through the water from the top-right corner.
-   Wide, feathered beams (gaussian across their width) that drift and flicker
-   independently, like light passing through a moving surface. */
-.ray {
-  position: absolute;
-  inset: 0;
-  transform-origin: 100% 0;
-  mix-blend-mode: screen;
-  filter: blur(10px);
-  -webkit-mask-image: radial-gradient(circle 38rem at 100% 0%, #000 0%, rgba(0, 0, 0, 0.55) 45%, transparent 100%);
-  mask-image: radial-gradient(circle 38rem at 100% 0%, #000 0%, rgba(0, 0, 0, 0.55) 45%, transparent 100%);
-}
-.ray-1 { background: conic-gradient(from 180deg at 100% 0%, transparent 0deg, rgba(190,236,255,0.032) 3.00deg, rgba(190,236,255,0.092) 4.75deg, rgba(190,236,255,0.195) 6.50deg, rgba(190,236,255,0.307) 8.25deg, rgba(190,236,255,0.357) 10.00deg, rgba(190,236,255,0.307) 11.75deg, rgba(190,236,255,0.195) 13.50deg, rgba(190,236,255,0.092) 15.25deg, rgba(190,236,255,0.032) 17.00deg, transparent 90deg); --r0: -2.5deg; --r1: 2deg; --sway: 15s; --flick: 8s; --delay: 0s; }
-.ray-2 { background: conic-gradient(from 180deg at 100% 0%, transparent 0deg, rgba(190,236,255,0.025) 17.00deg, rgba(190,236,255,0.069) 19.50deg, rgba(190,236,255,0.149) 22.00deg, rgba(190,236,255,0.235) 24.50deg, rgba(190,236,255,0.273) 27.00deg, rgba(190,236,255,0.235) 29.50deg, rgba(190,236,255,0.149) 32.00deg, rgba(190,236,255,0.069) 34.50deg, rgba(190,236,255,0.025) 37.00deg, transparent 90deg); --r0: 2.5deg; --r1: -2deg; --sway: 21s; --flick: 11s; --delay: -6s; }
-.ray-3 { background: conic-gradient(from 180deg at 100% 0%, transparent 0deg, rgba(190,236,255,0.027) 39.00deg, rgba(190,236,255,0.080) 40.50deg, rgba(190,236,255,0.172) 42.00deg, rgba(190,236,255,0.271) 43.50deg, rgba(190,236,255,0.315) 45.00deg, rgba(190,236,255,0.271) 46.50deg, rgba(190,236,255,0.172) 48.00deg, rgba(190,236,255,0.080) 49.50deg, rgba(190,236,255,0.027) 51.00deg, transparent 90deg); --r0: -2deg; --r1: 3deg; --sway: 18s; --flick: 7s; --delay: -3s; }
-.ray-4 { background: conic-gradient(from 180deg at 100% 0%, transparent 0deg, rgba(190,236,255,0.019) 52.00deg, rgba(190,236,255,0.055) 54.75deg, rgba(190,236,255,0.116) 57.50deg, rgba(190,236,255,0.181) 60.25deg, rgba(190,236,255,0.210) 63.00deg, rgba(190,236,255,0.181) 65.75deg, rgba(190,236,255,0.116) 68.50deg, rgba(190,236,255,0.055) 71.25deg, rgba(190,236,255,0.019) 74.00deg, transparent 90deg); --r0: 3deg; --r1: -2.5deg; --sway: 26s; --flick: 13s; --delay: -11s; }
-
-.ray-glow {
-  background: radial-gradient(circle at 100% 0%, rgba(190, 236, 255, 0.4) 0%, rgba(190, 236, 255, 0.12) 18%, transparent 34%);
-  mix-blend-mode: screen;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .ray {
-    animation: ray-sway var(--sway) ease-in-out var(--delay) infinite alternate, ray-flicker var(--flick) ease-in-out var(--delay) infinite;
-  }
-  .ray-glow { animation: ray-flicker 9s ease-in-out infinite; }
-}
-
-@keyframes ray-sway { from { transform: rotate(var(--r0)); } to { transform: rotate(var(--r1)); } }
-@keyframes ray-flicker { 0%, 100% { opacity: 0.55; } 30% { opacity: 1; } 55% { opacity: 0.7; } 80% { opacity: 0.95; } }
-
 /* Draws a hairline left-to-right; driven by GSAP scaleX on scroll */
 .rule-draw {
   transform-origin: left center;
