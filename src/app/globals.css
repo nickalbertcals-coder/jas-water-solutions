@@ -174,6 +174,8 @@ body {
   .check-draw { stroke-dasharray: 30; stroke-dashoffset: 30; animation: check-draw 0.7s 0.15s ease-out forwards; }
   .btn-sheen::after { content: ''; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.55) 50%, transparent 65%); transform: translateX(-120%); animation: btn-sheen 3.6s ease-in-out infinite; }
   .seal-spin { animation: seal-spin 22s linear infinite; }
+  .orb-spin { animation: seal-spin 9s linear infinite; }
+  .orb-spin-rev { animation: seal-spin 60s linear infinite reverse; }
   .jbub { animation: jbub 4s ease-in infinite; }
   .jfloat { animation: jfloat 6s ease-in-out infinite alternate; }
   .jwin { animation: jwin 5s ease-in-out infinite; }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CTAOrb from "@/components/CTAOrb";
 import CTAVideo from "@/components/CTAVideo";
 import Eyebrow from "@/components/Eyebrow";
 import Magnetic from "@/components/motion/Magnetic";
@@ -55,14 +56,7 @@ export default function CTASection() {
 
             {/* ripple + floating topic chips */}
             <div aria-hidden className="relative mx-auto hidden aspect-square w-full max-w-[26rem] lg:block">
-              {[0, 1, 2, 3].map((i) => (
-                <span key={i} className="ring-pulse absolute inset-[28%] rounded-full border-2 border-accent-500/70" style={{ animationDelay: `${i * 0.9}s`, animationDuration: "3.6s" }} />
-              ))}
-              <span className="float-y absolute inset-[34%] flex items-center justify-center rounded-full bg-[linear-gradient(135deg,#4cc9e8,#3ee0b4)] shadow-[0_30px_70px_-16px_rgba(76,201,232,0.9)]">
-                <svg viewBox="0 0 24 24" className="h-1/2 w-1/2 text-void" fill="currentColor">
-                  <path d="M12 2.5c-.3 0-.6.2-.8.4C9 5.6 5 10.2 5 14.5a7 7 0 0 0 14 0c0-4.3-4-8.9-6.2-11.6-.2-.2-.5-.4-.8-.4Z" />
-                </svg>
-              </span>
+              <CTAOrb />
               {CHIPS.map((c) => (
                 <span
                   key={c.label}

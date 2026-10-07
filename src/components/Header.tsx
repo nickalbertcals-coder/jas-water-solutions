@@ -132,9 +132,9 @@ export default function Header() {
             <Link
               href="/contact"
               aria-current={pathname.startsWith("/contact") ? "page" : undefined}
-              className="hidden items-center gap-2 rounded-full bg-accent-500 px-7 py-3 font-label text-[1.05rem] font-bold text-void transition-colors hover:bg-paper-50 lg:inline-flex"
+              className="hidden items-center gap-2 rounded-full bg-accent-500 px-6 py-3 font-label text-base font-bold text-void transition-colors hover:bg-paper-50 lg:inline-flex"
             >
-              Contact us
+              Request a consultation
             </Link>
             <button
               type="button"
@@ -235,7 +235,7 @@ export default function Header() {
             className={`mt-10 inline-flex items-center justify-center gap-2 rounded-full bg-accent-500 py-4 font-label text-lg font-bold text-void transition-all duration-500 ${open ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
             style={{ transitionDelay: open ? "480ms" : "0ms" }}
           >
-            Contact us <span aria-hidden>→</span>
+            Request a consultation <span aria-hidden>→</span>
           </Link>
         </div>
       </header>

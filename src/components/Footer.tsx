@@ -46,7 +46,7 @@ export default function Footer() {
             href="/contact"
             className="group inline-flex shrink-0 items-center gap-3 self-start rounded-full bg-accent-500 py-2.5 pl-7 pr-2.5 font-label text-base font-bold text-void transition-colors hover:bg-paper-50 lg:self-auto"
           >
-            Contact us
+            Request a consultation
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-void text-accent-500 transition-transform duration-500 group-hover:rotate-45">
               <svg aria-hidden viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M4 12 12 4M5.5 4H12v6.5" />
