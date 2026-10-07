@@ -1,4 +1,4 @@
-import Image from "next/image";
+import TeamPortrait from "./TeamPortrait";
 import type { TeamMember } from "@/lib/data";
 import { initials } from "./TeamCard";
 
@@ -24,17 +24,17 @@ export default function TeamRow({ member }: { member: TeamMember }) {
       </div>
 
       <div className="relative -mt-16 flex justify-center px-6 sm:px-7">
-        <div className="relative h-32 w-32 overflow-hidden rounded-full bg-white shadow-[0_18px_36px_-14px_rgba(10,39,64,0.6)] ring-4 ring-white">
+        <div className="relative h-32 w-32 rounded-full bg-white shadow-[0_18px_36px_-14px_rgba(10,39,64,0.6)] ring-4 ring-white">
           {member.image ? (
-            <Image
+            <TeamPortrait
               src={member.image}
+              slug={member.slug}
               alt={member.name}
-              fill
               sizes="128px"
-              className="object-cover object-top transition-transform duration-[900ms] ease-out group-hover:scale-110"
+              className="h-full w-full transition-transform duration-[900ms] ease-out group-hover:scale-105"
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(160deg,#0f3556,#05182b)] font-display text-4xl font-bold text-paper-50/85">
+            <div className="flex h-full w-full items-center justify-center rounded-full bg-[linear-gradient(160deg,#0f3556,#05182b)] font-display text-4xl font-bold text-paper-50/85">
               {initials(member.name)}
             </div>
           )}

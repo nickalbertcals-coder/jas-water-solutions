@@ -8,6 +8,7 @@ import ScrollReveal from "@/components/motion/ScrollReveal";
 import ScrambleText from "@/components/motion/ScrambleText";
 import { about, mission, team, vision } from "@/lib/data";
 import { initials } from "@/components/TeamCard";
+import TeamPortrait from "@/components/TeamPortrait";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -250,7 +251,7 @@ export default function AboutPage() {
             {LEADERS.map((m) => (
               <li key={m.slug} className="relative h-20 w-20 overflow-hidden rounded-full bg-ink-800 ring-4 ring-[#06223a] sm:h-24 sm:w-24">
                 {m.image ? (
-                  <Image src={m.image} alt={m.name} fill sizes="96px" className="object-cover object-top" />
+                  <TeamPortrait src={m.image} slug={m.slug} alt={m.name} sizes="96px" className="h-full w-full" />
                 ) : (
                   <span className="flex h-full w-full items-center justify-center font-display text-xl font-bold">{initials(m.name)}</span>
                 )}
