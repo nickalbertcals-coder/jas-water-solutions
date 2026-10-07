@@ -139,7 +139,7 @@ export default function OperationsPage() {
   return (
     <>
       {/* ───────── Hero ───────── */}
-      <PageHero water eyebrow={operations.eyebrow} title={operations.title} description={operations.subtitle}>
+      <PageHero water video={{ src: "/videos/ops-hands.mp4", poster: "/images/ops-hands-poster.jpg" }} eyebrow={operations.eyebrow} title={operations.title} description={operations.subtitle}>
         <div className="mt-10 max-w-2xl rounded-3xl border border-white/20 bg-white/[0.08] p-6 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.6)] backdrop-blur-xl sm:p-7">
           <Eyebrow tone="light" as="p">Our operational mission</Eyebrow>
           <p className="mt-4 text-pretty text-base leading-relaxed text-paper-50/90 sm:text-lg">{operations.mission}</p>

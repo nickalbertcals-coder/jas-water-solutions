@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Looping water footage for the right side of the call-to-action band.
+ * Looping water footage for the right side of a dark band (call-to-action, page heroes).
  * Light on the page by design: an 8-second, ~1.3 MB, muted loop; nothing is
  * downloaded until the band is near the screen; it pauses whenever it is off
  * screen; and phones, data-saver mode and reduced-motion visitors get only the
@@ -11,7 +11,15 @@ import { useEffect, useRef, useState } from "react";
  */
 const FADE = "linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.35) 22%, #000 62%)";
 
-export default function CTAVideo({ className = "" }: { className?: string }) {
+export default function CTAVideo({
+  className = "",
+  src = "/videos/cta-water.mp4",
+  poster = "/images/cta-water-poster.jpg",
+}: {
+  className?: string;
+  src?: string;
+  poster?: string;
+}) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [enabled, setEnabled] = useState(false);
@@ -51,13 +59,13 @@ export default function CTAVideo({ className = "" }: { className?: string }) {
     >
       {/* the poster doubles as the still frame for anyone who doesn't get the video */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/images/cta-water-poster.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
+      <img src={poster} alt="" className="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
       {enabled && (
         <video
           ref={videoRef}
           className="absolute inset-0 h-full w-full object-cover"
-          src="/videos/cta-water.mp4"
-          poster="/images/cta-water-poster.jpg"
+          src={src}
+          poster={poster}
           muted
           loop
           playsInline

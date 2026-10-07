@@ -1,6 +1,7 @@
 import Eyebrow from "@/components/Eyebrow";
 import type { ReactNode } from "react";
 import ScrollReveal from "@/components/motion/ScrollReveal";
+import CTAVideo from "@/components/CTAVideo";
 import WaterBackground from "@/components/WaterBackground";
 import WaveEdge from "@/components/WaveEdge";
 
@@ -11,6 +12,8 @@ type Props = {
   children?: ReactNode;
   /** Live caustic-water backdrop and a wave edge, as on the home hero. */
   water?: boolean;
+  /** Looping footage on the right, fading into the dark left. Replaces the live water shader. */
+  video?: { src: string; poster: string };
 };
 
 /**
@@ -18,7 +21,7 @@ type Props = {
  * contour layer, and a huge signage-style statement — the same visual
  * system as the home hero, so the site reads as one place.
  */
-export default function PageHero({ eyebrow, title, description, children, water = false }: Props) {
+export default function PageHero({ eyebrow, title, description, children, water = false, video }: Props) {
   return (
     <section
       className={`relative isolate overflow-hidden ${
@@ -27,7 +30,7 @@ export default function PageHero({ eyebrow, title, description, children, water 
     >
       {water ? (
         <>
-          <WaterBackground />
+          {video ? <CTAVideo className="-z-10" src={video.src} poster={video.poster} /> : <WaterBackground />}
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,19,31,0.75)_0%,rgba(2,19,31,0.35)_45%,transparent_75%)]"
