@@ -247,8 +247,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
   // diamond on the ground around the live cluster. The buildings are tall, so they hide the pad's back half; the
   // pad is centred a touch behind the footprint's middle so what you see reads as evenly framed.
   const LIVE_C: [number, number] = [live.cx - 0.02, live.cy - 0.06];
-  const liveDiamond = (h: number) =>
-    poly(P(LIVE_C[0] - h, LIVE_C[1] - h), P(LIVE_C[0] + h, LIVE_C[1] - h), P(LIVE_C[0] + h, LIVE_C[1] + h), P(LIVE_C[0] - h, LIVE_C[1] + h));
+  const lc = P(LIVE_C[0], LIVE_C[1], 0);
 
   const platformOf = (n: number) => ({
     top: poly(P(0, 0), P(n, 0), P(n, n), P(0, n)),
@@ -364,7 +363,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
             .sc-ping { transform-box: fill-box; transform-origin: center; animation: sc-ping 2.6s ease-out infinite; }
           }
           .sc-ring { opacity: 0; }
-          @keyframes sc-ringpulse { 0% { transform: scale(.55); opacity: .85 } 100% { transform: scale(1.3); opacity: 0 } }
+          @keyframes sc-ringpulse { 0% { transform: scale(.3); opacity: .9 } 70% { opacity: .35 } 100% { transform: scale(1.25); opacity: 0 } }
           @keyframes sc-bubble { 0% { transform: translateY(0); opacity: 0 } 12% { opacity: .9 } 85% { opacity: .8 } 100% { transform: translateY(var(--rise, -40px)); opacity: 0 } }
           @keyframes sc-rip { 0% { transform: scale(.3); opacity: .8 } 100% { transform: scale(1.05); opacity: 0 } }
           @keyframes sc-shim { 0%,100% { opacity: .2 } 50% { opacity: 1 } }
@@ -534,10 +533,11 @@ export default function HydraulicSchematic({ className, interactive = false }: P
               })
             )}
 
-            {/* live-area plot: a glowing pad that follows the platform's grid, with diamond pulses spreading from its centre */}
-            <polygon points={liveDiamond(0.8)} fill={`url(#pad-${uid})`} stroke={C.live} strokeOpacity="0.55" strokeWidth="1.3" strokeDasharray="9 7" strokeLinejoin="round" />
+            {/* live-area beacon: a glowing disc on the ground (a circle seen in isometric is a 1.73:1 ellipse) with wide circular pulses spreading from its centre */}
+            <ellipse cx={lc[0]} cy={lc[1]} rx="86" ry="49.7" fill={`url(#pad-${uid})`} />
+            <ellipse cx={lc[0]} cy={lc[1]} rx="72" ry="41.6" fill="none" stroke={C.live} strokeOpacity="0.6" strokeWidth="1.3" strokeDasharray="9 7" />
             {[0, 1, 2].map((i) => (
-              <polygon key={i} className="sc-ring" points={liveDiamond(0.8)} fill="none" stroke={C.live} strokeWidth="1.8" strokeOpacity="0.95" strokeLinejoin="round" style={{ animationDelay: `${2.2 + i * 0.87}s` }} />
+              <ellipse key={i} className="sc-ring" cx={lc[0]} cy={lc[1]} rx="96" ry="55.4" fill="none" stroke={C.live} strokeWidth="2" strokeOpacity="0.95" style={{ animationDelay: `${2.2 + i * 0.87}s` }} />
             ))}
 
             {PIPES_C.map((pts, i) => pipe(pts, `c${i}`))}
@@ -568,7 +568,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
 
             {label(d1[0], d1[1] - 78, "Area A", undefined, "middle", d1[0], d1[1] - 52)}
             {label(d3[0], d3[1] - 78, "Area C", undefined, "middle", d3[0], d3[1] - 52)}
-            {label(lx + 70, ly + 18, "Area B — live", C.live, "start", lx + 52, ly + 8)}
+            {label(lc[0] + 96, lc[1] + 40, "Area B — live", C.live, "start", lc[0] + 78, lc[1] + 28)}
           </g>
         </g>
       </svg>
