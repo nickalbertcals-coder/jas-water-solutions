@@ -51,9 +51,9 @@ export default function ServiceList({ services }: { services: Service[] }) {
                 className={`absolute inset-0 bg-[linear-gradient(180deg,rgba(5,24,43,0.35)_0%,rgba(5,24,43,0.78)_100%)] transition-opacity duration-700 ${on ? "opacity-0" : "opacity-100 group-hover:opacity-80"}`}
               />
 
-              {/* icon, always visible, centred at the top of the panel */}
+              {/* icon, always visible, centred on a folded strip, top-left when the panel is open */}
               <span
-                className={`absolute left-1/2 top-5 flex h-14 w-14 -translate-x-1/2 items-center justify-center rounded-2xl bg-white text-accent-600 shadow-[0_14px_30px_-10px_rgba(0,0,0,0.55)] transition-transform duration-700 ${on ? "scale-100" : "scale-95"}`}
+                className={`absolute top-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-accent-600 shadow-[0_14px_30px_-10px_rgba(0,0,0,0.55)] transition-[left,transform] duration-[800ms] ease-[cubic-bezier(0.65,0,0.2,1)] ${on ? "left-5 translate-x-0" : "left-1/2 -translate-x-1/2 scale-95"}`}
               >
                 <svg aria-hidden viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                   {SERVICE_ICONS[s.slug]}
