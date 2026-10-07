@@ -125,12 +125,21 @@ function Slab({ P, w, d }: { P: PF; w: number; d: number }) {
   const grid =
     Array.from({ length: Math.floor(w) + 1 }, (_, i) => `M${P(i, 0).map(f).join(" ")}L${P(i, d).map(f).join(" ")}`).join("") +
     Array.from({ length: Math.floor(d) + 1 }, (_, j) => `M${P(0, j).map(f).join(" ")}L${P(w, j).map(f).join(" ")}`).join("");
-  const [cx, cy] = P(w / 2, d / 2, -1.2);
-  return (
+    return (
     <g strokeLinejoin="round">
-      {/* soft light underneath, and a ground shadow beyond it */}
-      <ellipse cx={cx} cy={cy + 26} rx={(w + d) * DX * 0.62} ry={(w + d) * DY * 0.7} fill="#000" opacity="0.5" filter="url(#jf-soft)" />
-      <ellipse cx={cx} cy={cy + 6} rx={(w + d) * DX * 0.5} ry={(w + d) * DY * 0.5} fill={AQ} opacity="0.13" filter="url(#jf-soft)" />
+      {/* ground shadow: the slab's own diamond footprint, cast well below it and blurred (never a round blob) */}
+      <polygon
+        points={pts(P(0.2, 0.2, -1.5), P(w - 0.2, 0.2, -1.5), P(w - 0.2, d - 0.2, -1.5), P(0.2, d - 0.2, -1.5))}
+        fill="#0a2a44"
+        opacity="0.38"
+        filter="url(#jf-soft)"
+      />
+      <polygon
+        points={pts(P(0.8, 0.8, -1.1), P(w - 0.8, 0.8, -1.1), P(w - 0.8, d - 0.8, -1.1), P(0.8, d - 0.8, -1.1))}
+        fill="#04101c"
+        opacity="0.35"
+        filter="url(#jf-soft)"
+      />
       <polygon points={pts(P(0, d), P(w, d), P(w, d, -T), P(0, d, -T))} fill="url(#jg-slabl)" stroke={EDGE_SOFT} />
       <polygon points={pts(P(w, 0), P(w, d), P(w, d, -T), P(w, 0, -T))} fill="url(#jg-slabr)" stroke={EDGE_SOFT} />
       <polygon points={pts(P(0, 0), P(w, 0), P(w, d), P(0, d))} fill="url(#jg-slab)" stroke={EDGE} />
@@ -251,7 +260,7 @@ function Card({
   return (
     <g transform={`translate(${x} ${y})`}>
       <g className="jfloat" style={{ animationDelay: delay }}>
-        <rect width={w} height="46" rx="16" fill="#06223a" fillOpacity="0.55" />
+        <rect width={w} height="46" rx="16" fill="#06223a" fillOpacity="0.94" />
         <rect width={w} height="46" rx="16" fill="url(#jg-card)" stroke="url(#jg-cardstroke)" filter="url(#jf-shadow)" />
         {sheen && <path d={`M18 1.6H${w - 18}`} stroke="#fff" strokeOpacity="0.42" strokeLinecap="round" />}
         <circle cx="27" cy="23" r="13" fill={LV} fillOpacity="0.16" stroke={LV} strokeOpacity="0.5" />
@@ -426,7 +435,7 @@ function PumpScene() {
       {pump(3.9, 3.6, "-0.5s")}
       <g transform="translate(26 26)">
         <g className="jfloat">
-          <rect width="150" height="104" rx="18" fill="#06223a" fillOpacity="0.55" />
+          <rect width="150" height="104" rx="18" fill="#06223a" fillOpacity="0.94" />
           <rect width="150" height="104" rx="18" fill="url(#jg-card)" stroke="url(#jg-cardstroke)" filter="url(#jf-shadow)" />
           <path d="M18 1.6H132" stroke="#fff" strokeOpacity="0.42" strokeLinecap="round" />
           <g transform="translate(75 68)">
@@ -490,7 +499,7 @@ function ConnectionScene() {
       <Node P={P} x={2.4} y={5.1} color={AQ} />
       <g transform="translate(26 26)">
         <g className="jfloat">
-          <rect width="210" height="132" rx="18" fill="#06223a" fillOpacity="0.55" />
+          <rect width="210" height="132" rx="18" fill="#06223a" fillOpacity="0.94" />
           <rect width="210" height="132" rx="18" fill="url(#jg-card)" stroke="url(#jg-cardstroke)" filter="url(#jf-shadow)" />
           <path d="M18 1.6H192" stroke="#fff" strokeOpacity="0.42" strokeLinecap="round" />
           <text x="20" y="32" fontSize="16" fontWeight="700" fill="#fff">
