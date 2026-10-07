@@ -6,7 +6,7 @@ import CTASection from "@/components/CTASection";
 import HeroVideo from "@/components/HeroVideo";
 import WaterBackground from "@/components/WaterBackground";
 import WaveEdge from "@/components/WaveEdge";
-import RotatingCube from "@/components/RotatingCube";
+import WhoVisual from "@/components/WhoVisual";
 import ServiceList from "@/components/ServiceList";
 import ScrollReveal from "@/components/motion/ScrollReveal";
 import ScrambleText from "@/components/motion/ScrambleText";
@@ -226,43 +226,7 @@ export default function Home() {
             </ScrollReveal>
 
             <ScrollReveal as="div" y={30} delay={0.1} className="lg:col-span-6">
-              <div className="relative mx-auto w-full max-w-[34rem]">
-                <div className="relative isolate aspect-square overflow-hidden rounded-[2.25rem] bg-[linear-gradient(160deg,#eaf7fc_0%,#cdeaf5_55%,#b4dff0_100%)] shadow-[0_40px_90px_-40px_rgba(10,114,154,0.55)] ring-1 ring-accent-600/10">
-                  {/* ripple rings radiating from where the cube sits */}
-                  <svg
-                    aria-hidden
-                    viewBox="0 0 100 100"
-                    className="absolute inset-0 h-full w-full"
-                    fill="none"
-                    stroke="#0a729a"
-                  >
-                    {[16, 27, 38, 49, 60, 71].map((r, i) => (
-                      <circle key={r} cx="50" cy="56" r={r} strokeWidth="0.25" strokeOpacity={0.3 - i * 0.04} />
-                    ))}
-                  </svg>
-                  <RotatingCube />
-                </div>
-
-                <div className="float-y absolute -left-3 bottom-12 flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-[0_18px_40px_-14px_rgba(10,39,64,0.35)] ring-1 ring-ink-900/5 sm:-left-8">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent-tint text-accent-600">
-                    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
-                      <path d="M12 2.5c-.3 0-.6.2-.8.4C9 5.6 5 10.2 5 14.5a7 7 0 0 0 14 0c0-4.3-4-8.9-6.2-11.6-.2-.2-.5-.4-.8-.4Z" />
-                    </svg>
-                  </span>
-                  <span className="text-sm leading-tight">
-                    <span className="block font-semibold text-ink-900">Serving</span>
-                    <span className="text-steel-600">Water districts, LGUs &amp; industry</span>
-                  </span>
-                </div>
-
-                <div className="float-y-slow absolute -right-2 top-10 flex items-center gap-2.5 rounded-full bg-white px-4 py-2.5 shadow-[0_18px_40px_-14px_rgba(10,39,64,0.35)] ring-1 ring-ink-900/5 sm:-right-6">
-                  <span className="relative flex h-2.5 w-2.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-live-500 opacity-70" />
-                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-live-500" />
-                  </span>
-                  <span className="text-sm font-semibold text-ink-900">24/7 digitized monitoring</span>
-                </div>
-              </div>
+              <WhoVisual />
             </ScrollReveal>
           </div>
 
