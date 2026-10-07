@@ -103,12 +103,6 @@ body {
   outline-offset: 2px;
 }
 
-/* Header: dark glass; gains a hairline once the page scrolls */
-header[data-scrolled="true"] {
-  box-shadow: 0 1px 0 0 rgb(255 255 255 / 0.12);
-  background-color: rgb(3 18 31 / 0.97);
-}
-
 /* Topographic contour backdrop — elevation lines, one seafoam bench-mark */
 .contours {
   position: absolute;
