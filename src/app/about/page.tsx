@@ -1,10 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import CTASection from "@/components/CTASection";
 import Eyebrow from "@/components/Eyebrow";
 import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/motion/ScrollReveal";
+import AboutStory from "@/components/motion/AboutStory";
 import ScrambleText from "@/components/motion/ScrambleText";
 import { about, mission, team, vision } from "@/lib/data";
 import { initials } from "@/components/TeamCard";
@@ -75,7 +75,6 @@ const VALUES = [
 const LEADERS = team.slice(0, 5);
 
 export default function AboutPage() {
-  const [lead, ...rest] = about.paragraphs;
   return (
     <>
       <PageHero
@@ -86,55 +85,7 @@ export default function AboutPage() {
       />
 
       {/* ───────── Story ───────── */}
-      <section className="section-pad relative overflow-hidden bg-paper-50">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-40 -top-32 h-[32rem] w-[32rem] rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.18),transparent)]"
-        />
-        <div className="relative mx-auto grid max-w-7xl items-start gap-14 px-5 sm:px-8 lg:grid-cols-12 lg:gap-16">
-          <ScrollReveal as="div" y={30} className="lg:col-span-5 lg:sticky lg:top-28">
-            <div className="relative mx-auto max-w-md pb-10 pr-8 lg:max-w-none">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-[0_40px_80px_-40px_rgba(10,39,64,0.7)] ring-1 ring-ink-900/10">
-                <Image
-                  src="/images/photos/workers_orange.jpg"
-                  alt="JAS Water Solutions field engineers at a water facility"
-                  fill
-                  sizes="(min-width: 1024px) 480px, 90vw"
-                  className="object-cover"
-                />
-                <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,transparent_55%,rgba(5,24,43,0.55)_100%)]" />
-              </div>
-              <div className="float-y absolute -right-1 bottom-0 w-44 overflow-hidden rounded-2xl bg-white p-1.5 shadow-[0_24px_50px_-18px_rgba(10,39,64,0.5)] ring-1 ring-ink-900/5 sm:w-52">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-                  <Image src="/images/photos/meter_reading.jpg" alt="" fill sizes="208px" className="object-cover" />
-                </div>
-                <p className="px-2 pb-1.5 pt-2 font-label text-sm font-bold text-ink-900">Meter reading to billing</p>
-              </div>
-              <div className="float-y-slow absolute -left-3 top-10 flex items-center gap-2.5 rounded-full bg-white px-4 py-2.5 shadow-[0_18px_40px_-14px_rgba(10,39,64,0.4)] ring-1 ring-ink-900/5 sm:-left-6">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-live-500 opacity-70" />
-                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-live-500" />
-                </span>
-                <span className="text-sm font-semibold text-ink-900">Digitized monitoring</span>
-              </div>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal as="div" selector=":scope > *" y={22} stagger={0.12} className="lg:col-span-7">
-            <Eyebrow>Our story</Eyebrow>
-            <p className="font-display mt-6 text-balance text-[clamp(1.5rem,2.5vw,2.2rem)] font-bold leading-[1.28] tracking-tight text-ink-900">
-              {lead}
-            </p>
-            <div className="mt-8 space-y-5 border-l-2 border-accent-500/40 pl-6">
-              {rest.map((p, i) => (
-                <p key={i} className="text-pretty text-lg leading-relaxed text-steel-600">
-                  {p}
-                </p>
-              ))}
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
+      <AboutStory paragraphs={about.paragraphs} />
 
       {/* ───────── By the numbers ───────── */}
       <section className="relative overflow-hidden bg-[linear-gradient(135deg,#05182b_0%,#0b4f78_100%)] py-14 text-paper-50 sm:py-16">
