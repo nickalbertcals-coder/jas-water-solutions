@@ -239,7 +239,7 @@ export default function WaterJourney() {
           <div className="absolute inset-x-0 top-[1.625rem] h-2.5 -translate-y-1/2 rounded-full bg-white/12 ring-1 ring-white/10" />
           <div
             data-fill
-            className="absolute inset-x-0 top-[1.625rem] h-2.5 -translate-y-1/2 rounded-full bg-[linear-gradient(90deg,#4cc9e8,#3ee0b4)] shadow-[0_0_18px_2px_rgba(76,201,232,0.55)]"
+            className="absolute inset-x-0 top-[1.625rem] h-2.5 -translate-y-1/2 rounded-full bg-[linear-gradient(90deg,#27b6ee,#8fdcff)] shadow-[0_0_18px_2px_rgba(76,201,232,0.55)]"
           />
           <span
             data-drop
@@ -261,7 +261,7 @@ export default function WaterJourney() {
                   aria-label={`Go to stop ${i + 1}: ${stage.label}`}
                   className="flex cursor-pointer flex-col items-center gap-3 rounded-lg px-2 pb-1 pt-0.5 focus-visible:outline-offset-2"
                 >
-                  <span className="relative z-20 h-4 w-4 rounded-full border-2 border-[#ffd23f]/80 bg-[#052a44] transition-all duration-300 group-hover:border-[#ffd23f] group-data-[state=passed]:border-[#ffd23f] group-data-[state=passed]:bg-[#ffd23f] group-data-[state=active]:scale-[1.6] group-data-[state=active]:border-[#ffd23f] group-data-[state=active]:bg-[#ffd23f] group-data-[state=active]:shadow-[0_0_14px_3px_rgba(255,210,63,0.6)]" />
+                  <span className="relative z-20 h-4 w-4 rounded-full border-2 border-white/60 bg-[#052a44] transition-all duration-300 group-hover:border-white group-data-[state=passed]:border-white group-data-[state=passed]:bg-white group-data-[state=active]:scale-[1.6] group-data-[state=active]:border-white group-data-[state=active]:bg-white group-data-[state=active]:shadow-[0_0_0_5px_rgba(143,220,255,0.28),0_0_20px_5px_rgba(76,201,232,0.75)]" />
                   <span className="whitespace-nowrap font-label text-[0.8125rem] font-semibold text-paper-50/80 transition-colors duration-300 group-hover:text-paper-50 group-data-[state=active]:text-paper-50 group-data-[state=passed]:text-paper-50/80">
                     {stage.label}
                   </span>
