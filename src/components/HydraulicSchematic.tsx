@@ -167,6 +167,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
     const flows = q<SVGPathElement>(".sc-flow");
     const valves = q<SVGElement>(".sc-valve");
     const objs = q<SVGElement>(".sc-obj");
+    const shadows = q<SVGElement>(".sc-shadow");
     const labels = q<SVGElement>(".sc-label");
     const water = q<SVGElement>(".sc-water");
     const float = q<SVGElement>(".sc-float");
@@ -186,6 +187,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
       gsap.set(grid, { opacity: 0 });
       gsap.set(valves, { opacity: 0, scale: 0.4, transformOrigin: "50% 50%" });
       gsap.set(objs, { opacity: 0, y: 26 });
+      gsap.set(shadows, { opacity: 0 });
       gsap.set(labels, { opacity: 0 });
       gsap.set(flows, { opacity: 0 });
 
@@ -201,6 +203,8 @@ export default function HydraulicSchematic({ className, interactive = false }: P
       });
       tl.to(valves, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.5)", stagger: 0.08 }, 1.1)
         .to(objs, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", stagger: 0.11 }, 1.0)
+        // contact shadows settle in only once the buildings have landed
+        .to(shadows, { opacity: 0.34, duration: 0.9, ease: "power1.out" }, 1.55)
         .to(labels, { opacity: 1, duration: 0.5, stagger: 0.08 }, 1.8)
         .call(
           () => {
@@ -290,7 +294,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
           <polygon points={pl.top} fill={`url(#plat-${uid})`} stroke={C.edge} />
           <path className="sc-grid" d={pl.grid} stroke="rgba(255,255,255,0.32)" strokeWidth="1" />
         </g>
-        <g filter={`url(#soft-${uid})`} opacity="0.65">
+        <g className="sc-shadow" filter={`url(#soft-${uid})`}>
           {shadows}
         </g>
       </>
@@ -348,6 +352,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
       >
         <style>{`
           text { font-family: var(--font-figtree), sans-serif; }
+          .sc-shadow { opacity: .34; }
           .sc-hot { outline: none; cursor: ${interactive ? "pointer" : "default"}; }
           .sc-hot:focus-visible .sc-hit { stroke: ${C.live}; stroke-width: 1.5; }
           @media (prefers-reduced-motion: no-preference) {
@@ -423,7 +428,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
         <g className="sc-float">
           {/* ── tier A: reservoir ── */}
           <g transform={`translate(0 ${TIER_Y.a})`}>
-            {platformGroup(SIZE.a, <ellipse cx={tx + 34} cy={ty + 14} rx="70" ry="30" fill="#000" />)}
+            {platformGroup(SIZE.a, <ellipse cx={tx + 34} cy={ty + 14} rx="70" ry="30" fill="#052a47" />)}
             {PIPES_A.map((pts, i) => pipe(pts, `a${i}`))}
             <g className="sc-obj">
               <g {...hot} data-tip={TIPS.tank} aria-label={TIPS.tank}>
@@ -487,7 +492,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
 
           {/* ── tier B: pump house ── */}
           <g transform={`translate(0 ${TIER_Y.b})`}>
-            {platformGroup(SIZE.b, <ellipse cx={pumpTop[0] + 26} cy={pumpTop[1] + 44} rx="58" ry="22" fill="#000" />)}
+            {platformGroup(SIZE.b, <ellipse cx={pumpTop[0] + 26} cy={pumpTop[1] + 44} rx="58" ry="22" fill="#052a47" />)}
             {PIPES_B.map((pts, i) => pipe(pts, `b${i}`))}
             <g className="sc-obj">
               <g {...hot} data-tip={TIPS.pump} aria-label={TIPS.pump}>
@@ -527,7 +532,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
               SIZE.c,
               DISTRICTS.map((d) => {
                 const [sx, sy] = P(d.cx + 0.3, d.cy + 0.3, 0);
-                return <ellipse key={d.id} cx={sx} cy={sy + 4} rx="62" ry="26" fill="#000" />;
+                return <ellipse key={d.id} cx={sx} cy={sy + 4} rx="62" ry="26" fill="#052a47" />;
               })
             )}
 

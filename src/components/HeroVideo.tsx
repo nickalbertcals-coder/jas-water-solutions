@@ -69,12 +69,7 @@ export default function HeroVideo({ className }: { className?: string }) {
           <source src={VIDEO_SRC} type="video/mp4" />
         </video>
       ) : (
-        <>
-          <HydraulicSchematic interactive className="h-full w-full" />
-          <p className="pointer-events-none absolute right-1 top-0 font-label text-[0.8125rem] text-paper-50/70">
-            Hover the network to explore
-          </p>
-        </>
+        <HydraulicSchematic interactive className="h-full w-full" />
       )}
     </div>
   );
