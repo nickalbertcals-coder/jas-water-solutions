@@ -234,7 +234,7 @@ export default function WaterJourney() {
           </div>
 
           {/* stage illustration */}
-          <div className="relative col-span-7 aspect-[600/400] w-full self-center overflow-hidden rounded-[2rem] border border-white/70 bg-[linear-gradient(160deg,#f7fbfe_0%,#dcedf7_55%,#c9e3f1_100%)] shadow-[0_40px_90px_-30px_rgba(0,0,0,0.75)]">
+          <div className="relative col-span-7 aspect-[600/400] w-full self-center overflow-hidden rounded-[2rem] border border-[color-mix(in_oklab,var(--color-white)_20%,transparent)] bg-[#1999bd45] shadow-[0_40px_90px_-30px_rgba(0,0,0,0.75)]">
             {processStages.map((stage) => (
               <div key={stage.key} data-stage-scene className="absolute inset-0 px-4 py-3">
                 <JourneyScene stageKey={stage.key} label={stage.label} />
@@ -290,7 +290,7 @@ export default function WaterJourney() {
               key={stage.key}
               className="grid items-center gap-6 rounded-[1.75rem] border border-white/15 bg-white/[0.05] p-5 backdrop-blur-sm sm:p-7 md:grid-cols-2 md:gap-10"
             >
-              <div className={`aspect-[600/400] w-full overflow-hidden rounded-2xl bg-[linear-gradient(160deg,#f7fbfe_0%,#d3e8f4_100%)] ${i % 2 ? "md:order-2" : ""}`}>
+              <div className={`aspect-[600/400] w-full overflow-hidden rounded-2xl border border-[color-mix(in_oklab,var(--color-white)_20%,transparent)] bg-[#1999bd45] ${i % 2 ? "md:order-2" : ""}`}>
                 <JourneyScene stageKey={stage.key} label={stage.label} />
               </div>
               <div>
