@@ -168,7 +168,6 @@ export default function HydraulicSchematic({ className, interactive = false }: P
     const valves = q<SVGElement>(".sc-valve");
     const objs = q<SVGElement>(".sc-obj");
     const labels = q<SVGElement>(".sc-label");
-    const rings = q<SVGElement>(".sc-ring");
     const water = q<SVGElement>(".sc-water");
     const float = q<SVGElement>(".sc-float");
     const pipeGroups = q<SVGGElement>(".sc-pipe");
@@ -189,7 +188,6 @@ export default function HydraulicSchematic({ className, interactive = false }: P
       gsap.set(objs, { opacity: 0, y: 26 });
       gsap.set(labels, { opacity: 0 });
       gsap.set(flows, { opacity: 0 });
-      gsap.set(rings, { opacity: 0 });
 
       const tl = gsap.timeline({ scrollTrigger: { trigger: svg, start: "top 88%", once: true } });
       tl.to(platform, { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" }, 0).to(
@@ -208,11 +206,6 @@ export default function HydraulicSchematic({ className, interactive = false }: P
           () => {
             gsap.to(flows, { opacity: 1, duration: 0.8 });
             gsap.to(flows, { strokeDashoffset: "-=290", duration: 5, ease: "none", repeat: -1 });
-            gsap.fromTo(
-              rings,
-              { scale: 0.55, opacity: 0.8 },
-              { scale: 1.3, opacity: 0, duration: 2.6, ease: "power1.out", repeat: -1, stagger: 0.85, transformOrigin: "50% 50%" }
-            );
             gsap.to(water, { y: -3.5, duration: 2.8, ease: "sine.inOut", yoyo: true, repeat: -1 });
             gsap.to(float, { y: -5, duration: 4.6, ease: "sine.inOut", yoyo: true, repeat: -1 });
           },
@@ -251,9 +244,11 @@ export default function HydraulicSchematic({ className, interactive = false }: P
   const live = DISTRICTS.find((d) => d.live)!;
   // ground point under the middle of the live cluster, so the rings sit exactly beneath it
   const [lx, ly] = P(live.cx + 0.05, live.cy + 0.08, 0);
-  // diamond on the ground around the live cluster (its footprint spans about 1.3 × 1.25 grid units)
+  // diamond on the ground around the live cluster. The buildings are tall, so they hide the pad's back half; the
+  // pad is centred a touch behind the footprint's middle so what you see reads as evenly framed.
+  const LIVE_C: [number, number] = [live.cx - 0.02, live.cy - 0.06];
   const liveDiamond = (h: number) =>
-    poly(P(live.cx + 0.05 - h, live.cy + 0.075 - h), P(live.cx + 0.05 + h, live.cy + 0.075 - h), P(live.cx + 0.05 + h, live.cy + 0.075 + h), P(live.cx + 0.05 - h, live.cy + 0.075 + h));
+    poly(P(LIVE_C[0] - h, LIVE_C[1] - h), P(LIVE_C[0] + h, LIVE_C[1] - h), P(LIVE_C[0] + h, LIVE_C[1] + h), P(LIVE_C[0] - h, LIVE_C[1] + h));
 
   const platformOf = (n: number) => ({
     top: poly(P(0, 0), P(n, 0), P(n, n), P(0, n)),
@@ -360,6 +355,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
           .sc-hot:focus-visible .sc-hit { stroke: ${C.live}; stroke-width: 1.5; }
           @media (prefers-reduced-motion: no-preference) {
             .sc-win { animation: sc-twinkle 5s ease-in-out infinite; }
+            .sc-ring { transform-box: fill-box; transform-origin: center; animation: sc-ringpulse 2.6s ease-out infinite; }
             .sc-bub { animation: sc-bubble 4s ease-in infinite; }
             .sc-ripple { transform-box: fill-box; transform-origin: center; animation: sc-rip 3.2s ease-out infinite; }
             .sc-shimmer { animation: sc-shim 3.6s ease-in-out infinite; }
@@ -367,6 +363,8 @@ export default function HydraulicSchematic({ className, interactive = false }: P
             .sc-led { animation: sc-blink 2.4s ease-in-out infinite; }
             .sc-ping { transform-box: fill-box; transform-origin: center; animation: sc-ping 2.6s ease-out infinite; }
           }
+          .sc-ring { opacity: 0; }
+          @keyframes sc-ringpulse { 0% { transform: scale(.55); opacity: .85 } 100% { transform: scale(1.3); opacity: 0 } }
           @keyframes sc-bubble { 0% { transform: translateY(0); opacity: 0 } 12% { opacity: .9 } 85% { opacity: .8 } 100% { transform: translateY(var(--rise, -40px)); opacity: 0 } }
           @keyframes sc-rip { 0% { transform: scale(.3); opacity: .8 } 100% { transform: scale(1.05); opacity: 0 } }
           @keyframes sc-shim { 0%,100% { opacity: .2 } 50% { opacity: 1 } }
@@ -537,9 +535,9 @@ export default function HydraulicSchematic({ className, interactive = false }: P
             )}
 
             {/* live-area plot: a glowing pad that follows the platform's grid, with diamond pulses spreading from its centre */}
-            <polygon points={liveDiamond(0.82)} fill={`url(#pad-${uid})`} stroke={C.live} strokeOpacity="0.55" strokeWidth="1.3" strokeDasharray="9 7" strokeLinejoin="round" />
+            <polygon points={liveDiamond(0.8)} fill={`url(#pad-${uid})`} stroke={C.live} strokeOpacity="0.55" strokeWidth="1.3" strokeDasharray="9 7" strokeLinejoin="round" />
             {[0, 1, 2].map((i) => (
-              <polygon key={i} className="sc-ring" points={liveDiamond(0.82)} fill="none" stroke={C.live} strokeWidth="1.8" strokeOpacity="0.95" strokeLinejoin="round" />
+              <polygon key={i} className="sc-ring" points={liveDiamond(0.8)} fill="none" stroke={C.live} strokeWidth="1.8" strokeOpacity="0.95" strokeLinejoin="round" style={{ animationDelay: `${2.2 + i * 0.87}s` }} />
             ))}
 
             {PIPES_C.map((pts, i) => pipe(pts, `c${i}`))}
