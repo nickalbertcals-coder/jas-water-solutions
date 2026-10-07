@@ -77,9 +77,9 @@ body {
   line-height: 1.06;
 }
 
-/* Aqua → seafoam: the "clean water" gradient, for the one line that should glow */
+/* Aqua → ice blue: the "clean water" gradient, for the one line that should glow */
 .text-water {
-  background-image: linear-gradient(90deg, var(--accent-500), var(--live-500));
+  background-image: linear-gradient(90deg, #27b6ee 0%, #5ccbf2 45%, #c3ecff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
