@@ -168,6 +168,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
     const valves = q<SVGElement>(".sc-valve");
     const objs = q<SVGElement>(".sc-obj");
     const shadows = q<SVGElement>(".sc-shadow");
+    const pad = q<SVGElement>(".sc-pad");
     const labels = q<SVGElement>(".sc-label");
     const water = q<SVGElement>(".sc-water");
     const float = q<SVGElement>(".sc-float");
@@ -188,6 +189,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
       gsap.set(valves, { opacity: 0, scale: 0.4, transformOrigin: "50% 50%" });
       gsap.set(objs, { opacity: 0, y: 26 });
       gsap.set(shadows, { opacity: 0 });
+      gsap.set(pad, { opacity: 0 });
       gsap.set(labels, { opacity: 0 });
       gsap.set(flows, { opacity: 0 });
 
@@ -205,9 +207,11 @@ export default function HydraulicSchematic({ className, interactive = false }: P
         .to(objs, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", stagger: 0.11 }, 1.0)
         // contact shadows settle in only once the buildings have landed
         .to(shadows, { opacity: 0.34, duration: 0.9, ease: "power1.out" }, 1.55)
+        .to(pad, { opacity: 1, duration: 1, ease: "power1.out" }, 1.75)
         .to(labels, { opacity: 1, duration: 0.5, stagger: 0.08 }, 1.8)
         .call(
           () => {
+            svg.classList.add("sc-live"); // starts the live-area pulses
             gsap.to(flows, { opacity: 1, duration: 0.8 });
             gsap.to(flows, { strokeDashoffset: "-=290", duration: 5, ease: "none", repeat: -1 });
             gsap.to(water, { y: -3.5, duration: 2.8, ease: "sine.inOut", yoyo: true, repeat: -1 });
@@ -357,7 +361,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
           .sc-hot:focus-visible .sc-hit { stroke: ${C.live}; stroke-width: 1.5; }
           @media (prefers-reduced-motion: no-preference) {
             .sc-win { animation: sc-twinkle 5s ease-in-out infinite; }
-            .sc-ring { transform-box: fill-box; transform-origin: center; animation: sc-ringpulse 2.6s ease-out infinite; }
+            .sc-live .sc-ring { transform-box: fill-box; transform-origin: center; animation: sc-ringpulse 2.6s ease-out infinite; }
             .sc-bub { animation: sc-bubble 4s ease-in infinite; }
             .sc-ripple { transform-box: fill-box; transform-origin: center; animation: sc-rip 3.2s ease-out infinite; }
             .sc-shimmer { animation: sc-shim 3.6s ease-in-out infinite; }
@@ -537,9 +541,9 @@ export default function HydraulicSchematic({ className, interactive = false }: P
             )}
 
             {/* live-area beacon: a glowing disc on the ground (a circle seen in isometric is a 1.73:1 ellipse) with wide circular pulses spreading from its centre */}
-            <ellipse cx={lc[0]} cy={lc[1]} rx="86" ry="49.7" fill={`url(#pad-${uid})`} />
+            <ellipse className="sc-pad" cx={lc[0]} cy={lc[1]} rx="86" ry="49.7" fill={`url(#pad-${uid})`} />
             {[0, 1, 2].map((i) => (
-              <ellipse key={i} className="sc-ring" cx={lc[0]} cy={lc[1]} rx="96" ry="55.4" fill="none" stroke="#12d6a2" strokeWidth="2.6" strokeOpacity="1" style={{ animationDelay: `${2.2 + i * 0.87}s` }} />
+              <ellipse key={i} className="sc-ring" cx={lc[0]} cy={lc[1]} rx="96" ry="55.4" fill="none" stroke="#12d6a2" strokeWidth="2.6" strokeOpacity="1" style={{ animationDelay: `${i * 0.87}s` }} />
             ))}
 
             {PIPES_C.map((pts, i) => pipe(pts, `c${i}`))}
