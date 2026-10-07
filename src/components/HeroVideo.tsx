@@ -71,7 +71,7 @@ export default function HeroVideo({ className }: { className?: string }) {
       ) : (
         <>
           <HydraulicSchematic interactive className="h-full w-full" />
-          <p className="pointer-events-none absolute bottom-0 right-1 font-label text-[0.8125rem] text-paper-50/70">
+          <p className="pointer-events-none absolute right-1 top-0 font-label text-[0.8125rem] text-paper-50/70">
             Hover the network to explore
           </p>
         </>

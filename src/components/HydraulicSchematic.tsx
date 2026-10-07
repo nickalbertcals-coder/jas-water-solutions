@@ -50,7 +50,7 @@ const PIPES_C: Pt[][] = [
   [[0, 0], [2.4, 2.4]],
   [HUB, [3.8, 2.4], [3.8, 1.0]],
   [HUB, [1.0, 2.4], [1.0, 3.8]],
-  [HUB, [2.4, 3.6], [3.6, 3.6]],
+  [HUB, [2.4, 3.3], [3.3, 3.3]],
 ];
 const VALVES_C: Pt[] = [[3.1, 2.4], [1.7, 2.4], [2.4, 3.0]];
 
@@ -70,7 +70,7 @@ const CLUSTER_B: BoxDef[] = [
 
 const DISTRICTS = [
   { id: "dma1", cx: 3.8, cy: 1.0, boxes: CLUSTER_A, live: false },
-  { id: "dma2", cx: 3.6, cy: 3.6, boxes: CLUSTER_B, live: true },
+  { id: "dma2", cx: 3.3, cy: 3.3, boxes: CLUSTER_B, live: true },
   { id: "dma3", cx: 1.0, cy: 3.8, boxes: CLUSTER_A, live: false },
 ];
 
@@ -242,14 +242,15 @@ export default function HydraulicSchematic({ className, interactive = false }: P
   const try_ = TANK.r * 28.3;
   const tTop = ty - TANK.h * U;
   const tankBody = `M${f1(tx - trx)} ${f1(tTop)}L${f1(tx - trx)} ${f1(ty)}A${f1(trx)} ${f1(try_)} 0 0 0 ${f1(tx + trx)} ${f1(ty)}L${f1(tx + trx)} ${f1(tTop)}Z`;
-  const waterY = tTop + TANK.h * U * 0.38;
+  const waterY = tTop + TANK.h * U * 0.3;
 
   const pumpTop = P(PUMP.x + PUMP.w / 2, PUMP.y + PUMP.d / 2, PUMP.h);
   const led = P(PUMP.x + PUMP.w, PUMP.y + PUMP.d * 0.5, PUMP.h * 0.5);
   const mast = P(PUMP.x + 0.22, PUMP.y + 0.22, PUMP.h);
 
   const live = DISTRICTS.find((d) => d.live)!;
-  const [lx, ly] = P(live.cx, live.cy, 0);
+  // ground point under the middle of the live cluster, so the rings sit exactly beneath it
+  const [lx, ly] = P(live.cx + 0.05, live.cy + 0.08, 0);
 
   const platformOf = (n: number) => ({
     top: poly(P(0, 0), P(n, 0), P(n, n), P(0, n)),
@@ -356,9 +357,16 @@ export default function HydraulicSchematic({ className, interactive = false }: P
           .sc-hot:focus-visible .sc-hit { stroke: ${C.live}; stroke-width: 1.5; }
           @media (prefers-reduced-motion: no-preference) {
             .sc-win { animation: sc-twinkle 5s ease-in-out infinite; }
+            .sc-bub { animation: sc-bubble 4s ease-in infinite; }
+            .sc-ripple { transform-box: fill-box; transform-origin: center; animation: sc-rip 3.2s ease-out infinite; }
+            .sc-shimmer { animation: sc-shim 3.6s ease-in-out infinite; }
+            .sc-shimmer-b { animation-delay: -1.8s; }
             .sc-led { animation: sc-blink 2.4s ease-in-out infinite; }
             .sc-ping { transform-box: fill-box; transform-origin: center; animation: sc-ping 2.6s ease-out infinite; }
           }
+          @keyframes sc-bubble { 0% { transform: translateY(0); opacity: 0 } 12% { opacity: .9 } 85% { opacity: .8 } 100% { transform: translateY(var(--rise, -40px)); opacity: 0 } }
+          @keyframes sc-rip { 0% { transform: scale(.3); opacity: .8 } 100% { transform: scale(1.05); opacity: 0 } }
+          @keyframes sc-shim { 0%,100% { opacity: .2 } 50% { opacity: 1 } }
           @keyframes sc-twinkle { 0%,100% { opacity: .9 } 45% { opacity: .25 } 70% { opacity: .75 } }
           @keyframes sc-ping { 0% { transform: scale(.6); opacity: .9 } 100% { transform: scale(4.2); opacity: 0 } }
           @keyframes sc-blink { 0%,100% { opacity: 1 } 50% { opacity: .25 } }
@@ -381,7 +389,27 @@ export default function HydraulicSchematic({ className, interactive = false }: P
           </radialGradient>
           <clipPath id={`tankclip-${uid}`}>
             <path d={tankBody} />
+            <ellipse cx={tx} cy={tTop} rx={trx - 2} ry={try_ - 1} />
           </clipPath>
+          <linearGradient id={`tglass-${uid}`} x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stopColor="#fff" stopOpacity="0.1" />
+            <stop offset="0.14" stopColor="#d6f3ff" stopOpacity="0.34" />
+            <stop offset="0.3" stopColor="#8fd3f0" stopOpacity="0.08" />
+            <stop offset="0.72" stopColor="#6fb8de" stopOpacity="0.05" />
+            <stop offset="0.9" stopColor="#bfeaff" stopOpacity="0.22" />
+            <stop offset="1" stopColor="#fff" stopOpacity="0.08" />
+          </linearGradient>
+          <linearGradient id={`twater-${uid}`} x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stopColor="#74e0f5" stopOpacity="0.95" />
+            <stop offset="0.6" stopColor="#2f9fc4" stopOpacity="0.88" />
+            <stop offset="1" stopColor="#14688d" stopOpacity="0.92" />
+          </linearGradient>
+          <linearGradient id={`tdepth-${uid}`} x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stopColor="#000" stopOpacity="0.35" />
+            <stop offset="0.35" stopColor="#000" stopOpacity="0" />
+            <stop offset="0.75" stopColor="#000" stopOpacity="0" />
+            <stop offset="1" stopColor="#000" stopOpacity="0.45" />
+          </linearGradient>
           <filter id={`glow-${uid}`} x="-30%" y="-30%" width="160%" height="160%">
             <feGaussianBlur stdDeviation="2.4" result="b" />
             <feMerge>
@@ -401,25 +429,55 @@ export default function HydraulicSchematic({ className, interactive = false }: P
             {PIPES_A.map((pts, i) => pipe(pts, `a${i}`))}
             <g className="sc-obj">
               <g {...hot} data-tip={TIPS.tank} aria-label={TIPS.tank}>
-                <path d={tankBody} fill={`url(#tank-${uid})`} stroke={C.edgeSoft} />
+                {/* the inside of the glass: back wall and open top */}
+                <path d={tankBody} fill="#0a2b45" fillOpacity="0.55" />
+                <ellipse cx={tx} cy={tTop} rx={trx} ry={try_} fill="#051a2c" />
+                <path d={`M${f1(tx - trx)} ${f1(tTop)}A${f1(trx)} ${f1(try_)} 0 0 1 ${f1(tx + trx)} ${f1(tTop)}`} stroke="#0d3a58" strokeWidth="3" fill="none" />
+
+                {/* water, seen through the glass */}
                 <g clipPath={`url(#tankclip-${uid})`}>
                   <g className="sc-water">
-                    <rect x={tx - trx} y={waterY} width={trx * 2} height={ty - waterY + try_ + 6} fill={C.aqua} fillOpacity="0.34" />
-                    <ellipse cx={tx} cy={waterY} rx={trx} ry={try_} fill="#2f9fc4" stroke={C.aqua} strokeOpacity="0.95" />
-                    <ellipse cx={tx - trx * 0.28} cy={waterY - 1} rx={trx * 0.42} ry={try_ * 0.34} fill="#fff" fillOpacity="0.12" />
+                    <rect x={tx - trx} y={waterY} width={trx * 2} height={ty - waterY + try_ + 10} fill={`url(#twater-${uid})`} />
+                    {/* refracted light bands in the body of the water */}
+                    <path d={`M${f1(tx - trx * 0.7)} ${f1(waterY + 8)}q${f1(trx * 0.35)} ${f1(try_ * 0.5)} ${f1(trx * 0.7)} 0t${f1(trx * 0.7)} 0`} stroke="#fff" strokeOpacity="0.25" strokeWidth="1.3" fill="none" className="sc-shimmer" />
+                    <path d={`M${f1(tx - trx * 0.8)} ${f1(waterY + 22)}q${f1(trx * 0.4)} ${f1(-try_ * 0.45)} ${f1(trx * 0.8)} 0t${f1(trx * 0.8)} 0`} stroke="#bff0ff" strokeOpacity="0.2" strokeWidth="1.2" fill="none" className="sc-shimmer sc-shimmer-b" />
+                    {/* surface */}
+                    <ellipse cx={tx} cy={waterY} rx={trx} ry={try_} fill="#8fe8f8" fillOpacity="0.92" />
+                    <ellipse cx={tx} cy={waterY} rx={trx} ry={try_} fill="none" stroke="#fff" strokeOpacity="0.8" strokeWidth="1.2" />
+                    <ellipse cx={tx - trx * 0.3} cy={waterY - 1} rx={trx * 0.45} ry={try_ * 0.34} fill="#fff" fillOpacity="0.28" />
+                    {[0, 1].map((i) => (
+                      <ellipse key={i} className="sc-ripple" cx={tx + trx * 0.12} cy={waterY} rx={trx * 0.62} ry={try_ * 0.62} fill="none" stroke="#fff" strokeOpacity="0.7" style={{ animationDelay: `${i * 1.5}s` }} />
+                    ))}
                   </g>
+                  {/* bubbles rising to the surface */}
+                  {[0, 1, 2, 3, 4, 5].map((i) => (
+                    <circle
+                      key={i}
+                      className="sc-bub"
+                      cx={tx - trx * 0.6 + ((i * 0.41 + 0.1) % 1) * trx * 1.2}
+                      cy={ty - 2}
+                      r={1.6 + (i % 3) * 0.8}
+                      fill="#fff"
+                      fillOpacity="0.85"
+                      style={{ ["--rise" as string]: `${-(ty - waterY - 6)}px`, animationDelay: `${-i * 0.8}s`, animationDuration: `${3.2 + (i % 3) * 0.7}s` }}
+                    />
+                  ))}
                 </g>
-                {[0.28, 0.58].map((t) => (
-                  <path
-                    key={t}
-                    d={`M${f1(tx - trx)} ${f1(tTop + (ty - tTop) * t)}A${f1(trx)} ${f1(try_)} 0 0 0 ${f1(tx + trx)} ${f1(tTop + (ty - tTop) * t)}`}
-                    stroke="rgba(255,255,255,0.13)"
-                  />
-                ))}
-                <rect x={tx - trx * 0.55} y={tTop + 10} width="7" height={ty - tTop - 14} fill="#fff" fillOpacity="0.07" />
-                <ellipse cx={tx} cy={tTop} rx={trx} ry={try_} fill="#235f86" stroke={C.edge} />
-                <ellipse cx={tx} cy={tTop} rx={trx * 0.62} ry={try_ * 0.62} fill="#071e33" stroke={C.edgeSoft} />
-                <ellipse cx={tx} cy={tTop} rx={trx * 0.2} ry={try_ * 0.2} fill={C.aqua} fillOpacity="0.8" />
+
+                {/* glass: tint, edge darkening, specular strips, thick base */}
+                <path d={tankBody} fill={`url(#tglass-${uid})`} stroke={C.edgeSoft} />
+                <path d={tankBody} fill={`url(#tdepth-${uid})`} />
+                <rect x={tx - trx * 0.74} y={tTop + 8} width={Math.max(5, trx * 0.09)} height={ty - tTop - 18} rx="3" fill="#fff" fillOpacity="0.38" />
+                <rect x={tx - trx * 0.55} y={tTop + 14} width="2.5" height={ty - tTop - 34} rx="1.2" fill="#fff" fillOpacity="0.2" />
+                <rect x={tx + trx * 0.7} y={tTop + 12} width="3" height={ty - tTop - 30} rx="1.5" fill="#fff" fillOpacity="0.16" />
+                <path d={`M${f1(tx - trx + 2)} ${f1(ty - 5)}A${f1(trx - 2)} ${f1(try_ - 1)} 0 0 0 ${f1(tx + trx - 2)} ${f1(ty - 5)}`} stroke="#9fdcf5" strokeOpacity="0.55" strokeWidth="2.2" fill="none" />
+                <path d={`M${f1(tx - trx)} ${f1(ty)}A${f1(trx)} ${f1(try_)} 0 0 0 ${f1(tx + trx)} ${f1(ty)}`} stroke="#fff" strokeOpacity="0.55" strokeWidth="1.3" fill="none" />
+
+                {/* thick glass rim */}
+                <ellipse cx={tx} cy={tTop} rx={trx} ry={try_} fill="none" stroke="#5fb3de" strokeWidth="5" strokeOpacity="0.85" />
+                <ellipse cx={tx} cy={tTop} rx={trx} ry={try_} fill="none" stroke="#fff" strokeOpacity="0.75" strokeWidth="1.3" />
+                <ellipse cx={tx} cy={tTop} rx={trx - 4} ry={try_ - 2.4} fill="none" stroke="#fff" strokeOpacity="0.28" />
+                <path d={`M${f1(tx - trx * 0.72)} ${f1(tTop + try_ * 0.62)}A${f1(trx)} ${f1(try_)} 0 0 0 ${f1(tx - trx * 0.1)} ${f1(tTop + try_ * 0.98)}`} stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeOpacity="0.85" fill="none" />
                 <ellipse className="sc-hit" cx={tx} cy={(tTop + ty) / 2} rx={trx + 6} ry={(ty - tTop) / 2 + try_ + 4} fill="transparent" />
               </g>
             </g>
@@ -476,9 +534,9 @@ export default function HydraulicSchematic({ className, interactive = false }: P
             )}
 
             {/* live-area pressure rings (on the ground) */}
-            <ellipse cx={lx} cy={ly} rx="88" ry="50" fill={`url(#ring-${uid})`} />
+            <ellipse cx={lx} cy={ly} rx="78" ry="45" fill={`url(#ring-${uid})`} />
             {[0, 1, 2].map((i) => (
-              <ellipse key={i} className="sc-ring" cx={lx} cy={ly} rx="84" ry="48" stroke={C.live} strokeWidth="1.8" strokeOpacity="0.95" />
+              <ellipse key={i} className="sc-ring" cx={lx} cy={ly} rx="68" ry="39" stroke={C.live} strokeWidth="1.8" strokeOpacity="0.95" />
             ))}
 
             {PIPES_C.map((pts, i) => pipe(pts, `c${i}`))}
@@ -509,7 +567,7 @@ export default function HydraulicSchematic({ className, interactive = false }: P
 
             {label(d1[0], d1[1] - 78, "Area A", undefined, "middle", d1[0], d1[1] - 52)}
             {label(d3[0], d3[1] - 78, "Area C", undefined, "middle", d3[0], d3[1] - 52)}
-            {label(lx + 62, ly - 2, "Area B — live", C.live, "start", lx + 40, ly - 8)}
+            {label(lx + 70, ly + 18, "Area B — live", C.live, "start", lx + 52, ly + 8)}
           </g>
         </g>
       </svg>
