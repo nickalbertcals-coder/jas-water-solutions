@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CTAVideo from "@/components/CTAVideo";
 import Eyebrow from "@/components/Eyebrow";
 import Magnetic from "@/components/motion/Magnetic";
 import ScrollReveal from "@/components/motion/ScrollReveal";
@@ -16,6 +17,7 @@ export default function CTASection() {
       <div aria-hidden className="pointer-events-none absolute -left-32 -top-32 -z-10 h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.28),transparent)]" />
       <div aria-hidden className="pointer-events-none absolute -bottom-40 -right-24 -z-10 h-[32rem] w-[32rem] rounded-full bg-[radial-gradient(closest-side,rgba(62,224,180,0.16),transparent)]" />
       <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent)]" />
+      <CTAVideo className="-z-10" />
 
       <ScrollReveal as="div" y={40} className="relative">
         <div>
@@ -74,7 +76,7 @@ export default function CTASection() {
             </div>
           </div>
 
-          <div className="border-t border-white/12 bg-black/15">
+          <div className="border-t border-white/12 bg-[#04121f]/70 backdrop-blur-sm">
             <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-5 text-[0.95rem] text-paper-50/80 sm:flex-row sm:items-center sm:justify-between sm:px-8">
             <a href={`mailto:${contact.email}`} className="inline-flex items-center gap-2.5 font-semibold text-paper-50 transition-colors hover:text-accent-500">
               <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5 text-accent-500" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
