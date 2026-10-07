@@ -38,7 +38,7 @@ export default function ServiceIndexNav({ items }: { items: Item[] }) {
   return (
     <nav
       aria-label="Service index"
-      className="sticky top-[4.4rem] z-30 border-b border-line bg-paper-50/90 backdrop-blur-xl"
+      className="sticky top-[4.5rem] z-30 border-b border-line bg-paper-50/90 backdrop-blur-xl"
     >
       <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-5 py-3 sm:px-8 [scrollbar-width:none]">
         {items.map((item) => {
