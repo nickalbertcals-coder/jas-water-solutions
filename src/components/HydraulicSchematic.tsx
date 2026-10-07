@@ -251,6 +251,9 @@ export default function HydraulicSchematic({ className, interactive = false }: P
   const live = DISTRICTS.find((d) => d.live)!;
   // ground point under the middle of the live cluster, so the rings sit exactly beneath it
   const [lx, ly] = P(live.cx + 0.05, live.cy + 0.08, 0);
+  // diamond on the ground around the live cluster (its footprint spans about 1.3 × 1.25 grid units)
+  const liveDiamond = (h: number) =>
+    poly(P(live.cx + 0.05 - h, live.cy + 0.075 - h), P(live.cx + 0.05 + h, live.cy + 0.075 - h), P(live.cx + 0.05 + h, live.cy + 0.075 + h), P(live.cx + 0.05 - h, live.cy + 0.075 + h));
 
   const platformOf = (n: number) => ({
     top: poly(P(0, 0), P(n, 0), P(n, n), P(0, n)),
@@ -383,9 +386,9 @@ export default function HydraulicSchematic({ className, interactive = false }: P
             <stop offset="0" stopColor="#0b2c47" />
             <stop offset="1" stopColor="#04131f" />
           </linearGradient>
-          <radialGradient id={`ring-${uid}`}>
-            <stop offset="0" stopColor={C.live} stopOpacity="0.4" />
-            <stop offset="1" stopColor={C.live} stopOpacity="0" />
+          <radialGradient id={`pad-${uid}`}>
+            <stop offset="0" stopColor={C.live} stopOpacity="0.42" />
+            <stop offset="1" stopColor={C.live} stopOpacity="0.1" />
           </radialGradient>
           <clipPath id={`tankclip-${uid}`}>
             <path d={tankBody} />
@@ -533,10 +536,10 @@ export default function HydraulicSchematic({ className, interactive = false }: P
               })
             )}
 
-            {/* live-area pressure rings (on the ground) */}
-            <ellipse cx={lx} cy={ly} rx="78" ry="45" fill={`url(#ring-${uid})`} />
+            {/* live-area plot: a glowing pad that follows the platform's grid, with diamond pulses spreading from its centre */}
+            <polygon points={liveDiamond(0.82)} fill={`url(#pad-${uid})`} stroke={C.live} strokeOpacity="0.55" strokeWidth="1.3" strokeDasharray="9 7" strokeLinejoin="round" />
             {[0, 1, 2].map((i) => (
-              <ellipse key={i} className="sc-ring" cx={lx} cy={ly} rx="68" ry="39" stroke={C.live} strokeWidth="1.8" strokeOpacity="0.95" />
+              <polygon key={i} className="sc-ring" points={liveDiamond(0.82)} fill="none" stroke={C.live} strokeWidth="1.8" strokeOpacity="0.95" strokeLinejoin="round" />
             ))}
 
             {PIPES_C.map((pts, i) => pipe(pts, `c${i}`))}
