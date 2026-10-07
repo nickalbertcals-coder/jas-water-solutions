@@ -14,7 +14,6 @@ const NAV_LINKS = [
   { href: "/services", label: "Services", mega: true },
   { href: "/operations", label: "How We Work" },
   { href: "/team", label: "Our Team" },
-  { href: "/contact", label: "Contact" },
 ];
 
 const SHORT: Record<string, string> = {
@@ -121,18 +120,19 @@ export default function Header() {
             <Image src="/images/logo.png" alt="JAS Water Solutions Inc." width={168} height={78} priority className="h-[3.4rem] w-auto brightness-0 invert" />
           </Link>
 
+          <div className="flex h-full items-center gap-2 lg:gap-6">
           <nav aria-label="Main" className="hidden h-full items-stretch gap-1 lg:flex">
             {NAV_LINKS.map((link) => {
               const active = isActive(pathname, link.href);
               const underline =
-                "after:absolute after:inset-x-3 after:-bottom-px after:h-[3px] after:origin-center after:rounded-t-full after:bg-accent-500 after:transition-transform after:duration-300";
+                "after:absolute after:inset-x-4 after:-bottom-px after:h-[3px] after:origin-center after:rounded-t-full after:bg-accent-500 after:transition-transform after:duration-300";
               return (
                 <div key={link.href} className="relative flex" onPointerEnter={(e) => isMouse(e) && (link.mega ? openMega() : setMega(false))}>
                   <Link
                     href={link.href}
                     aria-current={active ? "page" : undefined}
                     onClick={() => setMega(false)}
-                    className={`relative flex items-center px-4 font-label text-[0.95rem] font-semibold transition-colors ${underline} ${
+                    className={`relative flex items-center px-4 font-label text-[1.05rem] font-semibold transition-colors ${underline} ${
                       active ? "text-paper-50 after:scale-x-100" : "text-paper-50/75 after:scale-x-0 hover:text-paper-50 hover:after:scale-x-100"
                     } ${link.mega && mega ? "text-paper-50 after:scale-x-100" : ""}`}
                   >
@@ -160,9 +160,10 @@ export default function Header() {
           <div className="flex items-center gap-3">
             <Link
               href="/contact"
-              className="hidden items-center gap-2 rounded-full bg-accent-500 px-6 py-2.5 font-label text-[0.95rem] font-bold text-void transition-colors hover:bg-paper-50 lg:inline-flex"
+              aria-current={pathname.startsWith("/contact") ? "page" : undefined}
+              className="hidden items-center gap-2 rounded-full bg-accent-500 px-7 py-3 font-label text-[1.05rem] font-bold text-void transition-colors hover:bg-paper-50 lg:inline-flex"
             >
-              Get in touch
+              Contact us
             </Link>
             <button
               type="button"
@@ -177,6 +178,7 @@ export default function Header() {
                 <span className={`absolute left-0 top-3 h-0.5 w-[18px] rounded-full bg-paper-50 transition-transform duration-300 ${open ? "-translate-y-[6px] -rotate-45" : ""}`} />
               </span>
             </button>
+          </div>
           </div>
         </div>
 
@@ -262,7 +264,7 @@ export default function Header() {
             className={`mt-10 inline-flex items-center justify-center gap-2 rounded-full bg-accent-500 py-4 font-label text-lg font-bold text-void transition-all duration-500 ${open ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
             style={{ transitionDelay: open ? "480ms" : "0ms" }}
           >
-            Get in touch <span aria-hidden>→</span>
+            Contact us <span aria-hidden>→</span>
           </Link>
         </div>
       </header>
