@@ -161,13 +161,15 @@ export default function ServicesStack({ services }: { services: Service[] }) {
           cards.forEach((card, i) => {
             const rect = card.getBoundingClientRect();
             const pIn = clamp((vh - rect.top) / Math.max(1, vh - tops[i]));
-            let pOut = 0;
+            let pOut = 0; // the next card's whole approach, from the bottom of the screen (drives the photo drift)
+            let pCover = 0; // only the part where it is actually passing over this card (drives the dim and recede)
             if (i < n - 1) {
               const nextTop = cards[i + 1].getBoundingClientRect().top;
               pOut = clamp((vh - nextTop) / Math.max(1, vh - tops[i + 1]));
+              pCover = clamp((rect.bottom - nextTop) / Math.max(1, rect.bottom - tops[i + 1]));
             }
-            scalers[i].style.transform = `scale(${1 - pOut * 0.055})`;
-            veils[i].style.opacity = String(pOut * 0.55);
+            scalers[i].style.transform = `scale(${1 - pCover * 0.055})`;
+            veils[i].style.opacity = String(pCover * 0.55);
             const t = (pIn + pOut) / 2;
             imgs[i].style.transform = `translate3d(0, ${((0.5 - t) * 2 * 34).toFixed(1)}px, 0)`;
             if (rect.top <= vh * 0.6 && pOut < 0.5) current = i;
