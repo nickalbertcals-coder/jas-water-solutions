@@ -9,12 +9,13 @@ import WaveEdge from "@/components/WaveEdge";
 import WhoVisual from "@/components/WhoVisual";
 import ServiceList from "@/components/ServiceList";
 import ScrollReveal from "@/components/motion/ScrollReveal";
+import HeroTitle from "@/components/motion/HeroTitle";
 import ScrambleText from "@/components/motion/ScrambleText";
 import WaterJourney from "@/components/motion/WaterJourney";
 import { differentiators, services, team, vision, mission } from "@/lib/data";
 
 const HERO_STATS = [
-  { value: "LEVEL III", label: "Distribution systems operated" },
+  { value: "LEVEL III", label: "Household-connection systems" },
   { value: "24 / 7", label: "Digitized monitoring" },
   { value: "14", label: "Operating departments" },
 ];
@@ -99,10 +100,11 @@ export default function Home() {
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,19,31,0.72)_0%,rgba(2,19,31,0.35)_42%,transparent_70%)]"
         />
 
-        <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col px-5 pb-24 pt-10 sm:px-8 sm:pb-28 lg:pb-32 lg:pt-12">
-          <div className="flex flex-1 flex-col justify-center">
-            {/* illustration: beside the text on desktop (allowed to run large), below it on tablets, hidden on phones */}
-            <div className="pointer-events-none relative order-2 mx-auto mt-12 hidden aspect-[400/676] w-full max-w-[22rem] md:block lg:absolute lg:right-2 lg:top-[47%] lg:mx-0 lg:mt-0 lg:h-[min(80vh,50rem)] lg:w-auto lg:max-w-none lg:-translate-y-1/2 xl:right-10">
+        <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-5 pb-24 pt-10 sm:px-8 sm:pb-28 lg:pb-28 lg:pt-10">
+          {/* the whole group (copy + stats) is centred as one; the illustration is centred on the same box */}
+          <div className="relative flex flex-col justify-center">
+            {/* illustration: beside the copy on desktop, a compact version below the buttons on tablets and phones */}
+            <div className="pointer-events-none relative order-2 mx-auto mt-10 aspect-[400/676] w-full max-w-[15rem] sm:max-w-[19rem] md:max-w-[22rem] lg:absolute lg:right-2 lg:top-1/2 lg:mx-0 lg:mt-0 lg:h-[min(80vh,50rem)] lg:w-auto lg:max-w-none lg:-translate-y-1/2 xl:right-10">
               <div
                 aria-hidden
                 className="absolute inset-[6%] rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.28),transparent)] blur-2xl"
@@ -110,19 +112,22 @@ export default function Home() {
               <HeroVideo className="pointer-events-auto relative h-full w-full" />
             </div>
 
-            <ScrollReveal as="div" selector=":scope > *" y={20} stagger={0.12} className="relative z-10 order-1 max-w-[44rem]">
+            <ScrollReveal as="div" selector=":scope > *:not(h1)" y={20} stagger={0.12} delay={0.3} className="relative z-10 order-1 max-w-[44rem]">
               <Eyebrow tone="light">Water utility operations &amp; maintenance</Eyebrow>
-              <h1 className="font-statement mt-6 text-[clamp(2.3rem,3.9vw,3.4rem)] text-paper-50">
-                <span className="block">Digitized water systems.</span>
-                <span className="block">Managed with precision.</span>
-                <span className="text-water block w-fit">Built for sustainability.</span>
-              </h1>
-              <p className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-paper-50/80">
+              <HeroTitle
+                className="font-statement mt-6 text-[clamp(2.3rem,min(3.9vw,6.6vh),3.4rem)] text-paper-50"
+                lines={[
+                  { text: "Digitized water systems." },
+                  { text: "Managed with precision." },
+                  { text: "Built for sustainability.", className: "text-water" },
+                ]}
+              />
+              <p className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-paper-50/80 [@media(max-height:800px)]:mt-4">
                 JAS Water Solutions runs and maintains water distribution systems from the reservoir to
                 your tap — network operations, preventive maintenance, and computerized billing and
                 collection.
               </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row [@media(max-height:800px)]:mt-6">
                 <Link
                   href="/contact"
                   className="rounded-full bg-accent-500 px-8 py-3.5 text-center font-label text-base font-bold text-void transition-colors hover:bg-paper-50"
@@ -137,29 +142,27 @@ export default function Home() {
                 </Link>
               </div>
             </ScrollReveal>
-          </div>
 
-          <ScrollReveal
-            as="dl"
-            selector=":scope > div"
-            y={16}
-            stagger={0.1}
-            delay={0.3}
-            className="relative z-10 mt-10 grid grid-cols-3 gap-3 sm:gap-4 lg:max-w-[44rem]"
-          >
-            {HERO_STATS.map((stat) => (
-              <div
-                key={stat.label}
-                className="rounded-2xl border border-white/15 bg-white/[0.07] px-3 py-3.5 backdrop-blur-md sm:px-5 sm:py-4"
-              >
-                <dt className="sr-only">{stat.label}</dt>
-                <dd className="font-statement whitespace-nowrap text-xl text-paper-50 sm:text-2xl">
-                  <ScrambleText text={stat.value} />
-                </dd>
-                <p className="mt-1 font-label text-xs leading-snug text-paper-50/75 sm:text-sm">{stat.label}</p>
-              </div>
-            ))}
-          </ScrollReveal>
+            {/* key facts: one slim row with dividers, sitting right under the buttons */}
+            <ScrollReveal
+              as="dl"
+              selector=":scope > div"
+              y={16}
+              stagger={0.1}
+              delay={0.8}
+              className="relative z-10 order-3 mt-10 grid grid-cols-3 border-t border-white/20 pt-6 lg:mt-12 lg:max-w-[44rem] [@media(max-height:800px)]:lg:mt-8"
+            >
+              {HERO_STATS.map((stat, i) => (
+                <div key={stat.label} className={`min-w-0 ${i > 0 ? "border-l border-white/15 pl-4 sm:pl-6" : ""} ${i < 2 ? "pr-3 sm:pr-5" : ""}`}>
+                  <dt className="sr-only">{stat.label}</dt>
+                  <dd className="font-statement whitespace-nowrap text-[clamp(1.35rem,4.6vw,2.2rem)] text-paper-50">
+                    <ScrambleText text={stat.value} />
+                  </dd>
+                  <p className="mt-1.5 text-pretty font-label text-[0.8rem] leading-snug text-paper-50/85 sm:text-sm">{stat.label}</p>
+                </div>
+              ))}
+            </ScrollReveal>
+          </div>
         </div>
 
         <WaveEdge />
