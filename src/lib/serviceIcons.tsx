@@ -36,3 +36,12 @@ export const SERVICE_ICONS: Record<string, ReactNode> = {
   ),
 };
 
+
+/** Short display names (the full titles are long). */
+export const SERVICE_SHORT: Record<string, string> = {
+  "om-level-iii": "Operations & Maintenance",
+  "bulk-water-supply": "Bulk Water Supply",
+  "hydraulic-modeling": "Hydraulic Modeling",
+  "bulk-water-retail": "Bulk Water Retail",
+  "technical-consultancy": "Technical Consultancy",
+};

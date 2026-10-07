@@ -1,6 +1,7 @@
 import Eyebrow from "@/components/Eyebrow";
 import type { ReactNode } from "react";
 import ScrollReveal from "@/components/motion/ScrollReveal";
+import SplitTitle from "@/components/motion/SplitTitle";
 import CTAVideo from "@/components/CTAVideo";
 import WaterBackground from "@/components/WaterBackground";
 import WaveEdge from "@/components/WaveEdge";
@@ -54,7 +55,7 @@ export default function PageHero({ eyebrow, title, description, children, water 
       >
         <Eyebrow tone="light">{eyebrow}</Eyebrow>
         <h1 className="font-statement mt-6 max-w-5xl text-balance text-[clamp(2.4rem,5.6vw,5rem)] font-semibold text-paper-50">
-          {title}
+          <SplitTitle text={title} />
         </h1>
         {description && (
           <p className="mt-8 max-w-2xl text-pretty text-lg leading-relaxed text-paper-50/78 sm:text-xl">
