@@ -56,7 +56,7 @@ export default function ServiceList({ services }: { services: Service[] }) {
               {/* number + icon, always visible */}
               <div className="absolute inset-x-0 top-0 flex items-start justify-between p-5">
                 <span className="font-display text-2xl font-extrabold leading-none text-white/90">{pad(i + 1)}</span>
-                <span className={`flex h-12 w-12 items-center justify-center rounded-2xl border border-white/25 bg-white/15 text-accent-500 backdrop-blur-xl transition-transform duration-700 ${on ? "scale-100" : "scale-90"}`}>
+                <span className={`flex h-12 w-12 items-center justify-center rounded-2xl border border-white/30 bg-[#05182b]/90 text-accent-500 shadow-[0_10px_24px_-8px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-transform duration-700 ${on ? "scale-100" : "scale-90"}`}>
                   <svg aria-hidden viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     {SERVICE_ICONS[s.slug]}
                   </svg>
@@ -105,7 +105,7 @@ export default function ServiceList({ services }: { services: Service[] }) {
             <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,24,43,0.2)_0%,rgba(5,24,43,0.45)_40%,rgba(3,14,26,0.94)_100%)]" />
             <div className="absolute inset-x-0 top-0 flex items-start justify-between p-5">
               <span className="font-display text-2xl font-extrabold leading-none text-white/90">{pad(i + 1)}</span>
-              <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/25 bg-white/15 text-accent-500 backdrop-blur-xl">
+              <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/30 bg-[#05182b]/90 text-accent-500 shadow-[0_10px_24px_-8px_rgba(0,0,0,0.6)] backdrop-blur-xl">
                 <svg aria-hidden viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   {SERVICE_ICONS[s.slug]}
                 </svg>
