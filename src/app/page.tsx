@@ -127,7 +127,7 @@ export default function Home() {
                   href="/contact"
                   className="rounded-full bg-accent-500 px-8 py-3.5 text-center font-label text-base font-bold text-void transition-colors hover:bg-paper-50"
                 >
-                  Get in touch
+                  Request a consultation
                 </Link>
                 <Link
                   href="/services"
