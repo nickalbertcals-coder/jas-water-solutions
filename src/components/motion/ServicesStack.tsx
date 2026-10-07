@@ -50,6 +50,7 @@ function Words({ text }: { text: string }) {
 
 export default function ServicesStack({ services }: { services: Service[] }) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const goRef = useRef<(i: number) => void>(() => {});
   const [active, setActive] = useState(0);
   const [showNav, setShowNav] = useState(false);
 
@@ -62,6 +63,45 @@ export default function ServicesStack({ services }: { services: Service[] }) {
     const veils = gsap.utils.toArray<HTMLElement>("[data-veil]", root);
     const imgs = gsap.utils.toArray<HTMLElement>("[data-img]", root);
     const n = cards.length;
+
+    /* the site's global smooth-scroll fights GSAP's snap tween (landings end up hundreds of px off), so switch it off while this page is mounted */
+    const html = document.documentElement;
+    const prevBehavior = html.style.scrollBehavior;
+    html.style.scrollBehavior = "auto";
+
+    /* Scroll position at which chapter i is fully settled. Computed from layout, not from the card itself: a card that is already stuck reports its stuck position, which would make scrollIntoView a no-op for earlier chapters. */
+    const isDesktop = () => window.matchMedia("(min-width: 1024px)").matches;
+    const chapterY = (i: number) => {
+      const rootTop = root.getBoundingClientRect().top + window.scrollY;
+      const h = cards[0].offsetHeight;
+      const gap = parseFloat(getComputedStyle(cards[0]).marginBottom) || 0;
+      const top = parseFloat(getComputedStyle(cards[i]).top) || 0;
+      return Math.round(rootTop + i * (h + gap) - top);
+    };
+    const scrollToChapter = (i: number, instant = false) => {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const behavior: ScrollBehavior = instant || reduce ? "instant" : "smooth";
+      if (isDesktop()) window.scrollTo({ top: chapterY(i), behavior });
+      else cards[i].scrollIntoView({ behavior, block: "start" });
+    };
+    goRef.current = scrollToChapter;
+
+    /* #service links on this page (header dropdown, hero index, footer): route them through scrollToChapter */
+    const onLinkClick = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const a = (e.target as Element | null)?.closest?.("a");
+      if (!a || !a.getAttribute("href")) return;
+      const url = new URL(a.href, window.location.href);
+      const strip = (x: string) => x.replace(/\/$/, "");
+      if (strip(url.pathname) !== strip(window.location.pathname)) return;
+      const idx = services.findIndex((sv) => `#${sv.slug}` === url.hash);
+      if (idx < 0) return;
+      e.preventDefault();
+      e.stopPropagation();
+      window.history.pushState(null, "", url.hash);
+      scrollToChapter(idx);
+    };
+    document.addEventListener("click", onLinkClick, true);
 
     const mm = gsap.matchMedia();
     mm.add({ motion: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 1024px)" }, (ctx) => {
@@ -108,6 +148,7 @@ export default function ServicesStack({ services }: { services: Service[] }) {
 
       /* ── desktop only: stacking, recede and photo drift, driven by scroll ── */
       let st: ScrollTrigger | undefined;
+      let snapST: ScrollTrigger | undefined;
       if (desktop) {
         let tops: number[] = [];
         const measure = () => {
@@ -145,11 +186,41 @@ export default function ServicesStack({ services }: { services: Service[] }) {
         });
         measure();
         update();
+
+        /* ── snap: glide to the nearest chapter so a card always rests fully on screen ── */
+        const points = () => cards.map((_, i) => chapterY(i));
+        snapST = ScrollTrigger.create({
+          start: () => points()[0],
+          end: () => points()[n - 1],
+          invalidateOnRefresh: true,
+          snap: {
+            snapTo: (progress: number, self?: ScrollTrigger) => {
+              const pts = points();
+              const first = pts[0];
+              const span = pts[n - 1] - first;
+              if (span <= 0) return progress;
+              const px = first + progress * span;
+              const dir = self?.direction ?? 1;
+              let i = 0;
+              while (i < n - 2 && px >= pts[i + 1]) i++;
+              const seg = pts[i + 1] - pts[i];
+              const f = (px - pts[i]) / seg;
+              // a nudge of about a fifth of a card advances to the next one, in either direction
+              const target = dir > 0 ? (f > 0.2 ? pts[i + 1] : pts[i]) : f < 0.8 ? pts[i] : pts[i + 1];
+              return (target - first) / span;
+            },
+            inertia: false,
+            duration: { min: 0.45, max: 0.95 },
+            delay: 0.09,
+            ease: "power2.inOut",
+          },
+        });
       }
 
       return () => {
         io.disconnect();
         st?.kill();
+        snapST?.kill();
         timelines.forEach((t) => t.kill());
         cards.forEach((c) => {
           gsap.set(c.querySelectorAll("[data-w],[data-fade],[data-rule],[data-photo],[data-numeral]"), { clearProps: "all" });
@@ -167,11 +238,7 @@ export default function ServicesStack({ services }: { services: Service[] }) {
     /* A #service link on first load: the browser jumps before images and fonts have settled, so land on the right card ourselves. */
     const idx = services.findIndex((sv) => `#${sv.slug}` === window.location.hash);
     const land = () => {
-      if (idx < 0) return;
-      const el = document.getElementById(services[idx].slug);
-      if (!el) return;
-      const top = parseFloat(getComputedStyle(el).top) || 0;
-      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - top, behavior: "instant" });
+      if (idx >= 0) scrollToChapter(idx, true);
     };
     const timers = idx >= 0 ? [setTimeout(land, 120), setTimeout(land, 700)] : [];
     window.addEventListener("load", land);
@@ -185,13 +252,12 @@ export default function ServicesStack({ services }: { services: Service[] }) {
       navIo.disconnect();
       timers.forEach(clearTimeout);
       window.removeEventListener("load", land);
+      document.removeEventListener("click", onLinkClick, true);
+      html.style.scrollBehavior = prevBehavior;
     };
   }, [services]);
 
-  const go = (i: number) => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    document.getElementById(services[i].slug)?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
-  };
+  const go = (i: number) => goRef.current(i);
 
   return (
     <section className="relative overflow-x-clip bg-paper-50 pb-16 pt-12 sm:pt-16 lg:pb-28 lg:pt-20">
