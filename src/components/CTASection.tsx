@@ -12,16 +12,14 @@ const CHIPS = [
 
 export default function CTASection() {
   return (
-    <section className="relative overflow-hidden bg-paper-100 py-16 sm:py-24">
-      <div aria-hidden className="pointer-events-none absolute -left-40 top-0 h-[32rem] w-[32rem] rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.2),transparent)]" />
-      <div aria-hidden className="pointer-events-none absolute -bottom-40 -right-32 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(closest-side,rgba(62,224,180,0.15),transparent)]" />
+    <section className="relative isolate overflow-hidden bg-[linear-gradient(135deg,#05182b_0%,#0a3d63_55%,#0b5f86_100%)] text-paper-50">
+      <div aria-hidden className="pointer-events-none absolute -left-32 -top-32 -z-10 h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.28),transparent)]" />
+      <div aria-hidden className="pointer-events-none absolute -bottom-40 -right-24 -z-10 h-[32rem] w-[32rem] rounded-full bg-[radial-gradient(closest-side,rgba(62,224,180,0.16),transparent)]" />
+      <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent)]" />
 
-      <ScrollReveal as="div" y={40} className="relative mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="relative isolate overflow-hidden rounded-[2.5rem] bg-[linear-gradient(135deg,#05182b_0%,#0a3d63_55%,#0b5f86_100%)] text-paper-50 shadow-[0_70px_120px_-50px_rgba(5,24,43,0.95)]">
-          <div aria-hidden className="pointer-events-none absolute -left-24 -top-24 -z-10 h-80 w-80 rounded-full bg-[radial-gradient(closest-side,rgba(76,201,232,0.3),transparent)]" />
-          <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent)]" />
-
-          <div className="grid items-center gap-10 px-7 pb-10 pt-12 sm:px-12 sm:pt-16 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-6 lg:px-16 lg:pb-12 lg:pt-20">
+      <ScrollReveal as="div" y={40} className="relative">
+        <div>
+          <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 pb-14 pt-20 sm:px-8 sm:pt-24 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-6 lg:pb-20 lg:pt-28">
             <div>
               <Eyebrow tone="light">Start a conversation</Eyebrow>
               <h2 className="font-statement mt-6 max-w-3xl text-balance text-[clamp(2.1rem,3.8vw,3.5rem)]">
@@ -76,7 +74,8 @@ export default function CTASection() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-3 border-t border-white/12 bg-black/10 px-7 py-5 text-[0.95rem] text-paper-50/80 sm:flex-row sm:items-center sm:justify-between sm:px-12 lg:px-16">
+          <div className="border-t border-white/12 bg-black/15">
+            <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-5 text-[0.95rem] text-paper-50/80 sm:flex-row sm:items-center sm:justify-between sm:px-8">
             <a href={`mailto:${contact.email}`} className="inline-flex items-center gap-2.5 font-semibold text-paper-50 transition-colors hover:text-accent-500">
               <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5 text-accent-500" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="5" width="18" height="14" rx="2.5" />
@@ -85,6 +84,7 @@ export default function CTASection() {
               {contact.email}
             </a>
             <p>We typically respond within one to two business days.</p>
+            </div>
           </div>
         </div>
       </ScrollReveal>
