@@ -303,7 +303,7 @@ export default function ServicesStack({ services }: { services: Service[] }) {
                 key={s.slug}
                 id={s.slug}
                 data-card
-                className="lg:sticky lg:mb-[16vh] lg:last:mb-0 lg:h-[calc(100svh-var(--stack-h))] lg:min-h-[33rem]"
+                className="lg:sticky lg:mb-[16vh] lg:last:mb-0 lg:h-[min(calc(100svh-var(--stack-h)),37.5rem)] lg:min-h-[33rem]"
                 style={
                   {
                     top: `${stick}rem`,
@@ -345,7 +345,7 @@ export default function ServicesStack({ services }: { services: Service[] }) {
                   </div>
 
                   {/* copy */}
-                  <div className="relative z-10 flex flex-1 flex-col justify-center px-6 pb-8 pt-3 lg:h-full lg:w-[54%] lg:px-12 lg:py-10">
+                  <div className="relative z-10 flex flex-1 flex-col justify-center px-6 pb-8 pt-3 lg:h-full lg:w-[54%] lg:px-12 lg:py-8">
                     <div className="pt-5 lg:pt-0">
                     <div className="mb-5 flex items-center gap-4 lg:mb-6">
                       <span className="font-label text-sm font-bold tabular-nums">
@@ -363,9 +363,9 @@ export default function ServicesStack({ services }: { services: Service[] }) {
                       <span
                         aria-hidden
                         data-numeral
-                        className="mb-4 hidden select-none font-display font-extrabold leading-[0.85] lg:[@media(min-height:860px)]:block"
+                        className="mb-3 hidden select-none font-display font-extrabold leading-[0.85] lg:[@media(min-height:860px)]:block"
                         style={{
-                          fontSize: "clamp(5rem, 12vh, 9rem)",
+                          fontSize: "clamp(3.8rem, 9vh, 5.5rem)",
                           color: "transparent",
                           WebkitTextStroke: `1.6px ${dark ? "rgba(255,255,255,0.36)" : "rgba(10,114,154,0.42)"}`,
                         }}
@@ -373,7 +373,7 @@ export default function ServicesStack({ services }: { services: Service[] }) {
                         {pad(i + 1)}
                       </span>
                       <h2
-                        className={`font-statement text-balance text-[clamp(1.8rem,min(3vw,5.1vh),3.1rem)] ${dark ? "text-paper-50" : "text-ink-900"}`}
+                        className={`font-statement text-balance text-[clamp(1.8rem,min(3vw,5.1vh),2.7rem)] ${dark ? "text-paper-50" : "text-ink-900"}`}
                       >
                         <Words text={s.title} />
                       </h2>
@@ -382,12 +382,12 @@ export default function ServicesStack({ services }: { services: Service[] }) {
                       </p>
 
                       {s.subItems && (
-                        <ul className="mt-5 grid gap-2 sm:grid-cols-2 lg:gap-2.5">
+                        <ul className="mt-4 grid gap-2 sm:grid-cols-2">
                           {s.subItems.map((item) => (
                             <li
                               key={item}
                               data-fade
-                              className={`flex items-start gap-2.5 rounded-xl border px-3.5 py-2.5 text-[0.88rem] font-semibold leading-snug ${
+                              className={`flex items-start gap-2.5 rounded-xl border px-3 py-2 text-[0.84rem] font-semibold leading-snug ${
                                 dark ? "border-white/15 bg-white/[0.08] text-paper-50" : "border-line bg-paper-50 text-ink-900"
                               }`}
                             >
