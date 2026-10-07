@@ -345,16 +345,20 @@ export default function ServicesStack({ services }: { services: Service[] }) {
                   </div>
 
                   {/* copy */}
-                  <div className="relative z-10 flex flex-1 flex-col px-6 pb-8 pt-3 lg:h-full lg:w-[54%] lg:px-12 lg:pb-10 lg:pt-10">
-                    <div className="flex items-center gap-4">
-                      <span className="font-label text-sm font-bold tabular-nums text-accent-600">
-                        <span className={dark ? "text-accent-500" : "text-accent-600"}>{pad(i + 1)}</span>
-                        <span className={dark ? "text-paper-50/45" : "text-ink-900/35"}> / {pad(services.length)}</span>
+                  <div className="relative z-10 flex flex-1 flex-col justify-center px-6 pb-8 pt-3 lg:h-full lg:w-[54%] lg:px-12 lg:py-10">
+                    <div className="pt-5 lg:pt-0">
+                    <div className="mb-5 flex items-center gap-4 lg:mb-6">
+                      <span className="font-label text-sm font-bold tabular-nums">
+                        {/* the big outline numeral carries the number on tall screens; on short ones the row does */}
+                        <span className="lg:[@media(min-height:860px)]:hidden">
+                          <span className={dark ? "text-accent-500" : "text-accent-600"}>{pad(i + 1)}</span>
+                          <span className={dark ? "text-paper-50/45" : "text-ink-900/35"}> / {pad(services.length)}</span>
+                        </span>
+                        <span className={`hidden lg:[@media(min-height:860px)]:inline ${dark ? "text-accent-500" : "text-accent-600"}`}>Service</span>
                       </span>
                       <span data-rule className={`h-px flex-1 ${dark ? "bg-white/20" : "bg-ink-900/15"}`} />
                     </div>
 
-                    <div className="mt-auto pt-5 lg:pt-0">
                       {/* outline numeral sitting directly above the title (only when the screen is tall enough) */}
                       <span
                         aria-hidden
@@ -369,11 +373,11 @@ export default function ServicesStack({ services }: { services: Service[] }) {
                         {pad(i + 1)}
                       </span>
                       <h2
-                        className={`font-statement text-balance text-[clamp(1.7rem,min(2.7vw,4.7vh),2.75rem)] ${dark ? "text-paper-50" : "text-ink-900"}`}
+                        className={`font-statement text-balance text-[clamp(1.8rem,min(3vw,5.1vh),3.1rem)] ${dark ? "text-paper-50" : "text-ink-900"}`}
                       >
                         <Words text={s.title} />
                       </h2>
-                      <p data-fade className={`mt-4 max-w-lg text-pretty text-[1.02rem] leading-relaxed lg:text-lg ${dark ? "text-paper-50/80" : "text-steel-600"}`}>
+                      <p data-fade className={`mt-4 max-w-lg text-pretty text-[1.02rem] leading-relaxed lg:text-[1.15rem] ${dark ? "text-paper-50/80" : "text-steel-600"}`}>
                         {s.description}
                       </p>
 
