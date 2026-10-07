@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
-import { contact, services } from "@/lib/data";
+import { services } from "@/lib/data";
 import { SERVICE_ICONS } from "@/lib/serviceIcons";
 
 const NAV_LINKS = [
@@ -79,45 +79,16 @@ export default function Header() {
 
   return (
     <>
-      {/* ── utility strip: scrolls away with the page ── */}
-      <div className="hidden bg-[#010c14] text-[0.8125rem] text-paper-50/70 lg:block">
-        <div className="mx-auto flex h-9 max-w-7xl items-center justify-between px-8">
-          <p className="flex items-center gap-2.5">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-live-500 opacity-70" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-live-500" />
-            </span>
-            Level III water distribution operations
-          </p>
-          <div className="flex items-center gap-6">
-            <span className="flex items-center gap-2">
-              <svg aria-hidden viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z" />
-                <circle cx="12" cy="9.5" r="2.5" />
-              </svg>
-              {contact.location}
-            </span>
-            <a href={`mailto:${contact.email}`} className="flex items-center gap-2 transition-colors hover:text-paper-50">
-              <svg aria-hidden viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="5" width="18" height="14" rx="2.5" />
-                <path d="m3.5 7 8.5 6 8.5-6" />
-              </svg>
-              {contact.email}
-            </a>
-          </div>
-        </div>
-      </div>
-
       {/* ── main bar ── */}
       <header
         ref={barRef}
         data-scrolled="false"
-        className="sticky top-0 z-50 h-[4.5rem] border-b border-white/10 bg-[#05182b] transition-shadow duration-300 data-[scrolled=true]:shadow-[0_14px_34px_-18px_rgba(0,0,0,0.8)]"
+        className="sticky top-0 z-50 h-20 border-b border-white/10 bg-[#05182b] transition-shadow duration-300 data-[scrolled=true]:shadow-[0_14px_34px_-18px_rgba(0,0,0,0.8)]"
         onPointerLeave={(e) => isMouse(e) && closeMega()}
       >
         <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center justify-between px-5 sm:px-8">
           <Link href="/" className="flex items-center" onClick={() => { setOpen(false); setMega(false); }} aria-label="JAS Water Solutions — home">
-            <Image src="/images/logo.png" alt="JAS Water Solutions Inc." width={168} height={78} priority className="h-[3.4rem] w-auto brightness-0 invert" />
+            <Image src="/images/logo.png" alt="JAS Water Solutions Inc." width={168} height={78} priority className="h-[3.9rem] w-auto brightness-0 invert" />
           </Link>
 
           <div className="flex h-full items-center gap-2 lg:gap-6">
@@ -236,7 +207,7 @@ export default function Header() {
         <div
           aria-hidden={!open}
           inert={!open}
-          className={`fixed inset-0 -z-10 flex flex-col overflow-y-auto bg-[linear-gradient(180deg,#02131f_0%,#05263f_100%)] px-6 pb-10 pt-24 transition-[opacity,visibility] duration-500 lg:hidden ${
+          className={`fixed inset-0 -z-10 flex flex-col overflow-y-auto bg-[linear-gradient(180deg,#02131f_0%,#05263f_100%)] px-6 pb-10 pt-28 transition-[opacity,visibility] duration-500 lg:hidden ${
             open ? "visible opacity-100" : "invisible opacity-0"
           }`}
         >

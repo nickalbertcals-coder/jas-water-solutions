@@ -91,7 +91,7 @@ export default function Home() {
   return (
     <>
       {/* ───────── Hero ───────── */}
-      <section className="relative isolate flex flex-col lg:min-h-[calc(100svh-6.75rem)] overflow-hidden bg-[linear-gradient(135deg,#02131f_0%,#06304d_55%,#0a5a6c_100%)]">
+      <section className="relative isolate flex flex-col lg:min-h-[calc(100svh-5rem)] overflow-hidden bg-[linear-gradient(135deg,#02131f_0%,#06304d_55%,#0a5a6c_100%)]">
         <WaterBackground />
         {/* keep the left (text) side calm and legible */}
         <div

@@ -242,8 +242,6 @@ export default function HydraulicSchematic({ className, interactive = false }: P
   const mast = P(PUMP.x + 0.22, PUMP.y + 0.22, PUMP.h);
 
   const live = DISTRICTS.find((d) => d.live)!;
-  // ground point under the middle of the live cluster, so the rings sit exactly beneath it
-  const [lx, ly] = P(live.cx + 0.05, live.cy + 0.08, 0);
   // diamond on the ground around the live cluster. The buildings are tall, so they hide the pad's back half; the
   // pad is centred a touch behind the footprint's middle so what you see reads as evenly framed.
   const LIVE_C: [number, number] = [live.cx - 0.02, live.cy - 0.06];
@@ -535,7 +533,6 @@ export default function HydraulicSchematic({ className, interactive = false }: P
 
             {/* live-area beacon: a glowing disc on the ground (a circle seen in isometric is a 1.73:1 ellipse) with wide circular pulses spreading from its centre */}
             <ellipse cx={lc[0]} cy={lc[1]} rx="86" ry="49.7" fill={`url(#pad-${uid})`} />
-            <ellipse cx={lc[0]} cy={lc[1]} rx="72" ry="41.6" fill="none" stroke={C.live} strokeOpacity="0.6" strokeWidth="1.3" strokeDasharray="9 7" />
             {[0, 1, 2].map((i) => (
               <ellipse key={i} className="sc-ring" cx={lc[0]} cy={lc[1]} rx="96" ry="55.4" fill="none" stroke={C.live} strokeWidth="2" strokeOpacity="0.95" style={{ animationDelay: `${2.2 + i * 0.87}s` }} />
             ))}
