@@ -3,7 +3,7 @@ import type { TeamMember } from "@/lib/data";
 import { initials } from "./TeamCard";
 
 /**
- * Leadership card: a deep-ocean banner carrying the person's role, a round
+ * Leadership card: a deep-ocean banner carrying the person's role, a centered round
  * portrait straddling the banner's edge, then their name, background and main
  * areas of expertise. (The supplied portraits are round cut-outs, so they are
  * shown as circles rather than cropped to fill a rectangle.)
@@ -23,7 +23,7 @@ export default function TeamRow({ member }: { member: TeamMember }) {
         </span>
       </div>
 
-      <div className="relative -mt-16 px-6 sm:px-7">
+      <div className="relative -mt-16 flex justify-center px-6 sm:px-7">
         <div className="relative h-32 w-32 overflow-hidden rounded-full bg-white shadow-[0_18px_36px_-14px_rgba(10,39,64,0.6)] ring-4 ring-white">
           {member.image ? (
             <Image
@@ -42,8 +42,8 @@ export default function TeamRow({ member }: { member: TeamMember }) {
       </div>
 
       <div className="flex flex-1 flex-col p-6 pt-5 sm:p-7 sm:pt-5">
-        <h3 className="font-display text-balance text-[1.6rem] font-bold leading-tight text-ink-900">{member.name}</h3>
-        <p className="mt-1.5 font-label text-sm font-bold text-accent-600">{member.profession}</p>
+        <h3 className="font-display text-balance text-center text-[1.6rem] font-bold leading-tight text-ink-900">{member.name}</h3>
+        <p className="mt-1.5 text-center font-label text-sm font-bold text-accent-600">{member.profession}</p>
         <ul className="mt-5 space-y-2.5 border-t border-line pt-5 text-[0.95rem] leading-snug text-steel-600">
           {member.expertise.slice(0, 3).map((item) => (
             <li key={item} className="flex gap-3">
