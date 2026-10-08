@@ -28,8 +28,9 @@ export default function HeroTitle({ lines, className = "" }: { lines: Line[]; cl
   return (
     <h1 ref={ref} className={className}>
       {lines.map((l) => (
-        <span key={l.text} className="block overflow-hidden pb-[0.14em]">
-          <span data-line className={`block w-fit will-change-transform ${l.className ?? ""}`}>
+        /* the line box is shorter than a descender (the "y" in "sustainability"), and gradient text only paints inside its own box, so give each line room below and pull the next one back up */
+        <span key={l.text} className="-mb-[0.08em] block overflow-hidden">
+          <span data-line className={`block w-fit pb-[0.22em] will-change-transform ${l.className ?? ""}`}>
             {l.text}
           </span>
         </span>
